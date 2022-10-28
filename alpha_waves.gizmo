@@ -1,0 +1,625 @@
+Group {
+ name Alpha_waves
+ knobChanged "n = nuke.thisNode()\nk = nuke.thisKnob()\nkvalue = k.value()\n\nn\['randomEvo'].setEnabled(True)\nn\['radialcenter'].setEnabled(True)\n\nif k.name() == \"watertype\" and k.value() == 'Radial Waves':\n    n\['radialcenter'].setVisible(True)\n    n\['randomEvo'].setVisible(False)\n    \nelif k.name() == \"watertype\" and k.value() == 'Random Caustics':\n\n    n\['randomEvo'].setVisible(True)\n    n\['radialcenter'].setVisible(False)\n    \nelif k.name() == \"watertype\" and k.value() == 'Custom':\n    n\['radialcenter'].setVisible(False)\n    n\['randomEvo'].setVisible(False)\n    \nelif k.name() == \"watertype\" and k.value() == 'Linear Waves':\n    n\['radialcenter'].setVisible(False)\n    n\['randomEvo'].setVisible(False)    \n    \nelse:\n\n    pass\n    \n"
+ note_font "Verdana Bold"
+ note_font_size 12
+ selected true
+ addUserKnob {20 User}
+ addUserKnob {4 watertype l "water type" M {"Linear Waves" "Radial Waves" "Random Caustics" Custom "" "" ""}}
+ watertype "Random Caustics"
+ addUserKnob {26 text_3 l "  " T "  "}
+ addUserKnob {7 wavesize l size R 0.5 50}
+ wavesize 10
+ addUserKnob {7 wavespeed l speed R 0 20}
+ wavespeed 10
+ addUserKnob {7 wavedir l direction R -180 180}
+ addUserKnob {41 size l Blur T Blur3.size}
+ addUserKnob {26 ""}
+ addUserKnob {12 radialcenter l "radial center" +HIDDEN}
+ radialcenter {1652 606}
+ addUserKnob {7 randomEvo l evolution R 0.001 20}
+ randomEvo 16.3
+ addUserKnob {26 text_2 l "  " T "  "}
+ addUserKnob {7 mixMultiply l mix}
+ mixMultiply 0.85
+ addUserKnob {26 text_4 l "  " T "  "}
+ addUserKnob {6 actDist l "Activate Distortion" +STARTLINE}
+ actDist true
+ addUserKnob {6 ActiCaus l "Activate Caustics" -STARTLINE}
+ ActiCaus true
+ addUserKnob {6 wavesonly l "Export waves only" -STARTLINE}
+ addUserKnob {26 text_5 l "  " T "  "}
+ addUserKnob {26 ""}
+ addUserKnob {20 group_2 l "Grade water alpha" n 1}
+ group_2 0
+ addUserKnob {41 blackpoint T Grade3.blackpoint}
+ addUserKnob {41 whitepoint T Grade3.whitepoint}
+ addUserKnob {41 white l gain T Grade3.white}
+ addUserKnob {41 gamma T Grade3.gamma}
+ addUserKnob {41 black_clamp l "black clamp" T Grade3.black_clamp}
+ addUserKnob {20 endGroup_2 l endGroup n -1}
+ addUserKnob {20 group l "Distortion controls" n 1}
+ group 0
+ addUserKnob {7 distortMix l "Distortion Mix"}
+ distortMix 1
+ addUserKnob {26 text_1 l "  " T "  "}
+ addUserKnob {41 translate T Transform1.translate}
+ addUserKnob {41 rotate T Transform1.rotate}
+ addUserKnob {41 scale T Transform1.scale}
+ addUserKnob {20 endGroup n -1}
+ addUserKnob {20 group_1 l Caustics n 1}
+ group_1 0
+ addUserKnob {7 bigcaustics l "big caustics mix"}
+ bigcaustics 1
+ addUserKnob {7 bcevolution l "bc evolution" R 0.001 50}
+ bcevolution 20
+ addUserKnob {7 bcsize l "bc size" R 0.3 1}
+ bcsize 0.55
+ addUserKnob {26 text l " " T "  "}
+ addUserKnob {7 smallcaustics l "small caustics mix"}
+ smallcaustics 0.5
+ addUserKnob {7 scevolution l "sc evolution" R 0.001 50}
+ scevolution 20
+ addUserKnob {7 scsize l "sc size" R 0.5 1}
+ scsize 0.75
+ addUserKnob {20 endGroup_1 l endGroup n -1}
+ addUserKnob {26 _1 l "" +STARTLINE T "<span style=\"color:#665\"><br/>Test. Alpha Waves - <span style=\"color:#665\">Miguel Torija</a>"}
+}
+ Input {
+  inputs 0
+  name mask
+  xpos -791
+  ypos -16
+  number 2
+ }
+ Shuffle {
+  red white
+  green white
+  blue white
+  alpha white
+  name Shuffle2
+  xpos -791
+  ypos 43
+  disable {{"\[exists parent.input2]"}}
+ }
+ Dot {
+  name Dot21
+  xpos -757
+  ypos 97
+ }
+ Constant {
+  inputs 0
+  channels rgb
+  name Constant1
+  xpos -367
+  ypos -1582
+ }
+ Reformat {
+  type "to box"
+  box_width {{NoOp1.size_wh==0?1920:NoOp1.size_wh}}
+  box_height {{NoOp1.size_wh_1==0?1080:NoOp1.size_wh_1}}
+  box_fixed true
+  name Reformat1
+  xpos -367
+  ypos -1495
+ }
+set N13458400 [stack 0]
+ AdjBBox {
+  numpixels 75
+  name AdjBBox4
+  xpos -367
+  ypos -1435
+ }
+set N21d57400 [stack 0]
+ Noise {
+  type turbulence
+  size {100 200}
+  zoffset {{frame/(scevolution)}}
+  octaves 2
+  lacunarity 10
+  gain 1
+  gamma 1
+  translate {{frame*wavespeed} 0}
+  rotate {{wavedir}}
+  scale {{scsize}}
+  center {{(width/2)-translate.x} {height/2}}
+  name Noise4
+  xpos -169
+  ypos -179
+  hide_input true
+ }
+ Invert {
+  name Invert3
+  xpos -169
+  ypos -144
+ }
+ Grade {
+  channels rgba
+  blackpoint 0.25
+  white_clamp true
+  name Grade1
+  xpos -169
+  ypos -90
+ }
+ Dot {
+  name Dot15
+  xpos -135
+  ypos -19
+ }
+push $N21d57400
+ Noise {
+  size 75
+  gain 0.495
+  gamma 0.295
+  center {960 540}
+  name Noise3
+  xpos -17
+  ypos -683
+  hide_input true
+ }
+ Blur {
+  size 50
+  name Blur2
+  xpos -17
+  ypos -639
+ }
+push $N21d57400
+ Noise {
+  size 400
+  gain 0.495
+  gamma 0.295
+  center {960 540}
+  name Noise2
+  xpos -17
+  ypos -823
+  hide_input true
+ }
+ Blur {
+  size 50
+  name Blur1
+  xpos -17
+  ypos -779
+ }
+push $N13458400
+ Expression {
+  expr0 (x+0.5)/width
+  expr1 (y+0.5)/height
+  name Expression4
+  label "UV Map"
+  xpos -179
+  ypos -958
+  hide_input true
+ }
+ AdjBBox {
+  numpixels 50
+  name AdjBBox1
+  xpos -179
+  ypos -921
+ }
+ Dot {
+  name Dot10
+  xpos -145
+  ypos -838
+ }
+set N13498c00 [stack 0]
+ Dot {
+  name Dot9
+  xpos -256
+  ypos -838
+ }
+ Transform {
+  translate {50 25}
+  scale 1.01
+  center {960 540}
+  name Transform2
+  xpos -290
+  ypos -773
+ }
+push $N13498c00
+ Keymix {
+  inputs 3
+  name Keymix2
+  xpos -179
+  ypos -779
+ }
+ Dot {
+  name Dot11
+  xpos -145
+  ypos -698
+ }
+set N21ba7c00 [stack 0]
+ Dot {
+  name Dot12
+  xpos -256
+  ypos -698
+ }
+ Transform {
+  translate {50 25}
+  scale 1.01
+  center {960 540}
+  name Transform3
+  xpos -290
+  ypos -633
+ }
+push $N21ba7c00
+ Keymix {
+  inputs 3
+  name Keymix3
+  xpos -179
+  ypos -639
+ }
+ Dot {
+  name Dot8
+  xpos -145
+  ypos -551
+ }
+ Input {
+  inputs 0
+  name Custom
+  xpos -24
+  ypos -1312
+  number 1
+ }
+ Dot {
+  name Dot20
+  xpos 10
+  ypos -1159
+ }
+push $N21d57400
+ Dot {
+  name Dot22
+  xpos -168
+  ypos -1383
+ }
+ Noise {
+  type turbulence
+  size {50 200}
+  zoffset {{frame/randomEvo}}
+  lacunarity 1
+  gain 0.75
+  gamma 1
+  translate {{frame*wavespeed x92 920} 0}
+  rotate {{wavedir}}
+  scale {{wavesize/20}}
+  center {{(width/2)-translate.x} {height/2}}
+  name Noise5
+  xpos -202
+  ypos -1312
+ }
+push $N13458400
+ Expression {
+  temp_name0 speedF
+  temp_expr0 -(frame*speed)
+  expr3 "sin((hypot(x-center.x, y-center.y)/ size)+speedF)"
+  name Expression3
+  label "Radial Waves"
+  xpos -367
+  ypos -1327
+  addUserKnob {20 User}
+  addUserKnob {7 speed R 0 2}
+  speed 0.475
+  addUserKnob {7 size R 1 50}
+  size 10.8
+  addUserKnob {12 center}
+  center {{radialcenter.x x45 558} {radialcenter.y x45 391}}
+ }
+push $N21d57400
+ Dot {
+  name Dot19
+  xpos -629
+  ypos -1215
+  hide_input true
+ }
+push $N21d57400
+ AdjBBox {
+  numpixels {450 850}
+  name AdjBBox3
+  xpos -535
+  ypos -1382
+ }
+ Expression {
+  expr3 ((sin((x-(frame*speed))/size))+1)*5
+  mix 0.1
+  name Expression1
+  label "Linear Waves"
+  xpos -535
+  ypos -1323
+  addUserKnob {20 User}
+  addUserKnob {7 speed}
+  speed {{wavespeed}}
+  addUserKnob {7 size R 0.5 50}
+  size {{wavesize}}
+ }
+ Transform {
+  rotate {{wavedir}}
+  center {960 540}
+  name Transform4
+  xpos -535
+  ypos -1265
+ }
+ CopyBBox {
+  inputs 2
+  name CopyBBox1
+  xpos -535
+  ypos -1218
+ }
+ Switch {
+  inputs 4
+  which {{watertype}}
+  name Switch1
+  xpos -535
+  ypos -1162
+ }
+ Grade {
+  channels alpha
+  black_clamp false
+  white_clamp true
+  name Grade3
+  xpos -535
+  ypos -1076
+ }
+ STMap {
+  inputs 2
+  uv rgb
+  name STMap2
+  xpos -537
+  ypos -560
+ }
+ Dot {
+  name Dot16
+  xpos -503
+  ypos -374
+ }
+set N21abb400 [stack 0]
+ Dot {
+  name Dot14
+  xpos -338
+  ypos -374
+ }
+push $N21d57400
+ Noise {
+  type turbulence
+  size {50 200}
+  zoffset {{frame/(bcevolution)}}
+  lacunarity 1
+  gain 0.75
+  gamma 1
+  translate {{frame*wavespeed} 0}
+  rotate {{wavedir}}
+  scale {{bcsize}}
+  center {{(width/2)-translate.x} {height/2}}
+  name Noise1
+  xpos -168
+  ypos -428
+  hide_input true
+ }
+ Invert {
+  name Invert2
+  xpos -168
+  ypos -404
+ }
+ Grade {
+  channels alpha
+  blackpoint 0.8
+  white_clamp true
+  name Grade2
+  xpos -168
+  ypos -354
+ }
+ Dot {
+  name Dot7
+  xpos -134
+  ypos -244
+ }
+ Merge2 {
+  inputs 2
+  operation mask
+  mix 0.9
+  name Merge2
+  xpos -372
+  ypos -247
+ }
+push $N21abb400
+ Merge2 {
+  inputs 2
+  operation stencil
+  mix {{ActiCaus==1?bigcaustics:0}}
+  name Merge3
+  xpos -537
+  ypos -247
+ }
+ Merge2 {
+  inputs 2
+  operation stencil
+  mix {{ActiCaus==1?smallcaustics:0}}
+  name Merge4
+  xpos -537
+  ypos -22
+ }
+ Blur {
+  size 5
+  name Blur3
+  xpos -537
+  ypos 33
+ }
+ Merge2 {
+  inputs 2
+  operation mask
+  name Merge5
+  xpos -537
+  ypos 94
+ }
+set N2196ac00 [stack 0]
+ Dot {
+  name Dot23
+  xpos -986
+  ypos 828
+  hide_input true
+ }
+push $N2196ac00
+ Dot {
+  name Dot1
+  xpos -503
+  ypos 229
+ }
+set N2196a400 [stack 0]
+push $N13458400
+ Expression {
+  expr0 (x+0.5)/width
+  expr1 (y+0.5)/height
+  name Expression2
+  label "UV Map"
+  xpos -300
+  ypos 281
+  hide_input true
+ }
+ AdjBBox {
+  numpixels 100
+  name AdjBBox2
+  xpos -300
+  ypos 361
+ }
+ Dot {
+  name Dot6
+  xpos -266
+  ypos 439
+ }
+set N219a5800 [stack 0]
+ Dot {
+  name Dot13
+  xpos -266
+  ypos 535
+ }
+ Transform {
+  translate {0 15}
+  center {960 540}
+  name Transform1
+  xpos -537
+  ypos 532
+ }
+push $N219a5800
+ Keymix {
+  inputs 3
+  mix {{actDist==1?distortMix:0}}
+  name Keymix1
+  xpos -537
+  ypos 430
+ }
+ Input {
+  inputs 0
+  name Alpha
+  xpos -1130
+  ypos -1627
+ }
+ Dot {
+  name Dot5
+  label in
+  xpos -1096
+  ypos -1521
+ }
+set N219a4400 [stack 0]
+ Shuffle {
+  red alpha
+  green alpha
+  blue alpha
+  name Shuffle1
+  xpos -1130
+  ypos -1374
+ }
+ Dot {
+  name Dot2
+  xpos -1096
+  ypos -558
+ }
+set N214d7c00 [stack 0]
+ Dot {
+  name Dot3
+  xpos -1275
+  ypos -558
+ }
+ Invert {
+  name Invert1
+  xpos -1309
+  ypos -499
+ }
+ Dot {
+  name Dot4
+  xpos -1275
+  ypos 229
+ }
+push $N2196a400
+push $N214d7c00
+ Merge2 {
+  inputs 2+1
+  operation multiply
+  mix {{mixMultiply}}
+  name Merge1
+  xpos -1130
+  ypos 226
+ }
+ Clamp {
+  name Clamp1
+  xpos -1130
+  ypos 292
+ }
+ STMap {
+  inputs 2
+  uv rgb
+  name STMap1
+  xpos -1130
+  ypos 430
+ }
+ Clamp {
+  name Clamp2
+  xpos -1130
+  ypos 555
+ }
+push $N219a4400
+ Dot {
+  name Dot17
+  xpos -1689
+  ypos -1521
+ }
+ Dot {
+  name Dot18
+  xpos -1689
+  ypos 686
+ }
+ Copy {
+  inputs 2
+  from0 rgba.alpha
+  to0 rgba.alpha
+  name Copy1
+  xpos -1130
+  ypos 677
+ }
+ Switch {
+  inputs 2
+  which {{wavesonly}}
+  name Switch2
+  xpos -1130
+  ypos 825
+ }
+ Dot {
+  name out
+  xpos -1096
+  ypos 868
+ }
+ Output {
+  name Output1
+  xpos -1130
+  ypos 980
+ }
+ NoOp {
+  inputs 0
+  name NoOp1
+  label "\[value size_wh]\n\[value size_wh_1]"
+  xpos -571
+  ypos -1513
+  addUserKnob {20 User}
+  addUserKnob {14 size_wh R 0 100}
+  size_wh {{"\[value input0.format.r]==0?1920:\[value input0.format.r]"}}
+  addUserKnob {14 size_wh_1 R 0 100}
+  size_wh_1 {{"\[value input0.format.t]"}}
+ }
+end_group
