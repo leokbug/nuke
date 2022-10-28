@@ -1,0 +1,352 @@
+version 12.2 v6
+Group {
+ inputs 2
+ name Density_Merge
+ help "Control density and color of semi-trasparent footages like smoke, fog and glass textures."
+ tile_color 0x262626ff
+ gl_color 0xff
+ selected true
+ addUserKnob {20 User}
+ addUserKnob {26 Background l <b>Background}
+ addUserKnob {41 Density t "Thickness of the foreground. 0 is trasparent, 1 is  dense and opaque." T Keymix1.mix}
+ addUserKnob {41 DensityBlur l "Density Blur" t "How the background is blurred due the density of the foreground. 2-4 for fog and smoke, 20+ for a frosty glass." T Blur6.size}
+ addUserKnob {7 plate_blur l "Plate Blur" t "Blur amount of the background to remove contrast and details. Use high very high values to obtain an omogenous image which mantain color and lighting of the scene." R 0 5000}
+ plate_blur 800
+ addUserKnob {20 BGColorTweaking l "BG Color Adjustment" t "Grade controls to tweak color and intensity of the density areas." n 1}
+ BGColorTweaking 0
+ addUserKnob {41 black l lift T Grade2.black}
+ addUserKnob {41 white l gain T Grade2.white}
+ addUserKnob {41 multiply T Grade2.multiply}
+ addUserKnob {20 endGroup_2 l endGroup n -1}
+ addUserKnob {26 Fog l <b>Foreground}
+ addUserKnob {41 mix l Opacity t "Foreground opacity." T Merge12.mix}
+ addUserKnob {41 AlphaGrade_Gamma l Gamma t "Gamma of the alpha range of the foreground. Use high values for a foggy look." T AlphaGrade.gamma}
+ addUserKnob {41 BG_Saturation l "Color from BG" t "Saturation of the background to multiply with foreground." T Saturation2.saturation}
+ addUserKnob {6 SourceAlphaCheck l "Source has Alpha" +STARTLINE}
+ addUserKnob {20 Keyer l "FG Opacity Range" t "Adjust blackpoint and whitepoint of the foreground alpha range. It is useful to clamp significantly signi the whitepoint to obtain a more dense look." n 1}
+ Keyer 0
+ addUserKnob {7 AlphaGrade_whitepoint l Blackpoint}
+ addUserKnob {7 AlphaGrade_whitepoint_1 l Whitepoint}
+ AlphaGrade_whitepoint_1 0.3
+ addUserKnob {20 endGroup n -1}
+ addUserKnob {20 FGColorTweaking l "FG Color Adjustment" t "Grade controls to tweak the foreground look." n 1}
+ FGColorTweaking 0
+ addUserKnob {41 FogGrade_gain l Gain T FogGrade.white}
+ addUserKnob {41 FogGrade_gamma l Gamma T FogGrade.gamma}
+ addUserKnob {41 FogGrade_black l Blacks T FogGrade.black}
+ addUserKnob {41 FogGrade_White l Whites T FogGrade.multiply}
+ addUserKnob {20 endGroup_1 l endGroup n -1}
+ addUserKnob {26 ""}
+ addUserKnob {4 output_pulldown l Output t "Use Composite for final result, or use FG only and BG only to make adjustment and plus them together." M {"BG only" "FG Only" Composite "" ""}}
+ output_pulldown Composite
+ addUserKnob {41 maskChannel l "mask channel" T Keymix_Mask.maskChannel}
+ addUserKnob {41 invertMask l invert -STARTLINE T Keymix_Mask.invertMask}
+ addUserKnob {26 ""}
+ addUserKnob {26 Info l "" +STARTLINE T "<br>\n<b> <a>Density Merge</b> v1.1.0 - Luigi Caporilli Razza"}
+}
+ Input {
+  inputs 0
+  name mask
+  xpos 1500
+  ypos -129
+  number 2
+ }
+ Invert {
+  name Invert1
+  xpos 1500
+  ypos -63
+ }
+ Dot {
+  name Dot9
+  xpos 1534
+  ypos 18
+ }
+ Expression {
+  inputs 0
+  expr0 0
+  expr1 0
+  expr2 0
+  expr3 0
+  name Expression1
+  xpos 950
+  ypos 15
+ }
+ Input {
+  inputs 0
+  name src
+  xpos 1170
+  ypos -129
+  number 1
+ }
+ Keymix {
+  inputs 3
+  maskChannel -rgba.alpha
+  name Keymix_Mask
+  xpos 1170
+  ypos 9
+ }
+ Dot {
+  name Dot16
+  xpos 1204
+  ypos 114
+ }
+set Nc357b000 [stack 0]
+push $Nc357b000
+ Keyer {
+  operation "luminance key"
+  name Keyer3
+  xpos 1390
+  ypos 105
+ }
+ Dot {
+  name Dot17
+  xpos 1424
+  ypos 186
+ }
+ Switch {
+  inputs 2
+  which {{parent.SourceAlphaCheck}}
+  name AlphaSwitch
+  xpos 1170
+  ypos 183
+ }
+ Grade {
+  channels alpha
+  blackpoint {{parent.AlphaGrade_whitepoint}}
+  whitepoint {{parent.AlphaGrade_whitepoint_1}}
+  white_clamp true
+  name AlphaGrade
+  xpos 1170
+  ypos 273
+ }
+set Nc357a000 [stack 0]
+ Dot {
+  name Dot7
+  xpos 1534
+  ypos 282
+ }
+ Dot {
+  name Dot8
+  xpos 1534
+  ypos 954
+ }
+ Input {
+  inputs 0
+  name bg
+  xpos 510
+  ypos -129
+ }
+ Dot {
+  name Dot11
+  xpos 544
+  ypos 330
+ }
+set Nc3579000 [stack 0]
+ Blur {
+  size {{parent.plate_blur}}
+  name Blur8
+  xpos 840
+  ypos 321
+ }
+ Dot {
+  name Dot1
+  xpos 874
+  ypos 474
+ }
+set Nc3578800 [stack 0]
+ Saturation {
+  name Saturation2
+  xpos 950
+  ypos 471
+ }
+push $Nc357a000
+ Grade {
+  black_panelDropped true
+  multiply {1 1 1 1}
+  multiply_panelDropped true
+  name FogGrade
+  xpos 1170
+  ypos 351
+ }
+ Premult {
+  name Premult1
+  xpos 1170
+  ypos 399
+ }
+set Nc3523800 [stack 0]
+ Merge2 {
+  inputs 2
+  operation multiply
+  output rgb
+  name Merge11
+  xpos 1170
+  ypos 471
+ }
+ Colorspace {
+  colorspace_out YCbCr
+  name Colorspace1
+  xpos 1170
+  ypos 639
+ }
+push $Nc3523800
+ Dot {
+  name Dot10
+  xpos 1343
+  ypos 402
+ }
+ Colorspace {
+  colorspace_out YCbCr
+  name Colorspace2
+  xpos 1309
+  ypos 711
+ }
+ Shuffle2 {
+  inputs 2
+  fromInput1 {{0} B A}
+  fromInput2 {{1} B A}
+  in2 rgb
+  mappings "4 rgba.green 1 1 rgba.green 0 1 rgba.blue 0 2 rgba.alpha 0 3 rgba.red 0 0 rgba.red 0 0 rgba.blue 1 2 rgba.blue 0 2"
+  name Shuffle1
+  xpos 1170
+  ypos 711
+ }
+ Colorspace {
+  colorspace_in YCbCr
+  name Colorspace3
+  xpos 1170
+  ypos 753
+ }
+ Copy {
+  inputs 2
+  from0 rgba.alpha
+  to0 rgba.alpha
+  name Copy1
+  xpos 1170
+  ypos 945
+ }
+ Dot {
+  name Dot5
+  xpos 1204
+  ypos 1098
+ }
+set Nc3521800 [stack 0]
+ Grade {
+  name Grade4
+  xpos 1170
+  ypos 1239
+ }
+ Dot {
+  name Dot12
+  xpos 1204
+  ypos 1451
+ }
+set Nc3521000 [stack 0]
+push $Nc3521800
+ Dot {
+  name Dot19
+  xpos 874
+  ypos 1098
+ }
+set Nc3520c00 [stack 0]
+ Dot {
+  name Dot3
+  xpos 874
+  ypos 1171
+ }
+set Nc3520800 [stack 0]
+ Dot {
+  name Dot2
+  xpos 874
+  ypos 1266
+ }
+ Grade {
+  channels alpha
+  gamma 0.4
+  name Grade1
+  xpos 707
+  ypos 1257
+ }
+push $Nc3520800
+ Grade {
+  channels alpha
+  gamma 0.4
+  name Grade3
+  xpos 709
+  ypos 1162
+ }
+push $Nc3520c00
+push $Nc3578800
+ Dot {
+  name Dot4
+  xpos 654
+  ypos 474
+ }
+ Dot {
+  name Dot13
+  xpos 654
+  ypos 930
+ }
+push $Nc3579000
+ Keymix {
+  inputs 3
+  name Keymix1
+  xpos 510
+  ypos 1089
+ }
+ Grade {
+  inputs 1+1
+  name Grade2
+  xpos 510
+  ypos 1168
+ }
+ Blur {
+  inputs 1+1
+  size 4
+  name Blur6
+  xpos 510
+  ypos 1257
+ }
+ Dot {
+  name Dot18
+  xpos 544
+  ypos 1336
+ }
+set Nc34be000 [stack 0]
+ Dot {
+  name Dot14
+  xpos 753
+  ypos 1336
+ }
+ Merge2 {
+  inputs 2
+  operation screen
+  mix 0.8
+  name Merge12
+  xpos 719
+  ypos 1448
+ }
+ Dot {
+  name Dot15
+  xpos 753
+  ypos 1491
+ }
+push $Nc3521000
+ Dot {
+  name Dot6
+  xpos 1204
+  ypos 1560
+ }
+push $Nc34be000
+ Switch {
+  inputs 3
+  which {{parent.output_pulldown}}
+  name Switch1
+  xpos 510
+  ypos 1557
+ }
+ Output {
+  name Output1
+  xpos 510
+  ypos 1831
+ }
+end_group
