@@ -1,0 +1,850 @@
+Group {
+ name k_pMatte
+ help "<center><b>k_pMatte</b>\n\nCreate a spherical, cubic or cylinder matte based on a layer containing position data. </center>\n\n\n<left><i>&#169; Nicolas Gauthier  |  contact@niko-vfx.com</i></left>"
+ addUserKnob {20 k_pMatte}
+ addUserKnob {41 channels t "Select the World Position pass channels" T ShuffleInput.in}
+ addUserKnob {41 "unpremult by" T UnpremultRGB.alpha}
+ addUserKnob {6 invertUnpremult l invert -STARTLINE}
+ addUserKnob {26 divMain l " " T " "}
+ addUserKnob {20 TabBegin l "" +STARTLINE n -2}
+ addUserKnob {20 SettingsTab l Settings}
+ addUserKnob {26 divSettings l " " T " "}
+ addUserKnob {41 matteShape l shape t "Choose the shape of the matte" T KnobMatteShape.matteShape}
+ addUserKnob {26 divShape l " " -STARTLINE T "     "}
+ addUserKnob {68 up t "Choose the up of the shape" -STARTLINE +HIDDEN M {X Y Z}}
+ up Y
+ addUserKnob {26 divCenter l "" +STARTLINE}
+ addUserKnob {41 center l "   center / translate " T Ctrl.center}
+ addUserKnob {26 divFileMenu l "   " -STARTLINE T " "}
+ addUserKnob {41 file_menu l "" -STARTLINE T Ctrl.file_menu}
+ addUserKnob {41 snap_menu l "" -STARTLINE T Ctrl.snap_menu}
+ addUserKnob {20 centerGrpBegin l "" -STARTLINE n 2}
+ addUserKnob {41 sample_center l "sample center " -STARTLINE T Sampler.sample_center}
+ addUserKnob {26 divSample l "   " -STARTLINE T " "}
+ addUserKnob {22 sample l "<img src=\":qrc/images/Eyedropper.png\" width=12 height=12>" -STARTLINE T "\nn = nuke.thisGroup()\nif n.input(0)!=None:\n    pChannels = nuke.Layer(n\['channels'].value()).channels()\n    l=int(len(pChannels))\n    if l<1:\n        nuke.message('Please select a position layer first.')\n    else:\n        input = n.input(0)\n        positionXY = n\['sample_center'].value()\n        pX = positionXY\[0]\n        pY = positionXY\[-1]\n        if l==1:\n            pR = input.sample(pChannels\[0], pX, pY)\n            n.knob('center').setValue((pR,pR,pR))\n        if l==2:\n            pR = input.sample(pChannels\[0], pX, pY)\n            pG = input.sample(pChannels\[1], pX, pY)\n            pB = 0\n            n.knob('center').setValue((pR,pG,pB))\n        if l>=3:\n            pR = input.sample(pChannels\[0], pX, pY)\n            pG = input.sample(pChannels\[1], pX, pY)\n            pB = input.sample(pChannels\[2], pX, pY)\n            n.knob('center').setValue((pR,pG,pB))    \nelse:\n    pass\n"}
+ addUserKnob {26 spacerInputAxis l "               " -STARTLINE T " "}
+ addUserKnob {22 inputAxisOn l "input axis" t "Enable an input to use an 3d object such as an axis. <br>This controler will be parent and the internal axis the child." -STARTLINE T "\nfrom __future__ import with_statement\nng = nuke.thisGroup()\nngKnobs = \{\}\ninputName = 'Axis'\nwith ng :\n    if not nuke.exists(inputName):\n        inputAxis = nuke.nodes.Input(name = inputName, xpos = 1500, ypos = 100 )\n        nuke.toNode('Ctrl').setInput(0,inputAxis)\n    ngKnobs.update(\{'Enabled':\[],'VisibleOn':\['inputAxisOff'],'VisibleOff':\['inputAxisOn'],\})\n    for k, v in ngKnobs.iteritems():\n        for ks in v:\n            if k == \"Enabled\":\n                ng.knobs()\[str(ks)].setEnabled(True)\n            elif k == \"VisibleOn\":\n                ng.knobs()\[str(ks)].setVisible(True)\n            elif k == \"VisibleOff\":\n                ng.knobs()\[str(ks)].setVisible(False)\n    ng\[\"indicatorInputAxis\"].setValue(\"<font size=1><font color=LawnGreen><b>&#8759;</b>\")\n"}
+ addUserKnob {22 inputAxisOff l "input axis" t "Enable an input to use an 3d object such as an axis. <br>This controler will be parent and the internal axis the child." -STARTLINE +HIDDEN T "\nfrom __future__ import with_statement\nng = nuke.thisGroup()\nngKnobs = \{\}\ninputName = 'Axis'\nwith ng :\n    if nuke.exists(inputName):\n        inpId = \{\}\n        for inp in nuke.allNodes(\"Input\"):\n            num = int(inp\['number'].value())\n            name = inp.name()\n            inpId\[name] = num\n        for k, v in inpId.iteritems():\n            if k == inputName:\n                ng.setInput(v,None)        \n        nuke.toNode('Ctrl').setInput(0,None)\n        nuke.delete(nuke.toNode(inputName))\n    ngKnobs.update(\{'Enabled':\[],'VisibleOn':\['inputAxisOn'],'VisibleOff':\['inputAxisOff'],\})\n    for k, v in ngKnobs.iteritems():\n        for ks in v:\n            if k == \"Enabled\":\n                ng.knobs()\[str(ks)].setEnabled(False)\n            elif k == \"VisibleOn\":\n                ng.knobs()\[str(ks)].setVisible(True)\n            elif k == \"VisibleOff\":\n                ng.knobs()\[str(ks)].setVisible(False)\n    ng\[\"indicatorInputAxis\"].setValue(\"<font size=1><font color=Red><b>&#8759;</b>\")\n"}
+ addUserKnob {26 indicatorInputAxis l " " -STARTLINE T "<font size=1><font color=Red><b>&#8759;</b>"}
+ addUserKnob {20 centerGrpEnd l "" +STARTLINE n -1}
+ addUserKnob {26 divTransform l "" +STARTLINE}
+ addUserKnob {41 rotate T Ctrl.rotate}
+ addUserKnob {41 scaling l scale T Ctrl.scaling}
+ addUserKnob {7 uniformScale l "uniform scale" R 0.01 100}
+ uniformScale 10
+ addUserKnob {41 skew T Ctrl.skew}
+ addUserKnob {41 pivot T Ctrl.pivot}
+ addUserKnob {20 moreGrp l "     ..." n 2}
+ addUserKnob {26 divTransMore l " " T " "}
+ addUserKnob {41 "transform order" T Ctrl.xform_order}
+ addUserKnob {41 "rotation order" T Ctrl.rot_order}
+ addUserKnob {20 localMatrixGrp l "Local matrix" n 2}
+ addUserKnob {41 "specify matrix" T Ctrl.useMatrix}
+ addUserKnob {41 "" T Ctrl.matrix}
+ addUserKnob {20 "" -STARTLINE n -1}
+ addUserKnob {20 worldMatrixGrp l "World matrix" n 2}
+ addUserKnob {41 "" T Ctrl.world_matrix}
+ addUserKnob {20 "" -STARTLINE n -1}
+ addUserKnob {26 divmore l " " T " "}
+ addUserKnob {20 "" -STARTLINE n -1}
+ addUserKnob {26 divFalloffType l "" +STARTLINE}
+ addUserKnob {41 falloffType l type t "Choose the type of falloff" T KnobFalloff.falloffType}
+ addUserKnob {7 falloff}
+ falloff 1
+ addUserKnob {7 exp l exponent +DISABLED R 0.01 10}
+ exp 4.5
+ addUserKnob {20 NoiseTab l Noise}
+ addUserKnob {26 divNoiseTab l " " T " "}
+ addUserKnob {22 noiseOn l OFF T "\nfrom __future__ import with_statement\nng = nuke.thisGroup()\nngKnobs = \{\}\nwith ng :\n    ng\[\"noiseSwitch\"].setValue(False)\n    ngKnobs.update(\{'Enabled':\['type','noiseWorld','transNoise','size','uniformSize','octaves','lacunarity','gain','offset','gamma','divNoiseMix','mixNoise'],'VisibleOn':\['noiseOff'],'VisibleOff':\['noiseOn'],\})\n    for k, v in ngKnobs.iteritems():\n        for ks in v:\n            if k == \"Enabled\":\n                ng.knobs()\[str(ks)].setEnabled(True)\n            elif k == \"VisibleOn\":\n                ng.knobs()\[str(ks)].setVisible(True)\n            elif k == \"VisibleOff\":\n                ng.knobs()\[str(ks)].setVisible(False)\n    ng\[\"indicatorNoise\"].setValue(\"<font size=1><font color=LawnGreen><b>&#8759;</b>\")\n" +STARTLINE}
+ addUserKnob {22 noiseOff l ON -STARTLINE +HIDDEN T "\nfrom __future__ import with_statement\nng = nuke.thisGroup()\nngKnobs = \{\}\nwith ng :\n    ng\[\"noiseSwitch\"].setValue(True)\n    ngKnobs.update(\{'Enabled':\['type','noiseWorld','transNoise','size','uniformSize','octaves','lacunarity','gain','offset','gamma','divNoiseMix','mixNoise'],'VisibleOn':\['noiseOn'],'VisibleOff':\['noiseOff'],\})\n    for k, v in ngKnobs.iteritems():\n        for ks in v:\n            if k == \"Enabled\":\n                ng.knobs()\[str(ks)].setEnabled(False)\n            elif k == \"VisibleOn\":\n                ng.knobs()\[str(ks)].setVisible(True)\n            elif k == \"VisibleOff\":\n                ng.knobs()\[str(ks)].setVisible(False)\n    ng\[\"indicatorNoise\"].setValue(\"<font size=1><font color=Red><b>&#8759;</b>\")\n"}
+ addUserKnob {26 indicatorNoise l " " -STARTLINE T "<font size=1><font color=Red><b>&#8759;</b>"}
+ addUserKnob {6 noiseSwitch l "" -STARTLINE +HIDDEN}
+ noiseSwitch true
+ addUserKnob {26 divNoiseParams l "" +STARTLINE}
+ addUserKnob {68 type t "Select a Noise Type" +DISABLED M {fBm Turbulence}}
+ addUserKnob {26 spacerNoise l "  " -STARTLINE T " "}
+ addUserKnob {68 noiseWorld l position t "Choose if the noise will follow the shape transfation" -STARTLINE +DISABLED M {Absolute Relative}}
+ noiseWorld Relative
+ addUserKnob {13 transNoise l translate +DISABLED}
+ addUserKnob {13 size l x/y/xsize +DISABLED}
+ size {1 1 1}
+ addUserKnob {7 uniformSize l "          uniform size" +DISABLED R 0.01 100}
+ uniformSize 1
+ addUserKnob {3 octaves +DISABLED}
+ octaves 4
+ addUserKnob {7 lacunarity +DISABLED R 1 10}
+ lacunarity 3
+ addUserKnob {7 gain +DISABLED R 0.1 1}
+ gain 0.5
+ addUserKnob {7 offset +DISABLED R -1 1}
+ addUserKnob {7 gamma +DISABLED R 0.1 1}
+ gamma 0.5
+ addUserKnob {26 divNoiseMix l " " +DISABLED}
+ addUserKnob {7 mixNoise l mix +DISABLED}
+ mixNoise 1
+ addUserKnob {20 FileTab l File}
+ addUserKnob {26 divFile l " " T " "}
+ addUserKnob {22 fileOn l OFF T "\nfrom __future__ import with_statement\nng = nuke.thisGroup()\nngKnobs = \{\}\nwith ng :\n    ng\[\"read_from_file\"].setValue(True)\n    ngKnobs.update(\{'Enabled':\['file','reload','fbx_take_name','fbx_node_name','frame_rate','use_frame_rate'],'VisibleOn':\['fileOff'],'VisibleOff':\['fileOn'],\})\n    for k, v in ngKnobs.iteritems():\n        for ks in v:\n            if k == \"Enabled\":\n                ng.knobs()\[str(ks)].setEnabled(True)\n            elif k == \"VisibleOn\":\n                ng.knobs()\[str(ks)].setVisible(True)\n            elif k == \"VisibleOff\":\n                ng.knobs()\[str(ks)].setVisible(False)\n    ng\[\"indicatorFile\"].setValue(\"<font size=1><font color=LawnGreen><b>&#8759;</b>\")\n" +STARTLINE}
+ addUserKnob {22 fileOff l ON -STARTLINE +HIDDEN T "\nfrom __future__ import with_statement\nng = nuke.thisGroup()\nngKnobs = \{\}\nwith ng :\n    ng\[\"read_from_file\"].setValue(False)\n    ngKnobs.update(\{'Enabled':\['file','reload','fbx_take_name','fbx_node_name','frame_rate','use_frame_rate'],'VisibleOn':\['fileOn'],'VisibleOff':\['fileOff'],\})\n    for k, v in ngKnobs.iteritems():\n        for ks in v:\n            if k == \"Enabled\":\n                ng.knobs()\[str(ks)].setEnabled(False)\n            elif k == \"VisibleOn\":\n                ng.knobs()\[str(ks)].setVisible(True)\n            elif k == \"VisibleOff\":\n                ng.knobs()\[str(ks)].setVisible(False)\n    ng\[\"indicatorFile\"].setValue(\"<font size=1><font color=Red><b>&#8759;</b>\")\n"}
+ addUserKnob {26 indicatorFile l " " -STARTLINE T "<font size=1><font color=Red><b>&#8759;</b>"}
+ addUserKnob {26 divFileParam l "" +STARTLINE +DISABLED}
+ addUserKnob {41 read_from_file l "read from file" +HIDDEN T Ctrl.read_from_file}
+ addUserKnob {41 file +DISABLED T Ctrl.file}
+ addUserKnob {41 reload -STARTLINE +DISABLED T Ctrl.reload}
+ addUserKnob {41 fbx_take_name l "   anim stack name" +DISABLED T Ctrl.fbx_take_name}
+ addUserKnob {41 fbx_node_name l "node name" +DISABLED T Ctrl.fbx_node_name}
+ addUserKnob {41 frame_rate l "frame rate" +DISABLED T Ctrl.frame_rate}
+ addUserKnob {41 use_frame_rate l "use frame rate" -STARTLINE +DISABLED T Ctrl.use_frame_rate}
+ addUserKnob {20 LookTab l Look}
+ addUserKnob {26 divLook l " " T " "}
+ addUserKnob {22 lookAtOn l OFF T "\nfrom __future__ import with_statement\nng = nuke.thisGroup()\nngKnobs = \{\}\ninputName = 'Look'\nwith ng :\n    if not nuke.exists(inputName):\n        inputLook = nuke.nodes.Input(name = inputName, xpos = 740, ypos = 400 )\n        nuke.toNode('Ctrl').setInput(1,inputLook)\n    ngKnobs.update(\{'Enabled':\['look_axis','look_rotate_x','look_rotate_y','look_rotate_z','look_strength','look_use_quaternions'],'VisibleOn':\['lookAtOff'],'VisibleOff':\['lookAtOn'],\})\n    for k, v in ngKnobs.iteritems():\n        for ks in v:\n            if k == \"Enabled\":\n                ng.knobs()\[str(ks)].setEnabled(True)\n            elif k == \"VisibleOn\":\n                ng.knobs()\[str(ks)].setVisible(True)\n            elif k == \"VisibleOff\":\n                ng.knobs()\[str(ks)].setVisible(False)\n    ng\[\"indicatorLook\"].setValue(\"<font size=1><font color=LawnGreen><b>&#8759;</b>\")\n" +STARTLINE}
+ addUserKnob {22 lookAtOff l ON -STARTLINE +HIDDEN T "\nfrom __future__ import with_statement\nng = nuke.thisGroup()\nngKnobs = \{\}\ninputName = 'Look'\nwith ng :\n    if nuke.exists(inputName):\n        inpId = \{\}\n        for inp in nuke.allNodes(\"Input\"):\n            num = int(inp\['number'].value())\n            name = inp.name()\n            inpId\[name] = num\n        for k, v in inpId.iteritems():\n            if k == inputName:\n                ng.setInput(v,None)        \n        nuke.toNode('Ctrl').setInput(1,None)\n        nuke.delete(nuke.toNode(inputName))\n    ngKnobs.update(\{'Enabled':\['look_axis','look_rotate_x','look_rotate_y','look_rotate_z','look_strength','look_use_quaternions'],'VisibleOn':\['lookAtOn'],'VisibleOff':\['lookAtOff'],\})\n    for k, v in ngKnobs.iteritems():\n        for ks in v:\n            if k == \"Enabled\":\n                ng.knobs()\[str(ks)].setEnabled(False)\n            elif k == \"VisibleOn\":\n                ng.knobs()\[str(ks)].setVisible(True)\n            elif k == \"VisibleOff\":\n                ng.knobs()\[str(ks)].setVisible(False)\n    ng\[\"indicatorLook\"].setValue(\"<font size=1><font color=Red><b>&#8759;</b>\")\n"}
+ addUserKnob {26 indicatorLook l " " -STARTLINE T "<font size=1><font color=Red><b>&#8759;</b>"}
+ addUserKnob {26 divLookParam l "" +STARTLINE +DISABLED}
+ addUserKnob {41 look_axis l "look axis" +DISABLED T Ctrl.look_axis}
+ addUserKnob {41 look_rotate_x l "rotate X" -STARTLINE +DISABLED T Ctrl.look_rotate_x}
+ addUserKnob {41 look_rotate_y l "rotate Y" -STARTLINE +DISABLED T Ctrl.look_rotate_y}
+ addUserKnob {41 look_rotate_z l "rotate Z" -STARTLINE +DISABLED T Ctrl.look_rotate_z}
+ addUserKnob {41 look_strength l "         look strength" +DISABLED T Ctrl.look_strength}
+ addUserKnob {41 look_use_quaternions l "use quaternions" +DISABLED T Ctrl.look_use_quaternions}
+ addUserKnob {20 PreviewTab l Preview}
+ addUserKnob {26 divPreviewTab l " " T " "}
+ addUserKnob {22 previewOn l OFF T "\nfrom __future__ import with_statement\nng = nuke.thisGroup()\nngKnobs = \{\}\ninputName = 'Look'\nwith ng :\n    ng\['display'].setValue('wireframe')\n    ng\['selectable'].setValue(True)\n    ng\['switchPreview'].setValue(False)\n    enabledKnobs=\['preview','preview3d','selectable','P_channel','N_channel','pointDetail','pointSize']\n    if ng\['preview'].value()=='Matte overlay':\n        enabledKnobs.append('color2d')\n    if ng\['preview3d'].value()=='Color' or ng\['preview3d'].value()=='Color + Wireframe':\n        enabledKnobs.append('color3d')\n    for ks in enabledKnobs:\n        ng.knobs()\[str(ks)].setEnabled(True)\n    ngKnobs.update(\{'VisibleOn':\['previewOff'],'VisibleOff':\['previewOn'],\})\n    for k, v in ngKnobs.iteritems():\n        for ks in v:\n            if k == \"VisibleOn\":\n                ng.knobs()\[str(ks)].setVisible(True)\n            elif k == \"VisibleOff\":\n                ng.knobs()\[str(ks)].setVisible(False)\n    ng\[\"indicatorPreview\"].setValue(\"<font size=1><font color=LawnGreen><b>&#8759;</b>\")\n" +STARTLINE}
+ addUserKnob {22 previewOff l ON -STARTLINE +HIDDEN T "\nfrom __future__ import with_statement\nng = nuke.thisGroup()\nngKnobs = \{\}\ninputName = 'Look'\nwith ng :\n    ng\['display'].setValue('off')\n    ng\['selectable'].setValue(False)\n    ng\['switchPreview'].setValue(True)\n    ngKnobs.update(\{'Enabled':\['preview','preview3d','selectable','color2d','color3d','P_channel','N_channel','pointDetail','pointSize'],'VisibleOn':\['previewOn'],'VisibleOff':\['previewOff'],\})\n    for k, v in ngKnobs.iteritems():\n        for ks in v:\n            if k == \"Enabled\":\n                ng.knobs()\[str(ks)].setEnabled(False)\n            elif k == \"VisibleOn\":\n                ng.knobs()\[str(ks)].setVisible(True)\n            elif k == \"VisibleOff\":\n                ng.knobs()\[str(ks)].setVisible(False)\n    ng\[\"indicatorPreview\"].setValue(\"<font size=1><font color=Red><b>&#8759;</b>\")\n"}
+ addUserKnob {26 indicatorPreview l " " -STARTLINE T "<font size=1><font color=Red><b>&#8759;</b>"}
+ addUserKnob {6 switchPreview l "" -STARTLINE +HIDDEN}
+ switchPreview true
+ addUserKnob {26 divPreviewParam l "" +STARTLINE}
+ addUserKnob {41 preview l "pointcloud preview" t "Choose the 2D / 3D if you want to see the shape of the matte with a point cloud" +DISABLED T KnobPreviewPC.preview}
+ addUserKnob {26 divPreview3D l " " -STARTLINE T "     "}
+ addUserKnob {41 preview3d l "shape 3D preview" t "Choose the shading of the 3d preview Matte" -STARTLINE +DISABLED T KnobPreview3d.preview3d}
+ addUserKnob {26 divSelectable l " " -STARTLINE T " "}
+ addUserKnob {41 selectable -STARTLINE +DISABLED T Ctrl.selectable}
+ addUserKnob {41 display l "" -STARTLINE +HIDDEN T Ctrl.display}
+ addUserKnob {26 divPreviewParam l "" +STARTLINE T " "}
+ addUserKnob {26 divColorPreview l "" +STARTLINE}
+ addUserKnob {18 color2d l "matte overlay color" +DISABLED}
+ color2d {1 1 1}
+ addUserKnob {18 color3d l "shape 3D color" +DISABLED}
+ color3d {0 0.79 1}
+ addUserKnob {26 divChannelsPreview l "" +STARTLINE}
+ addUserKnob {41 P_channel l "Pworld channels" +DISABLED T PosToPoints.P_channel}
+ addUserKnob {41 N_channel l "Nworld channels" +DISABLED T PosToPoints.N_channel}
+ addUserKnob {7 pointDetail l "point detail" +DISABLED}
+ pointDetail 0.1
+ addUserKnob {7 pointSize l "point size" +DISABLED R 0 10}
+ pointSize 5
+ addUserKnob {26 divSettingsEnd l " " T " "}
+ addUserKnob {20 TabEnd l "" +STARTLINE n -3}
+ addUserKnob {26 divOutput l "" +STARTLINE T " "}
+ addUserKnob {41 output T ShuffleOutput.out}
+ addUserKnob {6 invert -STARTLINE}
+ addUserKnob {41 "premult by" T PremultRGB.alpha}
+ addUserKnob {6 invertPremult l invert -STARTLINE}
+ addUserKnob {26 spacerBlackOutside l " " -STARTLINE T "     "}
+ addUserKnob {6 black_outside l "black outside" t "Force everything outside that alpha channel to stay black" -STARTLINE}
+ black_outside true
+}
+ Input {
+  inputs 0
+  name Input
+  xpos 0
+ }
+ Dot {
+  name bDot1
+  xpos 34
+  ypos 50
+ }
+ AddChannels {
+  channels alpha
+  name AddChannel
+  xpos 0
+  ypos 100
+ }
+ Unpremult {
+  channels all
+  alpha -rgba.alpha
+  invert {{parent.invertUnpremult}}
+  name UnpremultRGB
+  xpos 0
+  ypos 150
+  disable {{!alpha}}
+ }
+ Dot {
+  name bDot2
+  xpos 34
+  ypos 200
+ }
+set N6f8fd800 [stack 0]
+ Shuffle {
+  in rgb
+  out rgb
+  name ShuffleInput
+  xpos 0
+  ypos 250
+ }
+ Dot {
+  name bDot3
+  xpos 34
+  ypos 300
+ }
+set Nc5f8c800 [stack 0]
+ Dot {
+  name aDot1
+  xpos 534
+  ypos 300
+ }
+set N6f9bbc00 [stack 0]
+ NoOp {
+  name Sampler
+  xpos 500
+  ypos 250
+  addUserKnob {20 User}
+  addUserKnob {12 sample_center l "sample Center"}
+  sample_center {100 100}
+ }
+ Axis2 {
+  inputs 0
+  display off
+  selectable false
+  uniform_scale {{parent.uniformScale}}
+  name Ctrl
+  knobChanged "\nn = nuke.thisNode()\nk = nuke.thisKnob()\nif k.name() == 'translate':\n    if n\['translate'].isAnimated() == True:\n        n\['center'].fromScript(n\['translate'].toScript())\n    else:\n        n\['center'].clearAnimated()\n        n\['center'].setValue(k.value())\nif k.name() == 'center':\n    if n\['center'].isAnimated() == True:\n        n\['translate'].fromScript(n\['center'].toScript())\n    else:\n        n\['translate'].clearAnimated()\n        n\['translate'].setValue(k.value())\n"
+  selected true
+  xpos 1510
+  ypos 184
+  disable {{parent.disable}}
+  addUserKnob {20 User}
+  addUserKnob {18 center}
+  center {0 0 0}
+ }
+push $Nc5f8c800
+ Dot {
+  name bDot4
+  xpos 34
+  ypos 1108
+ }
+set N6f6b6000 [stack 0]
+push $N6f6b6000
+ Copy {
+  inputs 2
+  from0 {{{parent.PremultRGB.alpha}}}
+  to0 rgba.alpha
+  name CpChpremult
+  xpos 200
+  ypos 1100
+  disable {{parent.PremultRGB.disable}}
+ }
+ Invert {
+  channels alpha
+  name InvertAlpha
+  xpos 300
+  ypos 1100
+  disable {{"!parent.invertPremult || parent.PremultRGB.disable"}}
+ }
+ Expression {
+  expr3 "parent.black_outside && a ==0.0 ? 0 : 1"
+  name OutsideAlpha
+  xpos 400
+  ypos 1100
+  disable {{"!parent.black_outside || !parent.PremultRGB.disable"}}
+ }
+push $N6f9bbc00
+ Expression {
+  temp_name0 Dx
+  temp_expr0 r-Ctrl.world_matrix.3
+  temp_name1 Dy
+  temp_expr1 g-Ctrl.world_matrix.7
+  temp_name2 Dz
+  temp_expr2 b-Ctrl.world_matrix.11
+  expr0 Dx
+  expr1 Dy
+  expr2 Dz
+  name TransPP
+  xpos 500
+  ypos 350
+ }
+ ColorMatrix {
+  matrix {
+      {{Ctrl.world_matrix.0} {Ctrl.world_matrix.1} {Ctrl.world_matrix.2}}
+      {{Ctrl.world_matrix.4} {Ctrl.world_matrix.5} {Ctrl.world_matrix.6}}
+      {{Ctrl.world_matrix.8} {Ctrl.world_matrix.9} {Ctrl.world_matrix.10}}
+    }
+  invert true
+  name TransfPP
+  xpos 500
+  ypos 400
+  disable {{"\[value error]"}}
+ }
+ Dot {
+  name aDot2
+  xpos 534
+  ypos 450
+ }
+set N6f1bcc00 [stack 0]
+push $N6f9bbc00
+ Dot {
+  name noiseDot1
+  xpos 934
+  ypos 300
+ }
+set N57c9f400 [stack 0]
+ Switch {
+  inputs 2
+  which {{parent.noiseWorld}}
+  name AbsToRel
+  xpos 900
+  ypos 450
+ }
+ Dot {
+  name noiseDot2
+  xpos 934
+  ypos 550
+ }
+set N6b30f800 [stack 0]
+ Expression {
+  temp_name0 posX
+  temp_expr0 "( r - \[value parent.transNoise.x] ) * ( 1 / ( \[value parent.uniformSize] * \[value parent.size.x] ) )"
+  temp_name1 posY
+  temp_expr1 "( g - \[value parent.transNoise.y] ) * ( 1 / ( \[value parent.uniformSize] * \[value parent.size.y] ) )"
+  temp_name2 posZ
+  temp_expr2 "( b - \[value parent.transNoise.z] ) * ( 1 / ( \[value parent.uniformSize] * \[value parent.size.z] ) )"
+  expr3 "pow(turbulence(posX,posY,posZ,\[value parent.octaves],\[value parent.lacunarity],\[value parent.gain]/2)+(0.5+\[value parent.offset]),1/\[value parent.gamma])"
+  name Turbulence
+  xpos 950
+  ypos 600
+ }
+push $N6b30f800
+ Expression {
+  temp_name0 posX
+  temp_expr0 "( r - \[value parent.transNoise.x] ) * ( 1 / ( \[value parent.uniformSize] * \[value parent.size.x] ) )"
+  temp_name1 posY
+  temp_expr1 "( g - \[value parent.transNoise.y] ) * ( 1 / ( \[value parent.uniformSize] * \[value parent.size.y] ) )"
+  temp_name2 posZ
+  temp_expr2 "( b - \[value parent.transNoise.z] ) * ( 1 / ( \[value parent.uniformSize] * \[value parent.size.z] ) )"
+  expr3 "pow(fBm(posX,posY,posZ,\[value parent.octaves],\[value parent.lacunarity],\[value parent.gain]/2)+(0.5+\[value parent.offset]),1/\[value parent.gamma])"
+  name fBm
+  xpos 850
+  ypos 600
+ }
+ Switch {
+  inputs 2
+  which {{parent.type-1}}
+  name switchNoise
+  xpos 900
+  ypos 650
+ }
+ Dot {
+  name noiseDotOut
+  xpos 934
+  ypos 750
+ }
+push $N6f1bcc00
+ Dot {
+  name aDot3
+  xpos 534
+  ypos 550
+ }
+set N6e8e5400 [stack 0]
+ Expression {
+  temp_name0 upX
+  temp_expr0 "1-clamp( max( sqrt( pow2(g) + pow2(b) ) , abs(r) ) )"
+  temp_name1 upY
+  temp_expr1 "1-clamp( max( sqrt( pow2(r) + pow2(b) ) , abs(g) ) )"
+  temp_name2 upZ
+  temp_expr2 "1-clamp( max( sqrt( pow2(r) + pow2(g) ) , abs(b) ) )"
+  expr3 parent.up==0?upX:0||parent.up==1?upY:0||parent.up==2?upZ:0
+  name CylinderMatte
+  xpos 650
+  ypos 600
+ }
+push $N6e8e5400
+ Expression {
+  expr3 "smoothstep(0,1,clamp(1-fabs(r))) * smoothstep(0,1,clamp(1-fabs(g))) * smoothstep(0,1,clamp(1-fabs(b)))"
+  name CubeRoundedMatte
+  xpos 550
+  ypos 600
+ }
+push $N6e8e5400
+ Expression {
+  expr3 1-max(abs(r),abs(g),abs(b))
+  name CubeMatte
+  xpos 450
+  ypos 600
+ }
+push $N6e8e5400
+ Expression {
+  expr3 1-(sqrt(pow2(r)+pow2(g)+pow2(b)))
+  name SphereMatte
+  xpos 350
+  ypos 600
+ }
+ Switch {
+  inputs 4
+  which {{matteShape}}
+  name SwitchMatte
+  xpos 500
+  ypos 650
+ }
+ MergeExpression {
+  inputs 2
+  temp_name0 mult
+  temp_expr0 (clamp(Ba)*clamp(Ba))+((clamp(Ba)*clamp(Aa))*(1-clamp(Ba)))
+  temp_name1 union
+  temp_expr1 "( Ba+(Aa*clamp(Ba)) ) - (Ba*(Aa*clamp(Ba)))"
+  expr3 (union*clamp(Ba))+(clamp(mult)*(1-clamp(Ba)))
+  mix {{parent.mixNoise}}
+  name MultNoise
+  xpos 500
+  ypos 750
+  disable {{parent.noiseSwitch}}
+ }
+ Grade {
+  channels alpha
+  whitepoint {{falloffType?falloff:0}}
+  white_clamp true
+  name Falloff
+  xpos 500
+  ypos 850
+ }
+ Dot {
+  name aDotFalloff
+  xpos 534
+  ypos 900
+ }
+set Ncaf58800 [stack 0]
+ Expression {
+  expr3 pow(a,parent.exp)
+  name Exponential
+  xpos 800
+  ypos 950
+ }
+push $Ncaf58800
+ Expression {
+  expr3 1-clamp(pow(1-a,3),0,1)
+  name InvCubic
+  xpos 700
+  ypos 950
+ }
+push $Ncaf58800
+ Expression {
+  expr3 clamp((a**3),0,1)
+  name Cubic
+  xpos 600
+  ypos 950
+ }
+push $Ncaf58800
+ Expression {
+  expr3 clamp(pow2(a),0,1)
+  name Quadratic
+  xpos 500
+  ypos 950
+ }
+push $Ncaf58800
+ Expression {
+  expr3 smoothstep(0,1,a)
+  name Smooth
+  xpos 400
+  ypos 950
+ }
+push $Ncaf58800
+ Expression {
+  name Linear
+  xpos 300
+  ypos 950
+ }
+push $Ncaf58800
+ NoOp {
+  name None
+  xpos 200
+  ypos 950
+ }
+ Switch {
+  inputs 7
+  which {{falloffType}}
+  name SwitchFalloff
+  xpos 500
+  ypos 1000
+ }
+ Invert {
+  channels alpha
+  name Invert
+  xpos 500
+  ypos 1050
+  disable {{!parent.invert}}
+ }
+ ChannelMerge {
+  inputs 2
+  operation multiply
+  name PremultAlpha
+  xpos 500
+  ypos 1100
+  disable {{"parent.PremultRGB.disable && !parent.black_outside"}}
+ }
+ Dot {
+  name aDotOut
+  xpos 534
+  ypos 1256
+ }
+set N6e7a1000 [stack 0]
+ Shuffle {
+  in alpha
+  name AlphaShuffle
+  xpos 1000
+  ypos 50
+  hide_input true
+  disable {{parent.disable==1?1:parent.switchPreview==1?1:!parent.preview}}
+ }
+ Multiply {
+  channels rgb
+  value {{parent.color2d} {parent.color2d} {parent.color2d} 1}
+  unpremult rgba.alpha
+  name RGBpreview2d
+  xpos 1000
+  ypos 100
+  disable {{parent.disable==1?1:parent.switchPreview==1?1:parent.preview==2||parent.preview==3?0:1}}
+ }
+ Expression {
+  expr0 a
+  expr1 a
+  expr2 a
+  expr3 1
+  name RGBpreview
+  xpos 1000
+  ypos 150
+  disable {{parent.disable==1?1:parent.switchPreview==1?1:parent.preview==1||parent.preview==3?0:1}}
+ }
+push $N6f8fd800
+ Merge2 {
+  inputs 2
+  bbox B
+  output rgb
+  name AlphaPreview
+  xpos 1000
+  ypos 200
+  disable {{parent.disable==1?1:parent.switchPreview==1?1:!parent.preview}}
+ }
+ PositionToPoints2 {
+  selectable false
+  render_mode off
+  cast_shadow false
+  receive_shadow false
+  detail {{parent.pointDetail}}
+  pointSize {{parent.pointSize}}
+  name PosToPoints
+  xpos 1100
+  ypos 200
+  disable {{parent.disable==1?1:parent.switchPreview==1?1:!parent.preview}}
+ }
+ Constant {
+  inputs 0
+  channels rgb
+  color {{parent.color3d} {parent.color3d} {parent.color3d} 1}
+  format "512 512 0 0 512 512 1 square_512"
+  name RGBpreview1
+  xpos 1300
+  ypos -500
+  disable {{parent.disable==1?1:parent.switchPreview==1?1:!parent.preview3d}}
+  postage_stamp false
+ }
+ Multiply {
+  channels rgb
+  value 0.004
+  name LumaPreview
+  xpos 1300
+  ypos -450
+  disable {{parent.disable==1?1:parent.switchPreview==1?1:!parent.preview3d}}
+ }
+ Expression {
+  expr3 0.001
+  name TranspPreview
+  xpos 1300
+  ypos -400
+  disable {{parent.disable==1?1:parent.switchPreview==1?1:!parent.preview3d}}
+ }
+ Grid {
+  replace {{parent.preview3d==2}}
+  opacity {{parent.preview3d==1?0:1}}
+  number {{parent.matteShape!=1&&parent.matteShape!=2?5:1} {parent.matteShape==0?5:parent.matteShape==3?0:1}}
+  name wirePreview
+  xpos 1300
+  ypos -350
+  disable {{parent.disable==1?1:parent.switchPreview==1?1:!parent.preview3d}}
+ }
+ Dot {
+  name tDot1
+  xpos 1334
+  ypos -300
+ }
+set N6fd3a000 [stack 0]
+ Cylinder {
+  selectable false
+  render_mode off
+  close_top true
+  close_bottom true
+  rotate {{parent.up==2?-90:0} 0 {parent.up==0?90:0}}
+  name CylinderPreview
+  xpos 1400
+  ypos -250
+  disable {{parent.disable==1?1:parent.switchPreview==1?1:!parent.preview3d}}
+ }
+push $N6fd3a000
+ Cube {
+  selectable false
+  render_mode off
+  rows 1
+  columns 1
+  cube {-1 -1 -1 1 1 1}
+  name CubePreview
+  xpos 1300
+  ypos -250
+  disable {{parent.disable==1?1:parent.switchPreview==1?1:!parent.preview3d}}
+ }
+set N6eafe000 [stack 0]
+push $N6eafe000
+push $N6fd3a000
+ Sphere {
+  selectable false
+  render_mode off
+  name SpherePreview
+  xpos 1200
+  ypos -250
+  disable {{parent.disable==1?1:parent.switchPreview==1?1:!parent.preview3d}}
+ }
+ Switch {
+  inputs 4
+  which {{parent.matteShape}}
+  name SwitchGeo
+  xpos 1300
+  ypos -200
+  disable {{parent.disable==1?1:parent.switchPreview==1?1:!parent.preview3d}}
+ }
+set Ncd534480 [stack 0]
+ TransformGeo {
+  selectable false
+  render_mode off
+  uniform_scale {{falloffType==2?(smoothstep(0,1,(1-(Falloff.whitepoint*0.9)))):falloffType==3?(clamp(pow2((1-(Falloff.whitepoint*0.9))),0,1)):falloffType==4?(clamp(((1-(Falloff.whitepoint*0.9))**3),0,1)):falloffType==5?(1-clamp(((1-(Falloff.whitepoint*0.9))**3),0,1)):falloffType==6?(pow((1-(Falloff.whitepoint*0.9)),parent.exp)):1-(Falloff.whitepoint*0.9)}}
+  name TransformFalloff_9
+  xpos 2200
+  ypos -100
+  disable {{parent.disable==1?1:parent.switchPreview==1?1:!parent.preview3d}}
+ }
+push $Ncd534480
+ TransformGeo {
+  selectable false
+  render_mode off
+  uniform_scale {{parent.preview3d!=1?0:falloffType==2?(smoothstep(0,1,(1-(Falloff.whitepoint*0.8)))):falloffType==3?(clamp(pow2((1-(Falloff.whitepoint*0.8))),0,1)):falloffType==4?(clamp(((1-(Falloff.whitepoint*0.8))**3),0,1)):falloffType==5?(1-clamp(((1-(Falloff.whitepoint*0.8))**3),0,1)):falloffType==6?(pow((1-(Falloff.whitepoint*0.8)),parent.exp)):1-(Falloff.whitepoint*0.8)}}
+  name TransformFalloff_8
+  xpos 2100
+  ypos -100
+  disable {{parent.disable==1?1:parent.switchPreview==1?1:!parent.preview3d}}
+ }
+push $Ncd534480
+ TransformGeo {
+  selectable false
+  render_mode off
+  uniform_scale {{parent.preview3d!=1?0:falloffType==2?(smoothstep(0,1,(1-(Falloff.whitepoint*0.7)))):falloffType==3?(clamp(pow2((1-(Falloff.whitepoint*0.7))),0,1)):falloffType==4?(clamp(((1-(Falloff.whitepoint*0.7))**3),0,1)):falloffType==5?(1-clamp(((1-(Falloff.whitepoint*0.7))**3),0,1)):falloffType==6?(pow((1-(Falloff.whitepoint*0.7)),parent.exp)):1-(Falloff.whitepoint*0.7)}}
+  name TransformFalloff_7
+  xpos 2000
+  ypos -100
+  disable {{parent.disable==1?1:parent.switchPreview==1?1:!parent.preview3d}}
+ }
+push $Ncd534480
+ TransformGeo {
+  selectable false
+  render_mode off
+  uniform_scale {{parent.preview3d!=1?0:falloffType==2?(smoothstep(0,1,(1-(Falloff.whitepoint*0.6)))):falloffType==3?(clamp(pow2((1-(Falloff.whitepoint*0.6))),0,1)):falloffType==4?(clamp(((1-(Falloff.whitepoint*0.6))**3),0,1)):falloffType==5?(1-clamp(((1-(Falloff.whitepoint*0.6))**3),0,1)):falloffType==6?(pow((1-(Falloff.whitepoint*0.6)),parent.exp)):1-(Falloff.whitepoint*0.6)}}
+  name TransformFalloff_6
+  xpos 1900
+  ypos -100
+  disable {{parent.disable==1?1:parent.switchPreview==1?1:!parent.preview3d}}
+ }
+push $Ncd534480
+ TransformGeo {
+  selectable false
+  render_mode off
+  uniform_scale {{parent.preview3d!=1?0:falloffType==2?(smoothstep(0,1,(1-(Falloff.whitepoint*0.5)))):falloffType==3?(clamp(pow2((1-(Falloff.whitepoint*0.5))),0,1)):falloffType==4?(clamp(((1-(Falloff.whitepoint*0.5))**3),0,1)):falloffType==5?(1-clamp(((1-(Falloff.whitepoint*0.5))**3),0,1)):falloffType==6?(pow((1-(Falloff.whitepoint*0.5)),parent.exp)):1-(Falloff.whitepoint*0.5)}}
+  name TransformFalloff_5
+  xpos 1800
+  ypos -100
+  disable {{parent.disable==1?1:parent.switchPreview==1?1:!parent.preview3d}}
+ }
+push $Ncd534480
+ TransformGeo {
+  selectable false
+  render_mode off
+  uniform_scale {{parent.preview3d!=1?0:falloffType==2?(smoothstep(0,1,(1-(Falloff.whitepoint*0.4)))):falloffType==3?(clamp(pow2((1-(Falloff.whitepoint*0.4))),0,1)):falloffType==4?(clamp(((1-(Falloff.whitepoint*0.4))**3),0,1)):falloffType==5?(1-clamp(((1-(Falloff.whitepoint*0.4))**3),0,1)):falloffType==6?(pow((1-(Falloff.whitepoint*0.4)),parent.exp)):1-(Falloff.whitepoint*0.4)}}
+  name TransformFalloff_4
+  xpos 1700
+  ypos -100
+  disable {{parent.disable==1?1:parent.switchPreview==1?1:!parent.preview3d}}
+ }
+push $Ncd534480
+ TransformGeo {
+  selectable false
+  render_mode off
+  uniform_scale {{parent.preview3d!=1?0:falloffType==2?(smoothstep(0,1,(1-(Falloff.whitepoint*0.3)))):falloffType==3?(clamp(pow2((1-(Falloff.whitepoint*0.3))),0,1)):falloffType==4?(clamp(((1-(Falloff.whitepoint*0.3))**3),0,1)):falloffType==5?(1-clamp(((1-(Falloff.whitepoint*0.3))**3),0,1)):falloffType==6?(pow((1-(Falloff.whitepoint*0.3)),parent.exp)):1-(Falloff.whitepoint*0.3)}}
+  name TransformFalloff_3
+  xpos 1600
+  ypos -100
+  disable {{parent.disable==1?1:parent.switchPreview==1?1:!parent.preview3d}}
+ }
+push $Ncd534480
+ TransformGeo {
+  selectable false
+  render_mode off
+  uniform_scale {{parent.preview3d!=1?0:falloffType==2?(smoothstep(0,1,(1-(Falloff.whitepoint*0.2)))):falloffType==3?(clamp(pow2((1-(Falloff.whitepoint*0.2))),0,1)):falloffType==4?(clamp(((1-(Falloff.whitepoint*0.2))**3),0,1)):falloffType==5?(1-clamp(((1-(Falloff.whitepoint*0.2))**3),0,1)):falloffType==6?(pow((1-(Falloff.whitepoint*0.2)),parent.exp)):1-(Falloff.whitepoint*0.2)}}
+  name TransformFalloff_2
+  xpos 1500
+  ypos -100
+  disable {{parent.disable==1?1:parent.switchPreview==1?1:!parent.preview3d}}
+ }
+push $Ncd534480
+ TransformGeo {
+  selectable false
+  render_mode off
+  uniform_scale {{parent.preview3d!=1?0:falloffType==2?(smoothstep(0,1,(1-(Falloff.whitepoint*0.1)))):falloffType==3?(clamp(pow2((1-(Falloff.whitepoint*0.1))),0,1)):falloffType==4?(clamp(((1-(Falloff.whitepoint*0.1))**3),0,1)):falloffType==5?(1-clamp(((1-(Falloff.whitepoint*0.1))**3),0,1)):falloffType==6?(pow((1-(Falloff.whitepoint*0.1)),parent.exp)):1-(Falloff.whitepoint*0.1)}}
+  name TransformFalloff_1
+  xpos 1400
+  ypos -100
+  disable {{parent.disable==1?1:parent.switchPreview==1?1:!parent.preview3d}}
+ }
+push $Ncd534480
+ Scene {
+  inputs 10
+  selectable false
+  render_mode off
+  name SceneGeoFalloff
+  xpos 1310
+  disable {{parent.disable==1?1:parent.switchPreview==1?1:!parent.preview3d}}
+ }
+ TransformGeo {
+  selectable false
+  render_mode off
+  useMatrix true
+  matrix {
+      {{parent.Ctrl.world_matrix} {parent.Ctrl.world_matrix} {parent.Ctrl.world_matrix} {parent.Ctrl.world_matrix}}
+      {{parent.Ctrl.world_matrix} {parent.Ctrl.world_matrix} {parent.Ctrl.world_matrix} {parent.Ctrl.world_matrix}}
+      {{parent.Ctrl.world_matrix} {parent.Ctrl.world_matrix} {parent.Ctrl.world_matrix} {parent.Ctrl.world_matrix}}
+      {{parent.Ctrl.world_matrix} {parent.Ctrl.world_matrix} {parent.Ctrl.world_matrix} {parent.Ctrl.world_matrix}}
+    }
+  name TransformGeo
+  xpos 1300
+  ypos 100
+  disable {{parent.disable==1?1:parent.switchPreview==1?1:!parent.preview3d}}
+ }
+ Scene {
+  inputs 3
+  selectable false
+  render_mode off
+  name SceneGeo
+  xpos 1310
+  ypos 180
+  disable {{"parent.disable==1?1:parent.switchPreview==1?1:!parent.preview && !parent.preview3d"}}
+ }
+push $N57c9f400
+ Dot {
+  name cDot1
+  xpos 1134
+  ypos 300
+ }
+ Remove {
+  name FormatGeo
+  xpos 1100
+  ypos 350
+  disable {{"parent.disable==1?1:parent.switchPreview==1?1:!parent.preview && !parent.preview3d"}}
+ }
+ Dot {
+  name cDot2
+  xpos 1134
+  ypos 450
+ }
+ ScanlineRender {
+  inputs 2
+  ztest_enabled false
+  MB_channel none
+  name PreviewGeo
+  xpos 1300
+  ypos 450
+  disable {{"parent.disable==1?1:parent.switchPreview==1?1:!parent.preview && !parent.preview3d"}}
+ }
+ Dot {
+  name cDot3
+  xpos 1334
+  ypos 1364
+ }
+push $N6e7a1000
+push $N6f6b6000
+ Premult {
+  channels all
+  alpha -rgba.alpha
+  invert {{parent.invertPremult}}
+  name PremultRGB
+  xpos 0
+  ypos 1150
+  disable {{!alpha}}
+ }
+ ShuffleCopy {
+  inputs 2
+  in alpha
+  in2 none
+  red red
+  green red
+  blue red
+  alpha red
+  out alpha
+  name ShuffleOutput
+  xpos 0
+  ypos 1250
+ }
+ Copy {
+  inputs 2
+  name Preview3d
+  xpos 0
+  ypos 1350
+  disable {{"parent.disable==1?1:parent.switchPreview==1?1:!parent.preview && !parent.preview3d"}}
+ }
+ Output {
+  name Output
+  xpos 0
+  ypos 1500
+ }
+ Dot {
+  inputs 0
+  name KnobMatteShape
+  knobChanged "\nn = nuke.thisGroup()\nk = nuke.thisKnob()\nif k.name() == 'matteShape':\n    n\['up'].setVisible( k.value() == 'Cylinder' )\n"
+  xpos 0
+  hide_input true
+  addUserKnob {20 User}
+  addUserKnob {68 matteShape l shape t "Choose the shape of the matte" M {Sphere Cube "Cube rounded" Cylinder}}
+ }
+ Dot {
+  inputs 0
+  name KnobFalloff
+  knobChanged "\nn = nuke.thisGroup()\nk = nuke.thisKnob()\nif k.name() == 'falloffType':\n    n\['falloff'].setEnabled( k.value() != 'None' )\n    n\['exp'].setEnabled( k.value() == 'Exponential' )\n"
+  xpos 0
+  hide_input true
+  addUserKnob {20 User}
+  addUserKnob {68 falloffType l type t "Choose the type of falloff" M {None Linear Smooth Quadratic Cubic "Inv. Cubic" Exponential}}
+  falloffType Linear
+ }
+ Dot {
+  inputs 0
+  name KnobPreviewPC
+  knobChanged "\nn = nuke.thisGroup()\nk = nuke.thisKnob()\nif k.name() == 'preview':\n    n\['color2d'].setEnabled( k.value() == 'Matte overlay' )\n"
+  xpos 0
+  hide_input true
+  addUserKnob {20 User}
+  addUserKnob {68 preview l "pointcloud preview" t "Choose the 2D / 3D if you want to see the shape of the matte with a point cloud" M {Off RGB "Matte overlay"}}
+ }
+ Dot {
+  inputs 0
+  name KnobPreview3d
+  knobChanged "\nn = nuke.thisGroup()\nk = nuke.thisKnob()\nif k.name() == 'preview3d':\n    if n\['preview3d'].getValue() == 1 or n\['preview3d'].getValue() == 3  :\n        n\['color3d'].setEnabled(True)\n    else:\n        n\['color3d'].setEnabled(False)\n"
+  xpos 0
+  hide_input true
+  addUserKnob {20 User}
+  addUserKnob {68 preview3d l "shape 3D preview" t "Choose the shading of the 3d preview Matte" -STARTLINE M {Off Color Wireframe "Color + Wireframe"}}
+  preview3d Color
+ }
+end_group
