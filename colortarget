@@ -1,0 +1,11 @@
+set cut_paste_input [stack 0]
+version 11.2 v5
+push $cut_paste_input
+mmColorTarget {
+name mmColorTarget
+note_font Verdana
+selected true
+xpos 1094
+ypos 10893
+colorspace_jsonfile mmColorTarget_colorspaces.json
+}
