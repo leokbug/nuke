@@ -1,0 +1,12 @@
+set cut_paste_input [stack 0]
+version 11.2 v5
+push $cut_paste_input
+L_Despill_v05 {
+name L_Despill_v05_3
+tile_color 0xff
+note_font "Courier 10 Pitch"
+note_font_color 0xa400ff
+selected true
+xpos 2182
+ypos 1256
+}
