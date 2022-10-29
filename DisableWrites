@@ -1,0 +1,9 @@
+set cut_paste_input [stack 0]
+version 11.2 v5
+push $cut_paste_input
+DisableWrites {
+name DisableWrites1
+selected true
+xpos 2178
+ypos -2613
+}
