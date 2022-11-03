@@ -1,0 +1,166 @@
+#! C:/Program Files/Nuke12.2v5/nuke-12.2.5.dll -nx
+version 12.2 v5
+Gizmo {
+ tile_color 0x4d06ff
+ lock_connections true
+ addUserKnob {20 Chroma}
+ addUserKnob {41 Screen_Color l "Screen Color" T IBKColourV3_20.screen_type}
+ addUserKnob {41 DarkValue l "Dark value" T IBKColourV3_20.off}
+ addUserKnob {41 LightValue l "Light value" T IBKColourV3_20.mult}
+ addUserKnob {41 Clean t "Bigger Value = More Clean\nSmaller Value = More Details\nJust balance the value with the shot need to get the best result and enjoy the magic." T Switch2.which}
+}
+ Input {
+  inputs 0
+  name Denoised_Plate
+  xpos 41
+  ypos 122
+ }
+ IBKColourV3 {
+  name IBKColourV3_20
+  xpos 41
+  ypos 162
+  screen_type green
+  Size 1
+  erode 5
+ }
+ Premult {
+  name Premult1
+  xpos 41
+  ypos 206
+ }
+ Blur {
+  channels rgba
+  maskChannelInput rgba.alpha
+  invert_mask true
+  name Blur12
+  selected true
+  xpos 41
+  ypos 251
+ }
+set N1dfd400 [stack 0]
+ Blur {
+  channels rgba
+  size 50
+  maskChannelInput rgba.alpha
+  invert_mask true
+  name Blur13
+  xpos 41
+  ypos 299
+ }
+set N1dfd000 [stack 0]
+ Blur {
+  channels rgba
+  size 50
+  maskChannelInput rgba.alpha
+  invert_mask true
+  name Blur14
+  xpos 41
+  ypos 345
+ }
+set N1dfcc00 [stack 0]
+ Blur {
+  channels rgba
+  size 50
+  maskChannelInput rgba.alpha
+  invert_mask true
+  name Blur15
+  xpos 41
+  ypos 395
+ }
+set N1dfc800 [stack 0]
+ Blur {
+  channels rgba
+  size 50
+  maskChannelInput rgba.alpha
+  invert_mask true
+  name Blur16
+  xpos 41
+  ypos 447
+ }
+set N1dfc400 [stack 0]
+ Blur {
+  channels rgba
+  size 50
+  maskChannelInput rgba.alpha
+  invert_mask true
+  name Blur17
+  xpos 41
+  ypos 495
+ }
+set N29afc00 [stack 0]
+ Blur {
+  channels rgba
+  size 100
+  maskChannelInput rgba.alpha
+  invert_mask true
+  name Blur18
+  xpos 41
+  ypos 547
+ }
+set N29af800 [stack 0]
+ Blur {
+  channels rgba
+  size 100
+  maskChannelInput rgba.alpha
+  invert_mask true
+  name Blur19
+  xpos 41
+  ypos 608
+ }
+set N29af400 [stack 0]
+ Blur {
+  channels rgba
+  size 100
+  maskChannelInput rgba.alpha
+  invert_mask true
+  name Blur20
+  xpos 41
+  ypos 673
+ }
+set N29af000 [stack 0]
+ Blur {
+  channels rgba
+  size 100
+  maskChannelInput rgba.alpha
+  invert_mask true
+  name Blur21
+  xpos 41
+  ypos 734
+ }
+set N29aec00 [stack 0]
+ Blur {
+  channels rgba
+  size 200
+  maskChannelInput rgba.alpha
+  invert_mask true
+  name Blur22
+  xpos 41
+  ypos 792
+ }
+push $N29aec00
+push $N29af000
+push $N29af400
+push $N29af800
+push $N29afc00
+push $N1dfc400
+push $N1dfc800
+push $N1dfcc00
+push $N1dfd000
+push $N1dfd400
+ Switch {
+  inputs 11
+  name Switch2
+  xpos -104
+  ypos 798
+ }
+ Unpremult {
+  name Unpremult1
+  xpos -104
+  ypos 910
+ }
+ Output {
+  name Output1
+  xpos -104
+  ypos 1010
+ }
+end_group
