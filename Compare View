@@ -1,0 +1,17 @@
+set cut_paste_input [stack 0]
+version 11.2 v5
+push $cut_paste_input
+ContactSheet {
+width {{bbox.width*columns/ResolutionDivider}}
+height {{bbox.height*rows/ResolutionDivider}}
+rows {{inputs<3?1:(inputs<7?2:(inputs<12?3:(inputs<21?4:5)))}}
+columns {{ceil(inputs/rows)}}
+roworder TopBottom
+name CompareShots
+selected true
+xpos 868
+ypos -2794
+addUserKnob {20 User}
+addUserKnob {3 ResolutionDivider l Resolution}
+ResolutionDivider {{columns}}
+}
