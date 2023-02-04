@@ -1,0 +1,375 @@
+set cut_paste_input [stack 0]
+version 13.0 v2
+push $cut_paste_input
+Group {
+ name ChromaAb
+ tile_color 0x303d4cff
+ label "\n"
+ note_font "Bitstream Vera Sans Bold"
+ note_font_color 0x6699ccff
+ selected true
+ xpos 630
+ ypos 437
+ mapsize {0.15 0.15}
+ addUserKnob {20 User l Settings}
+ addUserKnob {7 rchan l "red scale w" R 0.998 1.002}
+ rchan 0.99995
+ addUserKnob {7 rchan2 l " h" -STARTLINE R 0.998 1.002}
+ rchan2 {{rchan}}
+ addUserKnob {7 gchan l "green scale w" R 0.998 1.002}
+ gchan 1
+ addUserKnob {7 gchan2 l " h" -STARTLINE R 0.998 1.002}
+ gchan2 {{gchan}}
+ addUserKnob {7 bchan l "blue scale w" R 0.998 1.002}
+ bchan 1.0006
+ addUserKnob {7 bchan2 l " h" -STARTLINE R 0.998 1.002}
+ bchan2 {{bchan}}
+ addUserKnob {20 pan_group l "center / pan" n 1}
+ pan_group 0
+ addUserKnob {12 center}
+ center {{"\[exists input1] ? input1.width/2 : input.width/2"} {"\[exists input1] ? input1.height/2 : input.height/2"}}
+ addUserKnob {6 pad_black l "black outside" -STARTLINE}
+ pad_black true
+ addUserKnob {12 rchan_pan l "red pan"}
+ addUserKnob {12 gchan_pan l "green pan"}
+ addUserKnob {12 bchan_pan l "blue pan"}
+ addUserKnob {26 ""}
+ addUserKnob {20 endGroup n -1}
+ addUserKnob {6 ana l "fast double width" +STARTLINE}
+ ana true
+ addUserKnob {6 invert l "invert scale" -STARTLINE}
+ addUserKnob {22 reset l " Reset scale " -STARTLINE T "n = nuke.thisNode()\nn\['rchan'].setValue(1)\nn\['gchan'].setValue(1)\nn\['bchan'].setValue(1)"}
+ addUserKnob {26 ""}
+ addUserKnob {4 outputAlpha l output M {"fake alpha over bg" "fake alpha only" white ""}}
+}
+ Input {
+  inputs 0
+  name fg
+  xpos 641
+  ypos -1162
+ }
+ Reformat {
+  type "to box"
+  box_width {{"\[value \[input this 0].format.r] - \[value \[input this 0].format.x]"}}
+  box_height {{"\[value \[input this 0].format.t]  - \[value \[input this 0].format.y] "}}
+  box_fixed true
+  box_pixel_aspect {{"\[value \[input this 0].pixel_aspect]"}}
+  pbb true
+  name Reformat2
+  xpos 641
+  ypos -1119
+ }
+set N84739400 [stack 0]
+ Dot {
+  name Dot1
+  xpos 675
+  ypos -1014
+ }
+ Dot {
+  name Dot7
+  xpos 675
+  ypos -559
+ }
+set N84738800 [stack 0]
+ Dot {
+  name Dot10
+  xpos 997
+  ypos -559
+ }
+set N84738400 [stack 0]
+ Dot {
+  name Dot8
+  xpos 1359
+  ypos -559
+ }
+ Transform {
+  translate {{parent.bchan_pan} {parent.bchan_pan}}
+  scale {{"ana == 0 ? parent.bchan : (parent.bchan-1)*2+1"} {parent.bchan2}}
+  center {{parent.center.x} {parent.center.y}}
+  invert_matrix {{parent.invert}}
+  black_outside {{parent.pad_black}}
+  name blue_repo
+  xpos 1325
+  ypos -496
+ }
+ Dot {
+  name Dot18
+  xpos 1359
+  ypos -451
+ }
+set Nacc93400 [stack 0]
+ Dot {
+  name Dot19
+  xpos 1971
+  ypos -451
+ }
+push $N84738400
+ Transform {
+  translate {{parent.gchan_pan} {parent.gchan_pan}}
+  scale {{"ana == 0 ? parent.gchan : (parent.gchan-1)*2+1"} {parent.gchan2}}
+  center {{parent.center.x} {parent.center.y}}
+  invert_matrix {{parent.invert}}
+  black_outside {{parent.pad_black}}
+  name green_repo
+  xpos 969
+  ypos -493
+ }
+ Dot {
+  name Dot20
+  xpos 997
+  ypos -429
+ }
+set Nacc92800 [stack 0]
+ Dot {
+  name Dot22
+  xpos 1861
+  ypos -429
+ }
+push $N84738800
+ Transform {
+  translate {{parent.rchan_pan} {parent.rchan_pan}}
+  scale {{"ana == 0 ? parent.rchan : (parent.rchan-1)*2+1"} {parent.rchan2}}
+  center {{parent.center.x} {parent.center.y}}
+  invert_matrix {{parent.invert}}
+  black_outside {{parent.pad_black}}
+  name red_repo
+  selected true
+  xpos 650
+  ypos -490
+ }
+ Dot {
+  name Dot21
+  xpos 675
+  ypos -405
+ }
+set Nacc91c00 [stack 0]
+ Dot {
+  name Dot23
+  xpos 1767
+  ypos -405
+ }
+ Dot {
+  name Dot24
+  xpos 1767
+  ypos -301
+ }
+ Merge2 {
+  inputs 2
+  operation plus
+  also_merge all
+  name Merge5
+  xpos 1827
+  ypos -305
+ }
+ Merge2 {
+  inputs 2
+  operation plus
+  also_merge all
+  name Merge3
+  xpos 1937
+  ypos -305
+ }
+ Multiply {
+  value 0.3333333333
+  name Multiply1
+  xpos 1937
+  ypos -175
+ }
+set Nacc90800 [stack 0]
+ Dot {
+  name Dot25
+  xpos 2197
+  ypos -165
+ }
+ Reformat {
+  inputs 0
+  type "to box"
+  box_width {{parent.Reformat2.box_width}}
+  box_height {{parent.Reformat2.box_height}}
+  box_fixed true
+  box_pixel_aspect {{parent.Reformat2.box_pixel_aspect}}
+  pbb true
+  name Reformat3
+  xpos 293
+  ypos -1112
+ }
+ Dot {
+  name Dot5
+  xpos 327
+  ypos -1015
+ }
+ Dot {
+  name Dot3
+  xpos 327
+  ypos -65
+ }
+set Nab05f000 [stack 0]
+ Dot {
+  name Dot11
+  xpos 591
+  ypos -65
+ }
+set Nab05ec00 [stack 0]
+ Dot {
+  name Dot14
+  xpos 908
+  ypos -65
+ }
+set Nab05e800 [stack 0]
+ Dot {
+  name Dot13
+  xpos 1278
+  ypos -65
+ }
+ Dot {
+  name Dot16
+  xpos 1278
+  ypos -7
+ }
+push $Nacc93400
+ Merge2 {
+  inputs 2
+  operation under
+  also_merge all
+  name Merge2
+  xpos 1325
+  ypos -11
+  disable true
+ }
+push $Nab05e800
+ Dot {
+  name Dot15
+  xpos 908
+  ypos -7
+ }
+push $Nacc92800
+ Merge2 {
+  inputs 2
+  operation under
+  also_merge all
+  name Merge1
+  xpos 963
+  ypos -11
+  disable true
+ }
+push $Nab05ec00
+ Dot {
+  name Dot12
+  xpos 591
+  ypos -7
+ }
+push $Nacc91c00
+ Merge2 {
+  inputs 2
+  operation under
+  also_merge all
+  name Merge4
+  xpos 641
+  ypos -11
+  disable true
+ }
+ Dot {
+  name Dot17
+  xpos 675
+  ypos 439
+ }
+ Copy {
+  inputs 2
+  from0 rgba.green
+  to0 rgba.green
+  name Copy2
+  xpos 963
+  ypos 429
+ }
+ Copy {
+  inputs 2
+  from0 rgba.blue
+  to0 rgba.blue
+  name Copy3
+  xpos 1325
+  ypos 429
+ }
+ Dot {
+  name Dot4
+  xpos 1359
+  ypos 766
+ }
+push $Nab05f000
+ Dot {
+  name Dot2
+  xpos 327
+  ypos 693
+ }
+push $Nacc90800
+ Merge {
+  inputs 2
+  also_merge all
+  name blueOver1
+  label "fake A over bg"
+  xpos 1937
+  ypos 683
+  disable true
+ }
+ Copy {
+  inputs 2
+  from0 rgba.red
+  to0 rgba.red
+  from1 rgba.green
+  to1 rgba.green
+  from2 rgba.blue
+  to2 rgba.blue
+  name Copy4
+  xpos 1937
+  ypos 744
+ }
+ CCrosstalk {
+  name CCrosstalk1
+  xpos 1937
+  ypos 859
+  disable true
+ }
+ Clamp {
+  channels alpha
+  name Clamp1
+  xpos 1937
+  ypos 925
+ }
+set N6c726400 [stack 0]
+ Switch {
+  inputs 2
+  which {{outputAlpha i}}
+  name Switch1
+  xpos 2163
+  ypos 931
+ }
+push $N6c726400
+ Copy {
+  inputs 2
+  from0 rgba.alpha
+  to0 rgba.alpha
+  name Copy1
+  xpos 2163
+  ypos 972
+ }
+ Shuffle {
+  alpha white
+  name Shuffle1
+  xpos 2163
+  ypos 1033
+  disable {{(outputAlpha==2)*-1+1 i}}
+ }
+ Output {
+  name Output1
+  xpos 2163
+  ypos 1181
+ }
+push $N84739400
+ Viewer {
+  input_process false
+  near 0.9
+  far 10000
+  name Viewer1
+  xpos 738
+  ypos 105
+ }
+end_group
