@@ -1,0 +1,244 @@
+set cut_paste_input [stack 0]
+version 13.0 v2
+push 0
+push 0
+push $cut_paste_input
+Group {
+ inputs 3
+ name Wrap4theLADS
+ tile_color 0xff
+ note_font "Source Code Pro Medium"
+ note_font_color 0xff00ff
+ selected true
+ xpos -74
+ ypos 718
+ mapsize {0.15 0.15}
+ addUserKnob {20 "" l RadWrap_v01}
+ addUserKnob {26 "" l "Luma Keyer"}
+ addUserKnob {41 disable_1 l disable T ChannelMerge2.disable}
+ addUserKnob {41 keyer l "knob operation \$value" +INVISIBLE T Keyer1.keyer}
+ addUserKnob {41 range T Keyer1.range}
+ addUserKnob {26 ""}
+ addUserKnob {26 "" l BG_Blur}
+ addUserKnob {41 size T Blur_BG.size}
+ addUserKnob {41 filter T Blur_BG.filter}
+ addUserKnob {41 quality l "" -STARTLINE T Blur_BG.quality}
+ addUserKnob {26 ""}
+ addUserKnob {26 "" l Blur_Wrap_Matte}
+ addUserKnob {41 size_1 l size T Blur_FG_mt.size}
+ addUserKnob {41 filter_1 l filter T Blur_FG_mt.filter}
+ addUserKnob {41 quality_1 l "" -STARTLINE T Blur_FG_mt.quality}
+ addUserKnob {41 value l MatteMult T Multiply2.value}
+ addUserKnob {26 ""}
+ addUserKnob {41 mix T Merge2.mix}
+ addUserKnob {26 ""}
+ addUserKnob {4 Output_A_which l "Output Which Alpha?" t "Select which matte gets output from the gizmo.\nFor the most part you will only set this to 'Luminance Key' while you are dialing in the Luma Key.\nYou should reset it to 'Wrap matte' when finished to use that matte to grain the area that was just wrapped." M {"Luminance Key" "Wrap Matte"}}
+ addUserKnob {20 "" l Tips}
+ addUserKnob {26 ""}
+ addUserKnob {26 "" l Usage:}
+ addUserKnob {26 "" l "                  " T "\nRadWrap takes 3 inputs:\n1) the BG you will use as the content to be wrapped around whatever it is you are wrapping.\n2) the matte that will be used to target the wrap\n3) the comp containing the object that needs the wrap.  The \"wrappee,\" if you will.\n"}
+ addUserKnob {26 "" l "Tips for Usage:"}
+ addUserKnob {26 "" l "                  " T "\nFor the most part you will want 2 of these back to back.\nFirst a bigger, softer, more mixed back one that washes over a larger area of  the wrap target.\nSecond a tighter, hotter, less mixed back one that hits the edges a little harder near the brightest parts of the BG.\nThe first will have looser luma keys, higher blur settings, and lower mix numbers, and the second will have the opposite."}
+}
+ BackdropNode {
+  inputs 0
+  name BackdropNode1
+  xpos -634
+  ypos -451
+  bdwidth 1121
+  bdheight 780
+ }
+ BackdropNode {
+  inputs 0
+  name BackdropNode2
+  tile_color 0x436ad400
+  xpos -582
+  ypos -384
+  bdwidth 325
+  bdheight 451
+ }
+ BackdropNode {
+  inputs 0
+  name BackdropNode3
+  tile_color 0xc6717100
+  xpos 45
+  ypos -377
+  bdwidth 360
+  bdheight 393
+ }
+ Input {
+  inputs 0
+  name BG
+  xpos -444
+  ypos -589
+  number 1
+ }
+ NoOp {
+  name NoOp1
+  label "BG to be wrapped around FG"
+  xpos -444
+  ypos -526
+ }
+ Keyer {
+  operation "luminance key"
+  range {0 0.4399888892 1 1}
+  name Keyer1
+  tile_color 0xff0000
+  xpos -444
+  ypos -320
+ }
+set Nb8a6c400 [stack 0]
+ Blur {
+  size 100
+  filter box
+  name Blur_BG
+  tile_color 0xcc804e00
+  xpos -444
+  ypos -234
+ }
+set N6de0bc00 [stack 0]
+ Input {
+  inputs 0
+  name WrapMatte
+  xpos 284
+  ypos -586
+  number 2
+ }
+ NoOp {
+  name NoOp2
+  label Matte
+  xpos 284
+  ypos -516
+ }
+ Dot {
+  name Dot1
+  xpos 318
+  ypos -287
+ }
+set N6de0b000 [stack 0]
+ Blur {
+  channels alpha
+  size 50
+  name Blur_FG_mt
+  tile_color 0xcc804e00
+  xpos 284
+  ypos -234
+ }
+push $N6de0b000
+ Dot {
+  name Dot2
+  xpos 113
+  ypos -287
+ }
+ ChannelMerge {
+  inputs 2
+  operation stencil
+  name ChannelMerge1
+  tile_color 0x4b5ec600
+  xpos 79
+  ypos -241
+ }
+ ChannelMerge {
+  inputs 2
+  operation in
+  name ChannelMerge2
+  tile_color 0x4b5ec600
+  xpos -66
+  ypos -241
+ }
+push $N6de0bc00
+ Dot {
+  name Dot3
+  xpos -410
+  ypos -146
+ }
+ Copy {
+  inputs 2
+  from0 rgba.alpha
+  to0 rgba.alpha
+  name Copy1
+  tile_color 0x9e3c6300
+  xpos -66
+  ypos -157
+ }
+ Multiply {
+  channels alpha
+  name Multiply2
+  tile_color 0x7aa9ff00
+  xpos -66
+  ypos -117
+ }
+ Premult {
+  name Premult1
+  xpos -66
+  ypos 17
+ }
+set N6de09000 [stack 0]
+ Dot {
+  name Dot4
+  xpos -32
+  ypos 107
+ }
+push $N6de09000
+ Input {
+  inputs 0
+  name Comp
+  xpos -213
+  ypos -589
+ }
+ NoOp {
+  name NoOp3
+  label "Comp to be lightwrapped"
+  xpos -213
+  ypos -518
+ }
+ Merge {
+  inputs 2
+  mix 0.2
+  name Merge2
+  tile_color 0x4b5ec600
+  xpos -213
+  ypos 17
+ }
+ Copy {
+  inputs 2
+  from0 rgba.alpha
+  to0 rgba.alpha
+  name Copy2
+  xpos -213
+  ypos 96
+ }
+set N6dee3800 [stack 0]
+push $Nb8a6c400
+ Dot {
+  name Dot5
+  xpos -496
+  ypos -309
+ }
+push $N6dee3800
+ Copy {
+  inputs 2
+  from0 rgba.alpha
+  to0 rgba.alpha
+  name Copy3
+  xpos -530
+  ypos 96
+ }
+ Dot {
+  name Dot6
+  xpos -496
+  ypos 217
+ }
+ Switch {
+  inputs 2
+  which {{Output_A_which}}
+  name Switch_A_output
+  xpos -213
+  ypos 213
+ }
+ Output {
+  name Output1
+  xpos -213
+  ypos 440
+ }
+end_group
