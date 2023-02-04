@@ -1,0 +1,179 @@
+set cut_paste_input [stack 0]
+version 13.0 v2
+push $cut_paste_input
+Group {
+ name P_Matte
+ help http://intranet/depts/Shows:Gravity:Compositing:Gravity_Beta_tools#pMatte
+ tile_color 0xff
+ note_font "Source Code Pro Medium"
+ note_font_color 0xff00ff
+ selected true
+ xpos -774
+ ypos 463
+ mapsize {0.15 0.15}
+ addUserKnob {20 User}
+ addUserKnob {26 abt l About -STARTLINE T "pMatte v0.75"}
+ addUserKnob {4 ef l "Edge Filtering" M {None "2x Supersampling" "" ""}}
+ addUserKnob {26 ""}
+ addUserKnob {4 MatteType l Shape M {Sphere Cube ""}}
+ addUserKnob {18 pos l Position t "Select the colour that corresponds to\nthe position you want."}
+ pos {35340.48047 5396.220703 -95819.29688}
+ addUserKnob {6 pos_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {13 rot l Rotation}
+ addUserKnob {13 rad l Size}
+ rad {1 1 1}
+ addUserKnob {7 size l Scale R 0 5}
+ size 13000
+ addUserKnob {26 ""}
+ addUserKnob {41 white l gain T Grade1.white}
+ addUserKnob {41 gamma l Exponent T Grade1.gamma}
+ addUserKnob {26 ""}
+}
+ Input {
+  inputs 0
+  name Position
+  selected true
+  xpos 35
+  ypos 428
+ }
+ Expression {
+  expr0 r-parent.pos.r
+  expr1 g-parent.pos.g
+  expr2 b-parent.pos.b
+  name Expression1
+  xpos 35
+  ypos 454
+  disable {{parent.rot.x==0?parent.rot.y==0?parent.rot.z==0?1:0:0:0 i}}
+ }
+ ColorMatrix {
+  matrix {
+      {{cos(radians(yrot)) i} 0 {-sin(radians(yrot)) i}}
+      {0 1 0}
+      {{sin(radians(yrot)) i} 0 {cos(radians(yrot)) i}}
+    }
+  name ColorMatrix14
+  label yrot
+  xpos 35
+  ypos 480
+  disable {{parent.rot.x==0?parent.rot.y==0?parent.rot.z==0?1:0:0:0 i}}
+  addUserKnob {20 "" l User}
+  addUserKnob {7 yrot l "y rotation" R -90 90}
+  yrot {{parent.rot.y i}}
+ }
+ ColorMatrix {
+  matrix {
+      {1 0 0}
+      {0 {cos(radians(xrot)) i} {sin(radians(xrot)) i}}
+      {0 {-sin(radians(xrot)) i} {cos(radians(xrot)) i}}
+    }
+  name ColorMatrix15
+  label "xrot\n"
+  xpos 35
+  ypos 524
+  disable {{parent.rot.x==0?parent.rot.y==0?parent.rot.z==0?1:0:0:0 i}}
+  addUserKnob {20 "" l User}
+  addUserKnob {7 xrot l "x rotation" R -90 90}
+  xrot {{parent.rot.x i}}
+ }
+ ColorMatrix {
+  matrix {
+      {{cos(radians(zrot)) i} {sin(radians(zrot)) i} 0}
+      {{-sin(radians(zrot)) i} {cos(radians(zrot)) i} 0}
+      {0 0 1}
+    }
+  name ColorMatrix13
+  label "zrot\n"
+  xpos 35
+  ypos 566
+  disable {{parent.rot.x==0?parent.rot.y==0?parent.rot.z==0?1:0:0:0 i}}
+  addUserKnob {20 "" l User}
+  addUserKnob {7 zrot l "z rotation" R -90 90}
+  zrot {{parent.rot.z i}}
+ }
+ Expression {
+  expr0 r+parent.pos.r
+  expr1 g+parent.pos.g
+  expr2 b+parent.pos.b
+  name Expression2
+  xpos 35
+  ypos 604
+  disable {{parent.rot.x==0?parent.rot.y==0?parent.rot.z==0?1:0:0:0 i x90 1}}
+ }
+ Reformat {
+  type scale
+  scale 2
+  name Reformat1
+  xpos 35
+  ypos 630
+  disable {{parent.ef==1?0:1 i}}
+ }
+set Nceec5000 [stack 0]
+ Dot {
+  name Dot2
+  xpos -48
+  ypos 634
+ }
+ Expression {
+  temp_name0 rr
+  temp_expr0 1-sqrt(pow(((r-pos.r)/rad.x)/size,2)+0.0001)
+  temp_name1 gg
+  temp_expr1 1-sqrt(pow(((g-pos.g)/rad.y)/size,2)+0.0001)
+  temp_name2 bb
+  temp_expr2 1-sqrt(pow(((b-pos.b)/rad.z)/size,2)+0.0001)
+  expr3 min(rr,gg,bb)
+  name Expression3
+  xpos -82
+  ypos 682
+ }
+push $Nceec5000
+ Expression {
+  temp_name0 distR
+  temp_expr0 ((Br-parent.pos.r)/rad.x)/parent.size
+  temp_name1 distG
+  temp_expr1 ((Bg-parent.pos.g)/rad.y)/parent.size
+  temp_name2 distB
+  temp_expr2 ((Bb-parent.pos.b)/rad.z)/parent.size
+  temp_name3 len
+  temp_expr3 1-sqrt((distR*distR)+(distG*distG)+(distB*distB))+0.0001
+  channel0 {-rgba.red -rgba.green -rgba.blue none}
+  channel1 {-rgba.red -rgba.green -rgba.blue none}
+  channel2 {-rgba.red -rgba.green -rgba.blue none}
+  expr3 len
+  name __POSITION_KEY__
+  xpos 35
+  ypos 656
+ }
+ Switch {
+  inputs 2
+  which {{parent.MatteType i}}
+  name Switch1
+  xpos 35
+  ypos 682
+ }
+ Clamp {
+  channels rgba
+  name Clamp1
+  xpos 35
+  ypos 708
+ }
+ Reformat {
+  type scale
+  scale 0.5
+  name Reformat2
+  xpos 35
+  ypos 734
+  disable {{parent.ef==1?0:1 i}}
+ }
+ Grade {
+  channels rgba
+  white_clamp true
+  name Grade1
+  xpos 35
+  ypos 760
+ }
+ Output {
+  name Output1
+  xpos 35
+  ypos 786
+ }
+end_group
