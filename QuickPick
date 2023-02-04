@@ -1,0 +1,22 @@
+set cut_paste_input [stack 0]
+version 13.0 v2
+push $cut_paste_input
+NoOp {
+ name QuickPick
+ tile_color 0xff
+ note_font "Source Code Pro Medium"
+ note_font_color 0xff00ff
+ selected true
+ xpos -969
+ ypos 574
+ addUserKnob {20 User}
+ addUserKnob {26 blurb l "" +STARTLINE T "QuickPick v2"}
+ addUserKnob {22 plus l + T "myNode = nuke.thisNode()\n\npickList = \[]\n\nknobList = myNode.knobs().keys()\n\nfor n in knobList:\n    if \"picker\" in n:\n      print (n)\n      pickList.append(n)\n    else:\n      pass\n\npick_number=len(pickList)\nnewPick = nuke.AColor_Knob(\"picker\"+str(pick_number), \"picker\"+str(pick_number))\n\n\nmyNode.addKnob(newPick)\n\n  \n\n" +STARTLINE}
+ addUserKnob {22 minus l - -STARTLINE T "myNode = nuke.thisNode()\n\nallDict= myNode.knobs()\n\npick_number=len(pickList)\nkillPick = \"picker\" + str(pick_number)\n  \nif pick_number > 0:\n    print \"killing picker number\" + str(pick_number)\n    myNode.removeKnob(allDict\[killPick])\n    pickList.pop()\nelse:\n    pass\n\n"}
+ addUserKnob {26 ""}
+ addUserKnob {19 picker l "picker  "}
+ picker {0.1217010245 0.3543539345 0.1812252998 0}
+ addUserKnob {6 picker_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {19 picker2}
+ picker2 {0.01904267259 0.02937806025 0.02730502561 0}
+}
