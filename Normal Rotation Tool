@@ -1,0 +1,292 @@
+set cut_paste_input [stack 0]
+version 13.0 v2
+push $cut_paste_input
+Group {
+ name N_RotationTool
+ tile_color 0xff
+ note_font "Source Code Pro Medium"
+ note_font_color 0xff00ff
+ selected true
+ xpos -1243
+ ypos 511
+ addUserKnob {20 User}
+ addUserKnob {7 x R -180 180}
+ x -41
+ addUserKnob {7 y R -180 180}
+ y -90
+ addUserKnob {7 z R -180 180}
+ z 1
+ addUserKnob {26 ""}
+ addUserKnob {41 multiply T Grade1.multiply}
+ addUserKnob {41 gamma T Grade1.gamma}
+}
+ Input {
+  inputs 0
+  name Normal_RGB
+  xpos 311
+  ypos 74
+ }
+ Group {
+  name fRotateVector
+  xpos 311
+  ypos 124
+  addUserKnob {20 User}
+  addUserKnob {4 rotOrder l "Rotation Order" M {XYZ XZY YXZ YZX ZXY ZYX}}
+  addUserKnob {13 rot l Rotation}
+  rot {{parent.x} {parent.y} {parent.z}}
+  addUserKnob {6 invertX +STARTLINE}
+  addUserKnob {6 invertY -STARTLINE}
+  addUserKnob {6 invertZ -STARTLINE}
+ }
+  Input {
+   inputs 0
+   name Input1
+  }
+set Na3db3c00 [stack 0]
+  ColorMatrix {
+   matrix {
+       {{cos(radians(parent.rot.z))} {sin(radians(parent.rot.z))} 0}
+       {{-sin(radians(parent.rot.z))} {cos(radians(parent.rot.z))} 0}
+       {0 0 1}
+     }
+   name ColorMatrix16
+   disable {{parent.rot.x==0?parent.rot.y==0?parent.rot.z==0?1:0:0:0}}
+  }
+  ColorMatrix {
+   matrix {
+       {{cos(radians(parent.rot.y))} 0 {-sin(radians(parent.rot.y))}}
+       {0 1 0}
+       {{sin(radians(parent.rot.y))} 0 {cos(radians(parent.rot.y))}}
+     }
+   name ColorMatrix17
+   disable {{parent.rot.x==0?parent.rot.y==0?parent.rot.z==0?1:0:0:0}}
+  }
+  ColorMatrix {
+   matrix {
+       {1 0 0}
+       {0 {cos(radians(parent.rot.x))} {sin(radians(parent.rot.x))}}
+       {0 {-sin(radians(parent.rot.x))} {cos(radians(parent.rot.x))}}
+     }
+   name ColorMatrix18
+   disable {{parent.rot.x==0?parent.rot.y==0?parent.rot.z==0?1:0:0:0}}
+  }
+push $Na3db3c00
+  ColorMatrix {
+   matrix {
+       {{cos(radians(parent.rot.z))} {sin(radians(parent.rot.z))} 0}
+       {{-sin(radians(parent.rot.z))} {cos(radians(parent.rot.z))} 0}
+       {0 0 1}
+     }
+   name ColorMatrix13
+   disable {{parent.rot.x==0?parent.rot.y==0?parent.rot.z==0?1:0:0:0}}
+  }
+  ColorMatrix {
+   matrix {
+       {1 0 0}
+       {0 {cos(radians(parent.rot.x))} {sin(radians(parent.rot.x))}}
+       {0 {-sin(radians(parent.rot.x))} {cos(radians(parent.rot.x))}}
+     }
+   name ColorMatrix14
+   disable {{parent.rot.x==0?parent.rot.y==0?parent.rot.z==0?1:0:0:0}}
+  }
+  ColorMatrix {
+   matrix {
+       {{cos(radians(parent.rot.y))} 0 {-sin(radians(parent.rot.y))}}
+       {0 1 0}
+       {{sin(radians(parent.rot.y))} 0 {cos(radians(parent.rot.y))}}
+     }
+   name ColorMatrix15
+   disable {{parent.rot.x==0?parent.rot.y==0?parent.rot.z==0?1:0:0:0}}
+  }
+push $Na3db3c00
+  ColorMatrix {
+   matrix {
+       {{cos(radians(parent.rot.y))} 0 {-sin(radians(parent.rot.y))}}
+       {0 1 0}
+       {{sin(radians(parent.rot.y))} 0 {cos(radians(parent.rot.y))}}
+     }
+   name ColorMatrix10
+   disable {{parent.rot.x==0?parent.rot.y==0?parent.rot.z==0?1:0:0:0}}
+  }
+  ColorMatrix {
+   matrix {
+       {{cos(radians(parent.rot.z))} {sin(radians(parent.rot.z))} 0}
+       {{-sin(radians(parent.rot.z))} {cos(radians(parent.rot.z))} 0}
+       {0 0 1}
+     }
+   name ColorMatrix11
+   disable {{parent.rot.x==0?parent.rot.y==0?parent.rot.z==0?1:0:0:0}}
+  }
+  ColorMatrix {
+   matrix {
+       {1 0 0}
+       {0 {cos(radians(parent.rot.x))} {sin(radians(parent.rot.x))}}
+       {0 {-sin(radians(parent.rot.x))} {cos(radians(parent.rot.x))}}
+     }
+   name ColorMatrix12
+   disable {{parent.rot.x==0?parent.rot.y==0?parent.rot.z==0?1:0:0:0}}
+  }
+push $Na3db3c00
+  ColorMatrix {
+   matrix {
+       {{cos(radians(parent.rot.y))} 0 {-sin(radians(parent.rot.y))}}
+       {0 1 0}
+       {{sin(radians(parent.rot.y))} 0 {cos(radians(parent.rot.y))}}
+     }
+   name ColorMatrix7
+   disable {{parent.rot.x==0?parent.rot.y==0?parent.rot.z==0?1:0:0:0}}
+  }
+  ColorMatrix {
+   matrix {
+       {1 0 0}
+       {0 {cos(radians(parent.rot.x))} {sin(radians(parent.rot.x))}}
+       {0 {-sin(radians(parent.rot.x))} {cos(radians(parent.rot.x))}}
+     }
+   name ColorMatrix8
+   disable {{parent.rot.x==0?parent.rot.y==0?parent.rot.z==0?1:0:0:0}}
+  }
+  ColorMatrix {
+   matrix {
+       {{cos(radians(parent.rot.z))} {sin(radians(parent.rot.z))} 0}
+       {{-sin(radians(parent.rot.z))} {cos(radians(parent.rot.z))} 0}
+       {0 0 1}
+     }
+   name ColorMatrix9
+   disable {{parent.rot.x==0?parent.rot.y==0?parent.rot.z==0?1:0:0:0}}
+  }
+push $Na3db3c00
+  ColorMatrix {
+   matrix {
+       {1 0 0}
+       {0 {cos(radians(parent.rot.x))} {sin(radians(parent.rot.x))}}
+       {0 {-sin(radians(parent.rot.x))} {cos(radians(parent.rot.x))}}
+     }
+   name ColorMatrix4
+   disable {{parent.rot.x==0?parent.rot.y==0?parent.rot.z==0?1:0:0:0}}
+  }
+  ColorMatrix {
+   matrix {
+       {{cos(radians(parent.rot.z))} {sin(radians(parent.rot.z))} 0}
+       {{-sin(radians(parent.rot.z))} {cos(radians(parent.rot.z))} 0}
+       {0 0 1}
+     }
+   name ColorMatrix5
+   disable {{parent.rot.x==0?parent.rot.y==0?parent.rot.z==0?1:0:0:0}}
+  }
+  ColorMatrix {
+   matrix {
+       {{cos(radians(parent.rot.y))} 0 {-sin(radians(parent.rot.y))}}
+       {0 1 0}
+       {{sin(radians(parent.rot.y))} 0 {cos(radians(parent.rot.y))}}
+     }
+   name ColorMatrix6
+   disable {{parent.rot.x==0?parent.rot.y==0?parent.rot.z==0?1:0:0:0}}
+  }
+push $Na3db3c00
+  ColorMatrix {
+   matrix {
+       {1 0 0}
+       {0 {cos(radians(parent.rot.x))} {sin(radians(parent.rot.x))}}
+       {0 {-sin(radians(parent.rot.x))} {cos(radians(parent.rot.x))}}
+     }
+   name ColorMatrix1
+   disable {{parent.rot.x==0?parent.rot.y==0?parent.rot.z==0?1:0:0:0}}
+  }
+  ColorMatrix {
+   matrix {
+       {{cos(radians(parent.rot.y))} 0 {-sin(radians(parent.rot.y))}}
+       {0 1 0}
+       {{sin(radians(parent.rot.y))} 0 {cos(radians(parent.rot.y))}}
+     }
+   name ColorMatrix2
+   disable {{parent.rot.x==0?parent.rot.y==0?parent.rot.z==0?1:0:0:0}}
+  }
+  ColorMatrix {
+   matrix {
+       {{cos(radians(parent.rot.z))} {sin(radians(parent.rot.z))} 0}
+       {{-sin(radians(parent.rot.z))} {cos(radians(parent.rot.z))} 0}
+       {0 0 1}
+     }
+   name ColorMatrix3
+   disable {{parent.rot.x==0?parent.rot.y==0?parent.rot.z==0?1:0:0:0}}
+  }
+  Switch {
+   inputs 6
+   which {{parent.rotOrder}}
+   name Switch1
+  }
+  Grade {
+   white {{invertX==1?-1:1} {invertY==1?-1:1} {invertZ==1?-1:1} 1}
+   black_clamp false
+   name Grade1
+  }
+  Output {
+   name Output1
+   selected true
+  }
+ end_group
+ Constant {
+  inputs 0
+  channels rgb
+  color {1 0 1 0}
+  name Constant2
+  xpos 466
+  ypos 87
+ }
+ Reformat {
+  type "to box"
+  box_width {{Normal_RGB.width}}
+  box_height {{Normal_RGB.height}}
+  box_fixed true
+  box_pixel_aspect {{Normal_RGB.pixel_aspect}}
+  name Reformat1
+  xpos 466
+  ypos 165
+ }
+ Group {
+  inputs 2
+  name fDotProduct
+  xpos 311
+  ypos 169
+ }
+  Input {
+   inputs 0
+   name B
+   number 1
+  }
+  Input {
+   inputs 0
+   name A
+  }
+  MergeExpression {
+   inputs 2
+   temp_name0 result
+   temp_expr0 Ar*Br+Ag*Bg+Ab*Bb
+   expr0 result
+   expr1 result
+   expr2 result
+   name MergeExpression1
+  }
+  Output {
+   name Output1
+   selected true
+  }
+ end_group
+ Shuffle {
+  alpha red
+  name Shuffle1
+  xpos 311
+  ypos 199
+ }
+ Grade {
+  channels rgba
+  name Grade1
+  xpos 311
+  ypos 225
+ }
+ Output {
+  name Output1
+  xpos 311
+  ypos 273
+ }
+end_group
