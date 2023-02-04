@@ -1,0 +1,24 @@
+set cut_paste_input [stack 0]
+version 13.0 v2
+push $cut_paste_input
+Expression {
+ temp_name0 fill
+ temp_expr0 0
+ channel0 rgba
+ expr0 "isinf(r)?(fill):r && isnan(r)?(fill):r"
+ expr1 "isinf(g)?(fill):g && isnan(g)?(fill):g"
+ expr2 "isinf(b)?(fill):b && isnan(b)?(fill):b"
+ channel3 rgba
+ expr3 "isinf(alpha)?(fill):alpha && isnan(alpha)?(fill):alpha"
+ name NAN_KILLER
+ tile_color 0x444444ff
+ note_font "Source Code Pro Medium"
+ note_font_color 0xff00ff
+ selected true
+ xpos -1086
+ ypos 527
+ disable {{!killNAN}}
+ addUserKnob {20 User}
+ addUserKnob {7 maxDepth l maxdepth}
+ maxDepth 46000
+}
