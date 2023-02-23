@@ -1,0 +1,213 @@
+set cut_paste_input [stack 0]
+version 11.2 v5
+push $cut_paste_input
+Group {
+name ChannelBlur
+help "DUCK_Skin_Cleaner_v1\n\nA tool delevopped to clean up model’s skin in common beauty/fashion shots.\n\nfeel free to contact me at niccolo.barbero@gmail.com"
+tile_color 0xffbf00ff
+selected true
+xpos 28174
+ypos -4872
+addUserKnob {20 User l DUCK_Skin_Cleaner_v1}
+addUserKnob {26 ""}
+addUserKnob {26 RED_channel_blur}
+addUserKnob {41 size T R_Blur.size}
+addUserKnob {26 GREEN_channel_blur}
+addUserKnob {41 size_1 l size T G_Blur.size}
+addUserKnob {26 BLU_channel_blur}
+addUserKnob {41 size_2 l size T B_blur.size}
+}
+Input {
+inputs 0
+name Input1
+xpos 185
+ypos -14
+}
+set N292fe940 [stack 0]
+Shuffle {
+green black
+blue black
+alpha black
+name Shuffle6
+xpos -161
+ypos 183
+}
+set Nb00cbdc0 [stack 0]
+push $Nb00cbdc0
+Blur {
+channels {rgba.red -rgba.green -rgba.blue none}
+size 4.6
+name R_Blur
+xpos -361
+ypos 176
+}
+set Na83b01d0 [stack 0]
+Merge2 {
+inputs 2
+operation min
+Achannels {rgba.red -rgba.green -rgba.blue -rgba.alpha}
+Bchannels {rgba.red -rgba.green -rgba.blue -rgba.alpha}
+output {rgba.red -rgba.green -rgba.blue -rgba.alpha}
+name Min4
+xpos -161
+ypos 334
+}
+set Na83a8970 [stack 0]
+push $Na83a8970
+push $Na83b01d0
+push $Nb00cbdc0
+Merge2 {
+inputs 2
+operation max
+Achannels {rgba.red -rgba.green -rgba.blue -rgba.alpha}
+Bchannels {rgba.red -rgba.green -rgba.blue -rgba.alpha}
+output {rgba.red -rgba.green -rgba.blue -rgba.alpha}
+name Max4
+xpos -361
+ypos 336
+}
+Merge2 {
+inputs 2
+operation average
+Achannels {rgba.red -rgba.green -rgba.blue -rgba.alpha}
+Bchannels {rgba.red -rgba.green -rgba.blue -rgba.alpha}
+output {rgba.red -rgba.green -rgba.blue -rgba.alpha}
+name Merge6
+xpos -269
+ypos 439
+}
+push $N292fe940
+Shuffle {
+red black
+blue black
+alpha black
+name Shuffle5
+xpos 185
+ypos 97
+}
+set Na8186510 [stack 0]
+push $Na8186510
+Blur {
+channels {-rgba.red rgba.green -rgba.blue none}
+size 100
+name G_Blur
+xpos 185
+ypos 209
+}
+set Na8387930 [stack 0]
+Merge2 {
+inputs 2
+operation min
+Achannels {-rgba.red rgba.green -rgba.blue -rgba.alpha}
+Bchannels {-rgba.red rgba.green -rgba.blue -rgba.alpha}
+output {-rgba.red rgba.green -rgba.blue -rgba.alpha}
+name Min5
+xpos 315
+ypos 272
+}
+push $Na8387930
+push $Na8186510
+Merge2 {
+inputs 2
+operation max
+Achannels {-rgba.red rgba.green -rgba.blue -rgba.alpha}
+Bchannels {-rgba.red rgba.green -rgba.blue -rgba.alpha}
+output {-rgba.red rgba.green -rgba.blue -rgba.alpha}
+name Max5
+xpos 51
+ypos 271
+}
+Merge2 {
+inputs 2
+operation average
+name Merge7
+xpos 186
+ypos 336
+}
+Merge2 {
+inputs 2
+operation plus
+Achannels {rgba.red -rgba.green -rgba.blue -rgba.alpha}
+Bchannels {-rgba.red rgba.green -rgba.blue -rgba.alpha}
+output {rgba.red rgba.green -rgba.blue rgba.alpha}
+name Merge8
+xpos 186
+ypos 439
+}
+push $N292fe940
+Shuffle {
+red black
+green black
+alpha black
+name Shuffle4
+xpos 557
+ypos 278
+}
+set Na81a30c0 [stack 0]
+push $Na81a30c0
+Blur {
+channels {-rgba.red -rgba.green rgba.blue none}
+size 89
+name B_blur
+xpos 557
+ypos 391
+}
+set Na81d4d10 [stack 0]
+Merge2 {
+inputs 2
+operation min
+Achannels {-rgba.red -rgba.green rgba.blue -rgba.alpha}
+Bchannels {-rgba.red -rgba.green rgba.blue -rgba.alpha}
+output {-rgba.red -rgba.green rgba.blue -rgba.alpha}
+name Min3
+xpos 694
+ypos 451
+}
+push $Na81d4d10
+push $Na81a30c0
+Merge2 {
+inputs 2
+operation max
+Achannels {-rgba.red -rgba.green rgba.blue -rgba.alpha}
+Bchannels {-rgba.red -rgba.green rgba.blue -rgba.alpha}
+output {-rgba.red -rgba.green rgba.blue -rgba.alpha}
+name Max3
+xpos 424
+ypos 421
+}
+Merge2 {
+inputs 2
+operation average
+Achannels {-rgba.red -rgba.green rgba.blue -rgba.alpha}
+Bchannels {-rgba.red -rgba.green rgba.blue -rgba.alpha}
+output {-rgba.red -rgba.green rgba.blue -rgba.alpha}
+name Merge9
+xpos 560
+ypos 541
+}
+Merge2 {
+inputs 2
+operation plus
+Achannels {rgba.red rgba.green -rgba.blue -rgba.alpha}
+Bchannels {-rgba.red -rgba.green rgba.blue -rgba.alpha}
+output {rgba.red rgba.green rgba.blue -rgba.alpha}
+name Merge10
+xpos 186
+ypos 548
+}
+Output {
+name Output1
+xpos 186
+ypos 638
+}
+set N2ef5bbb0 [stack 0]
+push $N2ef5bbb0
+Viewer {
+inputs 3
+input_process false
+name Viewer1
+selected true
+xpos -275
+ypos 904
+}
+end_group
