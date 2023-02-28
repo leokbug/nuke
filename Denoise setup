@@ -1,0 +1,70 @@
+set cut_paste_input [stack 0]
+version 12.1 v2
+BackdropNode {
+ inputs 0
+ name BackdropNode1
+ tile_color 0x4f00ff
+ label denoise
+ note_font_size 32
+ selected true
+ xpos -4616
+ ypos -403
+ bdwidth 495
+ bdheight 594
+}
+push $cut_paste_input
+Grade {
+ black_clamp false
+ name OffsetForDenoise1
+ selected true
+ xpos -4382
+ ypos -239
+}
+Dot {
+ name Dot1
+ selected true
+ xpos -4348
+ ypos -182
+}
+set N58a9c000 [stack 0]
+Expression {
+ channel0 rgba
+ expr0 min(r,g,b)<=0
+ channel1 none
+ channel2 none
+ channel3 none
+ name ShowNegatives2
+ selected true
+ xpos -4563
+ ypos -185
+}
+push $N58a9c000
+Log2Lin {
+ operation lin2log
+ name Log2Lin1
+ selected true
+ xpos -4382
+ ypos -81
+}
+NoOp {
+ name NoOp1
+ label "REPLACE WITH DENOISE"
+ selected true
+ xpos -4382
+ ypos -26
+}
+Log2Lin {
+ name Log2Lin2
+ selected true
+ xpos -4382
+ ypos 29
+}
+Grade {
+ add {{parent.OffsetForDenoise1.add}}
+ reverse true
+ black_clamp false
+ name reverseOffset1
+ selected true
+ xpos -4382
+ ypos 83
+}
