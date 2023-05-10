@@ -1,0 +1,61 @@
+set cut_paste_input [stack 0]
+version 14.0 v3
+push $cut_paste_input
+Group {
+name HSV_suppressor1
+tile_color 0xff
+gl_color 0xff
+note_font "Courier 10 Pitch"
+note_font_color 0x32db32ff
+selected true
+xpos -2325
+ypos -1793
+addUserKnob {20 User}
+addUserKnob {41 white l Range T Grade29.white}
+addUserKnob {26 "" l mask}
+addUserKnob {41 maskChannelMask l "" -STARTLINE T Grade29.maskChannelMask}
+addUserKnob {41 maskChannelInput l "" -STARTLINE T Grade29.maskChannelInput}
+addUserKnob {41 invert_mask l invert T Grade29.invert_mask}
+addUserKnob {41 fringe T Grade29.fringe}
+addUserKnob {41 mix_luminance l "" -STARTLINE T Grade29.mix_luminance}
+addUserKnob {41 mix T Grade29.mix}
+}
+Input {
+inputs 0
+name mask
+xpos -507
+ypos -342
+number 1
+}
+Input {
+inputs 0
+name Input1
+xpos -648
+ypos -395
+}
+Colorspace {
+colorspace_out HSV
+name Colorspace3
+xpos -648
+ypos -355
+}
+Grade {
+inputs 1+1
+channels {-rgba.red -rgba.green rgba.blue none}
+white 0.56
+name Grade29
+xpos -648
+ypos -305
+}
+Colorspace {
+colorspace_in HSV
+name Colorspace4
+xpos -648
+ypos -243
+}
+Output {
+name Output1
+xpos -648
+ypos -143
+}
+end_group
