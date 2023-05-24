@@ -1,0 +1,120 @@
+set cut_paste_input [stack 0]
+version 11.2 v5
+push $cut_paste_input
+Group {
+ name Fractal_Blur
+ tile_color 0x575757ff
+ selected true
+ xpos -1111
+ ypos 1377
+ addUserKnob {20 User l Fractal}
+ addUserKnob {41 channels T IDistort2.channels}
+ addUserKnob {26 ""}
+ addUserKnob {14 amplitude R 0 100}
+ amplitude 42
+ addUserKnob {14 intensity R 0 100}
+ intensity 10.4
+ addUserKnob {14 animation R 0 100}
+ addUserKnob {20 "" l Transform}
+ addUserKnob {12 trans l translate}
+ trans {20 0}
+ addUserKnob {7 rot l rotate R 0 360}
+ addUserKnob {16 scale}
+ scale 1
+}
+ Input {
+  inputs 0
+  name Input1
+  xpos -1049
+  ypos 61
+ }
+set Ncab43b10 [stack 0]
+ Shuffle {
+  red black
+  green black
+  blue black
+  name Shuffle1
+  label "\[value in]"
+  xpos -882
+  ypos 55
+ }
+ Noise {
+  output {rgba.red -rgba.green -rgba.blue -rgba.alpha}
+  cliptype none
+  size {{parent.amplitude.w*10} {parent.amplitude.h*10}}
+  zoffset {{frame*(parent.animation.w/50)+10}}
+  translate {{parent.trans} {parent.trans}}
+  rotate {{parent.rot}}
+  scale {{parent.scale}}
+  center {960 540}
+  name Noise2
+  xpos -660
+  ypos 61
+ }
+ Noise {
+  output {-rgba.red rgba.green -rgba.blue -rgba.alpha}
+  cliptype none
+  size {{(parent.amplitude.w*10) x98 1} {(parent.amplitude.h*10)}}
+  zoffset {{frame*(parent.animation.w/50)+5}}
+  translate {{parent.trans} {parent.trans}}
+  rotate {{parent.rot}}
+  scale {{parent.scale}}
+  center {960 540}
+  name Noise1
+  xpos -660
+  ypos 117
+ }
+set Ncf85b250 [stack 0]
+ Blur {
+  size 50
+  name Blur9
+  xpos -796
+  ypos 237
+ }
+push $Ncf85b250
+ Merge2 {
+  inputs 2
+  operation minus
+  bbox B
+  name Merge16
+  xpos -660
+  ypos 324
+ }
+ Dot {
+  name Dot30
+  xpos -626
+  ypos 499
+ }
+push $Ncab43b10
+ Copy {
+  inputs 2
+  from0 rgba.red
+  to0 forward.u
+  from1 rgba.green
+  to1 forward.v
+  bbox B
+  name Copy11
+  xpos -1049
+  ypos 483
+ }
+ IDistort {
+  channels rgba
+  uv forward
+  uv_scale {{parent.intensity.w*100} {parent.intensity.h*100}}
+  name IDistort2
+  selected true
+  xpos -1049
+  ypos 596
+ }
+ Transform {
+  center {960 540}
+  name Transform1
+  xpos -1049
+  ypos 634
+ }
+ Output {
+  name Output1
+  xpos -1049
+  ypos 711
+ }
+end_group
