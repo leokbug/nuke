@@ -1,0 +1,955 @@
+set cut_paste_input [stack 0]
+version 11.0 v1
+push $cut_paste_input
+Group {
+ name C_Prisming
+ label "V1.2\n"
+ selected true
+ xpos -480
+ ypos -568
+ postage_stamp_frame 0
+ addUserKnob {20 User}
+ addUserKnob {7 Direction R -1 1}
+ Direction -1
+ addUserKnob {7 Amount R 0 100}
+ Amount 3
+ addUserKnob {7 Size R 0 100}
+ addUserKnob {7 Distance R 0 100}
+ Distance 14
+ addUserKnob {7 Blur R 0 100}
+ addUserKnob {7 Saturation R 0 2}
+ Saturation 0.66
+ addUserKnob {26 "" +STARTLINE}
+ addUserKnob {26 Created -STARTLINE T "by Chris Charlton"}
+ addUserKnob {26 Using -STARTLINE T "Normalish v1.1 by Khari Anthony"}
+}
+ NoOp {
+  inputs 0
+  name C_Prisming1
+  xpos 222
+  ypos -5
+  addUserKnob {20 User}
+  addUserKnob {7 Direction R -1 1}
+  Direction {{parent.Direction x1 0}}
+  addUserKnob {7 Amount R 0 100}
+  Amount {{parent.Amount x1 0}}
+  addUserKnob {7 BlurFallOff}
+  BlurFallOff {{parent.BlurFallOff x1 0}}
+  addUserKnob {7 Blur R 0 100}
+  Blur {{parent.Blur x1 0}}
+  addUserKnob {7 Saturation R 0 2}
+  Saturation {{parent.Saturation x1 0}}
+ }
+ Input {
+  inputs 0
+  name Alpha_In
+  xpos 222
+  ypos -533
+  number 1
+ }
+ Dot {
+  name Dot221
+  label "Alpha In"
+  note_font_size 50
+  xpos 256
+  ypos -505
+ }
+ Shuffle {
+  in alpha
+  name Shuffle58
+  label "\[if \{\[value in] == \"rgba\" && \[value out] == \"rgba\" && \[value red] == \"red\" && \[value green] ==\"green\" && \[value blue] == \"blue\" && \[value alpha] != \"alpha\"\} \{return \"alpha = \[value alpha]\"\} \{return \"\[value in] to \[value out] (\[string index \[value red] 0]\[string index \[value green] 0]\[string index \[value blue] 0]\[string index \[value alpha] 0])\"\}]"
+  xpos 222
+  ypos -323
+ }
+ Dot {
+  name Dot70
+  xpos 256
+  ypos -241
+ }
+set Nbdc5c380 [stack 0]
+ Group {
+  name LumatoNormals
+  help distance
+  tile_color 0x7f6effff
+  xpos 222
+  ypos -221
+  addUserKnob {20 normalish l Normalish}
+  addUserKnob {26 normalishGenerator l "Normalish v1.1" T "Normal generator by Khari Anthony"}
+  addUserKnob {26 ""}
+  addUserKnob {41 preGamma l Pre-Gamma t "Gammas image before creating normals. Can reveal different levels of detail for different images" T Gamma1.value}
+  addUserKnob {26 baseDetail l "Base Detail"}
+  addUserKnob {41 baseSize l Size t "Adjusts amount of detail in base layer. (Higher values = less detail)" T baseblur.size}
+  addUserKnob {41 baseDistance l Distance t "Not sure how to describe this. Just tweak it. " T plainblur.size}
+  addUserKnob {26 fineDetail l "Fine Detail"}
+  addUserKnob {41 fineAmount l Amount t "Intensity of detail added to base. " T fineadd.mix}
+  addUserKnob {41 fineDistance l Distance t "not sure how to describe this..." T detplainblur.size}
+  addUserKnob {26 postAdjust l "Post Adjustments"}
+  addUserKnob {41 xMult l "X Mult" t "Multiplies intensity of x normals." T redmult.value}
+  addUserKnob {41 Ymult l "Y Mult" t "Multiplies intensity of y normals." T greenmult.value}
+  addUserKnob {41 zMult l "Z Mult" t "Multiplies intensity of z normals." T bluemult.value}
+  addUserKnob {20 transforms l Transforms}
+  addUserKnob {6 flipX l flipx +STARTLINE}
+  addUserKnob {6 flipY l flipy +STARTLINE}
+  addUserKnob {41 offsetXchan l "Offset X Channel" T baseoffx.translate}
+  addUserKnob {41 offsetYchan l "Offset Y Channel" T baseoffy.translate}
+  addUserKnob {20 thanksto l "thanks to..."}
+  addUserKnob {26 Thanks -STARTLINE T "Lucas Pfaff and M Frank for qc catches"}
+ }
+  StickyNote {
+   inputs 0
+   name StickyNote1
+   label "Base detail"
+   note_font_size 29.7
+   xpos -4804
+   ypos 68
+  }
+  StickyNote {
+   inputs 0
+   name StickyNote2
+   label "Fine detail"
+   note_font_size 31.2
+   xpos -5140
+   ypos 820
+  }
+  Input {
+   inputs 0
+   name map
+   label "rgb color map"
+   xpos -5541
+   ypos -136
+  }
+  Gamma {
+   name Gamma1
+   xpos -5540
+   ypos -64
+  }
+  Dot {
+   name Dot16
+   xpos -5506
+   ypos -4
+  }
+set Nbdc85180 [stack 0]
+  Dot {
+   name Dot14
+   xpos -5509
+   ypos 873
+  }
+  Dot {
+   name Dot15
+   xpos -4708
+   ypos 873
+  }
+  Dot {
+   name Dot8
+   xpos -4708
+   ypos 999
+  }
+set Nbdc84700 [stack 0]
+  Dot {
+   name Dot9
+   xpos -4866
+   ypos 999
+  }
+set Nbdc84380 [stack 0]
+  Dot {
+   name Dot10
+   xpos -5052
+   ypos 999
+  }
+set Nbdc84000 [stack 0]
+  Dot {
+   name Dot19
+   xpos -5161
+   ypos 999
+  }
+set Nbdca3c00 [stack 0]
+  Dot {
+   name Dot11
+   xpos -5253
+   ypos 999
+  }
+set Nbdca3880 [stack 0]
+  Dot {
+   name Dot12
+   xpos -5381
+   ypos 999
+  }
+set Nbdca3500 [stack 0]
+  Dot {
+   name Dot18
+   xpos -5509
+   ypos 999
+  }
+set Nbdca3180 [stack 0]
+push $Nbdca3180
+  Dot {
+   name Dot13
+   xpos -5633
+   ypos 999
+  }
+  DirBlurWrapper {
+   channels rgba
+   BlurType linear
+   BlurCenter {50 50}
+   BlurLength {{parent.detplainblur.size}}
+   BlurAngle 90
+   target {50 50}
+   name detxblur
+   xpos -5663
+   ypos 1201
+  }
+set Nbdca2a80 [stack 0]
+  Merge2 {
+   inputs 2
+   operation minus
+   name Merge12
+   xpos -5540
+   ypos 1334
+  }
+push $Nbdca2a80
+push $Nbdca3500
+  Merge2 {
+   inputs 2
+   operation minus
+   name Merge7
+   xpos -5411
+   ypos 1201
+  }
+  Saturation {
+   saturation 0
+   name Saturation5
+   xpos -5411
+   ypos 1245
+  }
+  Switch {
+   inputs 2
+   which {{parent.flipX}}
+   name finexswitch1
+   xpos -5412
+   ypos 1334
+  }
+  Shuffle {
+   green black
+   blue black
+   alpha black
+   name Shuffle2
+   label "\[value in] -> \[value out]"
+   xpos -5412
+   ypos 1453
+  }
+  Transform {
+   name fineoffx
+   xpos -5279
+   ypos 1459
+  }
+push $Nbdca3c00
+push $Nbdca3880
+  DirBlurWrapper {
+   channels rgba
+   BlurType linear
+   BlurCenter {50 50}
+   BlurLength {{parent.detplainblur.size}}
+   BlurAngle 0
+   target {50 50}
+   name detyblur
+   xpos -5283
+   ypos 1201
+  }
+set Nbdcd3180 [stack 0]
+  Merge2 {
+   inputs 2
+   operation minus
+   name Merge13
+   xpos -5191
+   ypos 1317
+  }
+push $Nbdcd3180
+push $Nbdc84000
+  Merge2 {
+   inputs 2
+   operation minus
+   name Merge8
+   xpos -5082
+   ypos 1201
+  }
+  Saturation {
+   saturation 0
+   name Saturation6
+   xpos -5082
+   ypos 1245
+  }
+  Switch {
+   inputs 2
+   which {{parent.flipY}}
+   name yfineswitch
+   xpos -5082
+   ypos 1317
+  }
+  Shuffle {
+   red black
+   blue black
+   alpha black
+   name Shuffle6
+   label "\[value in] -> \[value out]"
+   xpos -5082
+   ypos 1361
+  }
+  Transform {
+   center {1214 782}
+   name fineoffy
+   xpos -5082
+   ypos 1415
+  }
+  Merge2 {
+   inputs 2
+   operation plus
+   name Merge9
+   xpos -5082
+   ypos 1459
+  }
+push $Nbdc84700
+push $Nbdc84380
+  Blur {
+   channels rgba
+   size 2
+   name detplainblur
+   xpos -4896
+   ypos 1199
+  }
+  Merge2 {
+   inputs 2
+   operation minus
+   name Merge10
+   xpos -4738
+   ypos 1199
+  }
+  Saturation {
+   saturation 0
+   name Saturation7
+   xpos -4738
+   ypos 1243
+  }
+  Invert {
+   channels rgba
+   name Invert3
+   xpos -4738
+   ypos 1347
+  }
+  Shuffle {
+   red black
+   green black
+   alpha blue
+   name Shuffle7
+   label "\[value in] -> \[value out]"
+   xpos -4738
+   ypos 1391
+  }
+  Merge2 {
+   inputs 2
+   operation plus
+   name Merge11
+   xpos -4738
+   ypos 1459
+  }
+push $Nbdc85180
+  Dot {
+   name Dot7
+   xpos -4406
+   ypos -6
+  }
+  Blur {
+   channels rgba
+   size {{parent.parent.Size}}
+   name baseblur
+   xpos -4440
+   ypos 78
+  }
+  Dot {
+   name Dot1
+   xpos -4406
+   ypos 130
+  }
+set Nbdd49880 [stack 0]
+  Dot {
+   name Dot6
+   xpos -4532
+   ypos 130
+  }
+set Nbdd49500 [stack 0]
+  Dot {
+   name Dot5
+   xpos -4658
+   ypos 130
+  }
+set Nbdd49180 [stack 0]
+  Dot {
+   name Dot20
+   xpos -4755
+   ypos 130
+  }
+set Nbdd48e00 [stack 0]
+  Dot {
+   name Dot4
+   xpos -4845
+   ypos 130
+  }
+set Nbdd48a80 [stack 0]
+  Dot {
+   name Dot3
+   xpos -4956
+   ypos 130
+  }
+set Nbdd48700 [stack 0]
+  Dot {
+   name Dot17
+   xpos -5175
+   ypos 130
+  }
+set Nbdd48380 [stack 0]
+push $Nbdd48380
+  Dot {
+   name Dot2
+   xpos -5285
+   ypos 130
+  }
+  DirBlurWrapper {
+   channels rgba
+   BlurType linear
+   BlurCenter {50 50}
+   BlurLength {{parent.plainblur.size}}
+   BlurAngle 90
+   target {50 50}
+   name xblur
+   xpos -5319
+   ypos 326
+  }
+set Nbe769c00 [stack 0]
+  Merge2 {
+   inputs 2
+   operation minus
+   name Merge1
+   xpos -5209
+   ypos 410
+  }
+push $Nbe769c00
+push $Nbdd48700
+  Merge2 {
+   inputs 2
+   operation minus
+   name Merge2
+   xpos -4990
+   ypos 326
+  }
+set Nbe769500 [stack 0]
+  Switch {
+   inputs 2
+   which {{parent.flipX}}
+   name basexswitch
+   xpos -4990
+   ypos 410
+  }
+  Saturation {
+   saturation 0
+   name Saturation3
+   xpos -4990
+   ypos 507
+  }
+  Shuffle {
+   green black
+   blue black
+   alpha black
+   name Shuffle5
+   label "\[value in] -> \[value out]"
+   xpos -4990
+   ypos 580
+  }
+  Transform {
+   name baseoffx
+   xpos -4893
+   ypos 586
+  }
+push $Nbdd48e00
+push $Nbdd48a80
+  DirBlurWrapper {
+   channels rgba
+   BlurType linear
+   BlurCenter {50 50}
+   BlurLength {{parent.plainblur.size}}
+   BlurAngle 0
+   target {50 50}
+   name yblur
+   xpos -4879
+   ypos 326
+  }
+set Nbe768380 [stack 0]
+  Merge2 {
+   inputs 2
+   operation minus
+   name Merge14
+   xpos -4789
+   ypos 427
+  }
+push $Nbe768380
+push $Nbdd49180
+  Merge2 {
+   inputs 2
+   operation minus
+   name Merge3
+   xpos -4692
+   ypos 326
+  }
+  Saturation {
+   saturation 0
+   name Saturation2
+   xpos -4692
+   ypos 370
+  }
+  Switch {
+   inputs 2
+   which {{parent.flipY}}
+   name ybaseswitch1
+   xpos -4692
+   ypos 427
+  }
+  Shuffle {
+   red black
+   blue black
+   alpha black
+   name Shuffle3
+   label "\[value in] -> \[value out]"
+   xpos -4692
+   ypos 471
+  }
+  Transform {
+   name baseoffy
+   xpos -4692
+   ypos 536
+  }
+  Merge2 {
+   inputs 2
+   operation plus
+   name Merge5
+   xpos -4692
+   ypos 586
+  }
+push $Nbdd49880
+push $Nbdd49500
+  Blur {
+   channels rgba
+   size {{parent.parent.Distance}}
+   name plainblur
+   xpos -4566
+   ypos 326
+  }
+  Merge2 {
+   inputs 2
+   operation minus
+   name Merge4
+   xpos -4440
+   ypos 326
+  }
+set Nbe7a4380 [stack 0]
+  Saturation {
+   saturation 0
+   name Saturation4
+   xpos -4440
+   ypos 368
+  }
+  Invert {
+   channels rgba
+   name Invert1
+   xpos -4440
+   ypos 410
+  }
+  Shuffle {
+   red black
+   green black
+   alpha blue
+   name Shuffle4
+   label "\[value in] -> \[value out]"
+   xpos -4440
+   ypos 455
+  }
+  Merge2 {
+   inputs 2
+   operation plus
+   name Merge6
+   xpos -4440
+   ypos 586
+  }
+  Merge2 {
+   inputs 2
+   operation plus
+   mix 0.25
+   name fineadd
+   xpos -4440
+   ypos 1459
+  }
+  Multiply {
+   channels {rgba.red rgba.green -rgba.blue rgba.alpha}
+   value 5
+   name Multiply1
+   xpos -4440
+   ypos 1503
+  }
+  Multiply {
+   channels {rgba.red -rgba.green -rgba.blue none}
+   value 10
+   name redmult
+   tile_color 0xff0000ff
+   xpos -4440
+   ypos 1568
+  }
+  Multiply {
+   channels {-rgba.red rgba.green -rgba.blue none}
+   value 10
+   name greenmult
+   tile_color 0xff00ff
+   xpos -4440
+   ypos 1628
+  }
+  Multiply {
+   channels {-rgba.red -rgba.green rgba.blue none}
+   value 10
+   name bluemult
+   tile_color 0xffff
+   xpos -4440
+   ypos 1681
+  }
+  Output {
+   name Output2
+   xpos -4440
+   ypos 1748
+  }
+push $Nbe769500
+push $Nbe7a4380
+  Viewer {
+   inputs 2
+   frame_range 1001-1001
+   frame_increment 8
+   fps 25
+   name Viewer1
+   xpos -4440
+   ypos 612
+  }
+ end_group
+ Dot {
+  name Dot222
+  xpos 256
+  ypos -145
+ }
+push $Nbdc5c380
+ Input {
+  inputs 0
+  name RGBA_In
+  xpos 1432
+  ypos -557
+ }
+ Dot {
+  name Dot225
+  label "RGBA In"
+  note_font_size 50
+  xpos 1466
+  ypos -457
+ }
+ Dot {
+  name Dot272
+  xpos 1466
+  ypos -337
+ }
+set Nbe82f180 [stack 0]
+ Dot {
+  name Dot270
+  xpos 1246
+  ypos -337
+ }
+set Nbe82ee00 [stack 0]
+ Dot {
+  name Dot224
+  xpos 806
+  ypos -337
+ }
+set Nbe82ea80 [stack 0]
+ Dot {
+  name Dot194
+  xpos 586
+  ypos -337
+ }
+ Shuffle {
+  alpha black
+  name Shuffle59
+  label "\[if \{\[value in] == \"rgba\" && \[value out] == \"rgba\" && \[value red] == \"red\" && \[value green] ==\"green\" && \[value blue] == \"blue\" && \[value alpha] != \"alpha\"\} \{return \"alpha = \[value alpha]\"\} \{return \"\[value in] to \[value out] (\[string index \[value red] 0]\[string index \[value green] 0]\[string index \[value blue] 0]\[string index \[value alpha] 0])\"\}]"
+  xpos 552
+  ypos -323
+ }
+ Copy {
+  inputs 2
+  from0 rgba.alpha
+  to0 mask.a
+  name Copy1
+  xpos 552
+  ypos -251
+ }
+ Copy {
+  inputs 2
+  from0 rgba.red
+  to0 forward.u
+  from1 rgba.green
+  to1 forward.v
+  from2 rgba.blue
+  to2 backward.u
+  from3 rgba.alpha
+  to3 backward.v
+  name Copy5
+  xpos 552
+  ypos -175
+ }
+ Blur {
+  channels motion
+  size {{parent.C_Prisming1.Blur}}
+  crop false
+  name Blur7
+  xpos 552
+  ypos -83
+ }
+ Blur {
+  channels mask
+  size {{parent.C_Prisming1.Blur}}
+  crop false
+  name Blur1
+  xpos 552
+  ypos -35
+ }
+ Dot {
+  name Dot195
+  xpos 586
+  ypos -1
+ }
+set Nbe84f180 [stack 0]
+ Dot {
+  name Dot267
+  xpos 476
+  ypos -1
+ }
+ VectorBlur2 {
+  channels {rgba.red -rgba.green -rgba.blue none}
+  uv forward
+  blur_type uniform
+  scale {{C_Prisming1.Amount*(parent.C_Prisming1.Direction-1)}}
+  motion_falloff {{parent.C_Prisming1.BlurFallOff}}
+  offset 0
+  name VectorBlur2_1
+  xpos 442
+  ypos 61
+ }
+ Shuffle {
+  green black
+  blue black
+  alpha black
+  name Shuffle60
+  label "\[if \{\[value in] == \"rgba\" && \[value out] == \"rgba\" && \[value red] == \"red\" && \[value green] ==\"green\" && \[value blue] == \"blue\" && \[value alpha] != \"alpha\"\} \{return \"alpha = \[value alpha]\"\} \{return \"\[value in] to \[value out] (\[string index \[value red] 0]\[string index \[value green] 0]\[string index \[value blue] 0]\[string index \[value alpha] 0])\"\}]"
+  xpos 442
+  ypos 109
+ }
+push 0
+push $Nbe84f180
+ Dot {
+  name Dot268
+  xpos 696
+  ypos -1
+ }
+ VectorBlur2 {
+  channels {-rgba.red -rgba.green rgba.blue none}
+  uv forward
+  blur_type uniform
+  scale {{C_Prisming1.Amount*(parent.C_Prisming1.Direction+1)}}
+  motion_falloff {{parent.C_Prisming1.BlurFallOff}}
+  offset 0
+  name VectorBlur2_3
+  xpos 662
+  ypos 61
+ }
+ Shuffle {
+  red black
+  green black
+  alpha black
+  name Shuffle61
+  label "\[if \{\[value in] == \"rgba\" && \[value out] == \"rgba\" && \[value red] == \"red\" && \[value green] ==\"green\" && \[value blue] == \"blue\" && \[value alpha] != \"alpha\"\} \{return \"alpha = \[value alpha]\"\} \{return \"\[value in] to \[value out] (\[string index \[value red] 0]\[string index \[value green] 0]\[string index \[value blue] 0]\[string index \[value alpha] 0])\"\}]"
+  xpos 662
+  ypos 109
+ }
+push $Nbe84f180
+ VectorBlur2 {
+  channels {-rgba.red rgba.green -rgba.blue none}
+  uv forward
+  blur_type uniform
+  scale {{C_Prisming1.Amount*(parent.C_Prisming1.Direction)}}
+  motion_falloff {{parent.C_Prisming1.BlurFallOff}}
+  offset 0
+  name VectorBlur2_2
+  xpos 552
+  ypos 61
+ }
+ Shuffle {
+  red black
+  blue black
+  alpha black
+  name Shuffle62
+  label "\[if \{\[value in] == \"rgba\" && \[value out] == \"rgba\" && \[value red] == \"red\" && \[value green] ==\"green\" && \[value blue] == \"blue\" && \[value alpha] != \"alpha\"\} \{return \"alpha = \[value alpha]\"\} \{return \"\[value in] to \[value out] (\[string index \[value red] 0]\[string index \[value green] 0]\[string index \[value blue] 0]\[string index \[value alpha] 0])\"\}]"
+  xpos 552
+  ypos 109
+ }
+ Merge2 {
+  inputs 3+1
+  operation plus
+  name Merge72
+  xpos 552
+  ypos 211
+ }
+ Dot {
+  name Dot269
+  xpos 586
+  ypos 263
+ }
+set Nbe882e00 [stack 0]
+ Blur {
+  channels rgba
+  size 20
+  filter quadratic
+  crop false
+  name Blur8
+  xpos 552
+  ypos 331
+ }
+ set Cbdbd2000 [stack 0]
+ Dot {
+  name Dot196
+  xpos 586
+  ypos 431
+ }
+push $Nbe82ea80
+clone $Cbdbd2000 {
+  xpos 772
+  ypos 331
+  selected false
+ }
+ Merge2 {
+  inputs 2
+  operation divide
+  name Merge73
+  xpos 772
+  ypos 427
+ }
+ Saturation {
+  saturation 4
+  name Saturation9
+  xpos 772
+  ypos 499
+ }
+ Dot {
+  name Dot208
+  xpos 806
+  ypos 527
+ }
+set Nbe8c1880 [stack 0]
+ Dot {
+  name Dot209
+  xpos 696
+  ypos 527
+ }
+ Saturation {
+  saturation 0
+  mode Average
+  name Saturation10
+  xpos 662
+  ypos 571
+ }
+ Dot {
+  name Dot210
+  xpos 696
+  ypos 671
+ }
+push $Nbe8c1880
+ MergeExpression {
+  inputs 2
+  expr0 "Ar == 0 ? 0.5 : Br/Ar"
+  expr1 "Ag == 0 ? 0.5 : Bg/Ag"
+  expr2 "Ab == 0 ? 0.5 : Bb/Ab"
+  channel3 {rgba.alpha none none rgba.alpha}
+  expr3 "Aa == 0 ? 0.5 : Ba/Aa"
+  name Divide_B4
+  xpos 772
+  ypos 667
+ }
+ Grade {
+  name Grade32
+  xpos 772
+  ypos 715
+ }
+ Dot {
+  name Dot211
+  xpos 806
+  ypos 767
+ }
+push $Nbe882e00
+ Dot {
+  name Dot212
+  xpos 1026
+  ypos 263
+ }
+ Merge2 {
+  inputs 2
+  operation multiply
+  name Merge74
+  xpos 992
+  ypos 763
+ }
+ Dot {
+  name Dot274
+  xpos 1026
+  ypos 815
+ }
+push $Nbe82ee00
+ Merge2 {
+  inputs 2
+  operation minus
+  Achannels rgb
+  Bchannels rgb
+  name Merge84
+  xpos 1212
+  ypos 811
+ }
+ Saturation {
+  saturation {{parent.C_Prisming1.Saturation}}
+  name Saturation13
+  xpos 1212
+  ypos 859
+ }
+ Dot {
+  name Dot271
+  xpos 1246
+  ypos 1007
+ }
+push $Nbe82f180
+ Merge2 {
+  inputs 2
+  operation plus
+  bbox B
+  Achannels rgb
+  name Merge85
+  xpos 1432
+  ypos 1003
+ }
+ Dot {
+  name Dot273
+  label "RGBA Out"
+  note_font_size 50
+  xpos 1466
+  ypos 1223
+ }
+ Output {
+  name RGBA_Out
+  xpos 1432
+  ypos 1315
+ }
+end_group
