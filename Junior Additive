@@ -1,0 +1,391 @@
+set cut_paste_input [stack 0]
+version 13.0 v2
+push $cut_paste_input
+Group {
+ name jkEasyAdditive
+ tile_color 0x11212dff
+ label "\[value method]"
+ selected true
+ xpos 330
+ ypos -242
+ addUserKnob {20 jkEasyAdditive}
+ addUserKnob {41 method t "Choose if you want to use divide and multiply, minus and plus or the difference as your keying method." T MasterCTRL.method}
+ addUserKnob {41 saturation t "Changes the saturation for your fg and your cleanplate." T MasterCTRL.saturation}
+ addUserKnob {26 ""}
+ addUserKnob {41 gradelights l "grade lights" t "Grade your lights into a different color." T MasterCTRL.gradelights}
+ addUserKnob {41 mixlights l "mix lights" t "Choose how much you want to mix your lights with the bg." T MasterCTRL.mixlights}
+ addUserKnob {26 ""}
+ addUserKnob {41 gradedarks l "grade darks" t "Grade your darks into a different color." T MasterCTRL.gradedarks}
+ addUserKnob {41 mixdarks l "mix darks" t "Choose how much you want to mix your darks with the bg." T MasterCTRL.mixdarks}
+ addUserKnob {41 clamprgb l "clamp rgb" t "Choose if you want to clamp your rgb." T MasterCTRL.clamprgb}
+ addUserKnob {26 ""}
+ addUserKnob {26 "" l mask T ""}
+ addUserKnob {41 maskChannelInput l "" -STARTLINE T MasterCTRL.maskChannelInput}
+ addUserKnob {41 inject -STARTLINE T MasterCTRL.inject}
+ addUserKnob {41 invert_mask l invert -STARTLINE T MasterCTRL.invert_mask}
+ addUserKnob {41 fringe -STARTLINE T MasterCTRL.fringe}
+ addUserKnob {41 mix T MasterCTRL.mix}
+ addUserKnob {26 ""}
+ addUserKnob {26 _2 l "" +STARTLINE T "jkEasyAdditive v1.0 - by Jakob Kardoeus - www.kardoeus.com"}
+}
+ Input {
+  inputs 0
+  name mask
+  xpos -370
+  ypos 1355
+  number 3
+ }
+ Input {
+  inputs 0
+  name bg
+  xpos -118
+  ypos -281
+ }
+ Dot {
+  name Dot7
+  xpos -84
+  ypos -136
+ }
+set N13385c00 [stack 0]
+ Dot {
+  name Dot6
+  xpos 72
+  ypos -136
+ }
+set N13385800 [stack 0]
+ Dot {
+  name Dot20
+  xpos 238
+  ypos -136
+ }
+set N13385400 [stack 0]
+ Dot {
+  name Dot11
+  xpos 421
+  ypos -136
+ }
+ Dot {
+  name Dot14
+  xpos 424
+  ypos 806
+ }
+set N13384c00 [stack 0]
+ Dot {
+  name Dot17
+  xpos 424
+  ypos 862
+ }
+set N13384800 [stack 0]
+push $N13384c00
+ Input {
+  inputs 0
+  name fg
+  xpos -243
+  ypos -280
+  number 1
+ }
+ Saturation {
+  saturation {{MasterCTRL.saturation}}
+  name Saturation2
+  xpos -243
+  ypos -205
+ }
+ Dot {
+  name Dot2
+  xpos -209
+  ypos -121
+ }
+set N13353800 [stack 0]
+ Dot {
+  name Dot4
+  xpos -209
+  ypos 101
+ }
+set N13353400 [stack 0]
+ Input {
+  inputs 0
+  name cleanplate
+  xpos -508
+  ypos -281
+  number 2
+ }
+ Saturation {
+  saturation {{MasterCTRL.saturation}}
+  name Saturation1
+  xpos -508
+  ypos -205
+ }
+ Dot {
+  name Dot1
+  xpos -474
+  ypos -121
+ }
+set N13352800 [stack 0]
+ Dot {
+  name Dot3
+  xpos -474
+  ypos 101
+ }
+set N13352400 [stack 0]
+ Dot {
+  name Dot19
+  xpos -474
+  ypos 333
+ }
+ Merge2 {
+  inputs 2
+  operation difference
+  output {rgba.red rgba.green rgba.blue -rgba.alpha}
+  name Merge11
+  xpos -243
+  ypos 330
+ }
+push $N13385400
+ Merge2 {
+  inputs 2
+  operation plus
+  bbox B
+  output {rgba.red rgba.green rgba.blue -rgba.alpha}
+  name Merge12
+  xpos 204
+  ypos 330
+ }
+ Dot {
+  name Dot21
+  xpos 238
+  ypos 654
+ }
+push $N13353400
+push $N13352400
+ Merge2 {
+  inputs 2
+  operation minus
+  output {rgba.red rgba.green rgba.blue -rgba.alpha}
+  name Merge2
+  xpos -373
+  ypos 98
+ }
+ Dot {
+  name Dot8
+  xpos -339
+  ypos 191
+ }
+push $N13385800
+ Merge2 {
+  inputs 2
+  operation plus
+  bbox B
+  output {rgba.red rgba.green rgba.blue -rgba.alpha}
+  name Merge4
+  xpos 38
+  ypos 188
+ }
+ Dot {
+  name Dot9
+  xpos 72
+  ypos 498
+ }
+push $N13353800
+push $N13352800
+ Merge2 {
+  inputs 2
+  operation divide
+  output {rgba.red rgba.green rgba.blue -rgba.alpha}
+  name Merge1
+  xpos -373
+  ypos -124
+ }
+ Dot {
+  name Dot5
+  xpos -339
+  ypos -44
+ }
+push $N13385c00
+ Merge2 {
+  inputs 2
+  operation multiply
+  bbox B
+  output {rgba.red rgba.green rgba.blue -rgba.alpha}
+  name Merge3
+  xpos -118
+  ypos -47
+ }
+ Switch {
+  inputs 3
+  which {{MasterCTRL.method}}
+  name Switch1
+  xpos -118
+  ypos 651
+ }
+ Dot {
+  name Dot15
+  xpos -84
+  ypos 750
+ }
+set N12e8ac00 [stack 0]
+ Dot {
+  name Dot16
+  xpos -336
+  ypos 750
+ }
+ Merge2 {
+  inputs 2
+  operation max
+  bbox B
+  output {rgba.red rgba.green rgba.blue -rgba.alpha}
+  name Merge8
+  xpos -370
+  ypos 803
+ }
+ Merge2 {
+  inputs 2
+  operation from
+  bbox B
+  output {rgba.red rgba.green rgba.blue -rgba.alpha}
+  name Merge9
+  xpos -370
+  ypos 859
+ }
+ Grade {
+  white {1 1 1 0}
+  name Grade2
+  xpos -370
+  ypos 921
+ }
+ Multiply {
+  value {{MasterCTRL.mixlights}}
+  name Multiply2
+  label "\[value value]"
+  xpos -370
+  ypos 1112
+ }
+ Dot {
+  name Dot18
+  xpos -336
+  ypos 1254
+ }
+push $N13384800
+ Dot {
+  name Dot10
+  xpos 424
+  ypos 924
+ }
+set N12e89000 [stack 0]
+ Dot {
+  name Dot12
+  xpos 424
+  ypos 982
+ }
+set N12e88c00 [stack 0]
+ Dot {
+  name Dot13
+  xpos 424
+  ypos 1193
+ }
+set N12e88800 [stack 0]
+push $N12e88c00
+push $N12e89000
+push $N12e8ac00
+ Merge2 {
+  inputs 2
+  operation min
+  bbox B
+  output {rgba.red rgba.green rgba.blue -rgba.alpha}
+  name Merge5
+  xpos -118
+  ypos 921
+ }
+ Merge2 {
+  inputs 2
+  operation from
+  bbox B
+  output {rgba.red rgba.green rgba.blue -rgba.alpha}
+  name Merge6
+  xpos -118
+  ypos 979
+ }
+ Grade {
+  white {1 1 1 0}
+  reverse true
+  black_clamp false
+  name Grade1
+  xpos -118
+  ypos 1059
+ }
+ Multiply {
+  value {{MasterCTRL.mixdarks}}
+  name Multiply1
+  label "\[value value]"
+  xpos -118
+  ypos 1112
+ }
+ Merge2 {
+  inputs 2
+  operation plus
+  bbox B
+  output {rgba.red rgba.green rgba.blue -rgba.alpha}
+  name Merge7
+  xpos -118
+  ypos 1190
+ }
+ Merge2 {
+  inputs 2
+  operation plus
+  bbox B
+  output {rgba.red rgba.green rgba.blue -rgba.alpha}
+  name Merge10
+  xpos -118
+  ypos 1251
+ }
+ Clamp {
+  channels rgb
+  maximum_enable false
+  name Clamp1
+  xpos -118
+  ypos 1301
+  disable {{MasterCTRL.clamprgb?0:1}}
+ }
+push $N12e88800
+ Dot {
+  name Dot22
+  xpos 424
+  ypos 1358
+ }
+ Merge2 {
+  inputs 2+1
+  operation copy
+  bbox B
+  name Merge13
+  xpos -118
+  ypos 1355
+ }
+ Output {
+  name Output1
+  xpos -118
+  ypos 1419
+ }
+ NoOp {
+  inputs 0
+  name MasterCTRL
+  xpos 18
+  ypos -281
+  addUserKnob {20 MasterCTRL}
+  addUserKnob {4 method M {divide/multiply minus/plus difference}}
+  addUserKnob {7 saturation}
+  saturation 1
+  addUserKnob {41 gradedarks l "grade darks" T Grade1.white}
+  addUserKnob {7 mixdarks l "mix darks"}
+  mixdarks 1
+  addUserKnob {6 clamprgb l "clamp rgb" +STARTLINE}
+  clamprgb true
+  addUserKnob {41 gradelights l "grade lights" T Grade2.white}
+  addUserKnob {7 mixlights l "mix lights"}
+  mixlights 1
+  addUserKnob {26 "" l mask T ""}
+  addUserKnob {41 maskChannelInput l "" -STARTLINE T Merge13.maskChannelInput}
+  addUserKnob {41 inject -STARTLINE T Merge13.inject}
+  addUserKnob {41 invert_mask l invert -STARTLINE T Merge13.invert_mask}
+  addUserKnob {41 fringe -STARTLINE T Merge13.fringe}
+  addUserKnob {41 mix T Merge13.mix}
+ }
+end_group
