@@ -1,0 +1,138 @@
+set cut_paste_input [stack 0]
+version 12.1 v4
+push $cut_paste_input
+Group {
+ name DL_Flicker1
+ tile_color 0x9fffff
+ note_font Verdana
+ selected true
+ xpos -40
+ ypos -178
+ addUserKnob {20 DL_Flicker}
+ addUserKnob {26 version l "" +STARTLINE T v01.4}
+ addUserKnob {26 ""}
+ addUserKnob {41 Seed T FlickValues.Seed}
+ addUserKnob {41 Frequency T FlickValues.Frequency}
+ addUserKnob {41 Maximum T FlickValues.Maximum}
+ addUserKnob {41 MaxValue +INVISIBLE T DL_Flicker_Curves.MaxValue}
+ addUserKnob {41 Minimum T FlickValues.Minimum}
+ addUserKnob {41 MinValue +INVISIBLE T DL_Flicker_Curves.MinValue}
+ addUserKnob {26 ""}
+ addUserKnob {41 result l Result: T DL_Flicker_Curves.result}
+ addUserKnob {41 format l "output format" T Reformat1.format}
+ addUserKnob {26 ""}
+ addUserKnob {26 Info l Info: T "By default, this node works like an \"opacity flickering\", but you can transfer \nthe Result values to any knob that support animation.\n\nOpen your Curve Editor tab and change the values above to tweak it in real-time.\n\n(random(seed,frame*frequency)*amplitude)+valueOffset\n"}
+ addUserKnob {26 ""}
+ addUserKnob {26 DevelopedBy l "" +STARTLINE T "Developed by:\n\nDanilo de Lucio\nwww.danilodelucio.com\n\n2020/Nov"}
+}
+ Constant {
+  inputs 0
+  channels rgb
+  format {{{parent.Reformat1.format}}}
+  name Constant1
+  xpos 268
+  ypos 247
+ }
+ Dot {
+  name Dot1
+  xpos 302
+  ypos 351
+ }
+set N2cb3d400 [stack 0]
+ Dot {
+  name Dot3
+  xpos 582
+  ypos 225
+  hide_input true
+ }
+ Shuffle {
+  alpha white
+  name Shuffle1
+  label "\[value in]"
+  xpos 548
+  ypos 274
+ }
+ Dot {
+  name Dot2
+  xpos 582
+  ypos 351
+ }
+push $N2cb3d400
+ Input {
+  inputs 0
+  name Input1
+  xpos 423
+  ypos 107
+ }
+ Dot {
+  name Dot11
+  xpos 457
+  ypos 167
+ }
+ Reformat {
+  name Reformat1
+  xpos 423
+  ypos 231
+ }
+ Keymix {
+  inputs 3
+  mix {{parent.DL_Flicker_Curves.result}}
+  name Keymix1
+  xpos 423
+  ypos 342
+ }
+set N2cb6a400 [stack 0]
+ Dot {
+  name Dot22
+  xpos 457
+  ypos 448
+ }
+ Output {
+  name Output1
+  xpos 423
+  ypos 547
+ }
+push $N2cb6a400
+ Viewer {
+  frame_range 100-100
+  fps 23.97602463
+  name Viewer1
+  xpos 215
+  ypos 475
+ }
+ NoOp {
+  inputs 0
+  name FlickValues
+  xpos 681
+  ypos 341
+  addUserKnob {20 User}
+  addUserKnob {3 Seed}
+  Seed 1
+  addUserKnob {7 Frequency R 0 10}
+  Frequency 3
+  addUserKnob {7 Maximum}
+  Maximum 1
+  addUserKnob {7 Minimum}
+  Minimum 0.6
+  addUserKnob {26 ""}
+  addUserKnob {7 Amplitude R -5 5}
+  Amplitude {{(-Maximum)+Minimum}}
+  addUserKnob {7 ValueOffset R -5 5}
+  ValueOffset {{Maximum}}
+  addUserKnob {7 result}
+  result {{(random(parent.FlickValues.Seed,frame/parent.FlickValues.Frequency)*(parent.FlickValues.Amplitude))+parent.FlickValues.ValueOffset}}
+ }
+ NoOp {
+  inputs 0
+  name DL_Flicker_Curves
+  xpos 611
+  ypos 386
+  addUserKnob {20 User}
+  addUserKnob {7 result l Result:}
+  result {{(random(parent.FlickValues.Seed,frame/parent.FlickValues.Frequency)*(parent.FlickValues.Amplitude))+parent.FlickValues.ValueOffset}}
+  addUserKnob {7 MaxValue}
+  MaxValue {{parent.FlickValues.Maximum}}
+  addUserKnob {7 MinValue}
+  MinValue {{parent.FlickValues.Minimum}}
+ }
+end_group
