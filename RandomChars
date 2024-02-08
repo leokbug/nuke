@@ -1,0 +1,225 @@
+set cut_paste_input [stack 0]
+version 14.0 v3
+push $cut_paste_input
+Group {
+name as_RandomChars
+tile_color 0xff
+note_font "Courier 10 Pitch"
+note_font_color 0xa700ff
+selected true
+xpos 8079
+ypos 13231
+addUserKnob {20 User}
+addUserKnob {41 input_text l "Text To Convert:" T TextCtrl.input_text}
+addUserKnob {26 blank l " " T " "}
+addUserKnob {22 create_chars l "Create Text" T "\ntextInput = nuke.toNode('TextCtrl')\['input_text'].value()\n\nchars = \[x for x in textInput]\n\n#Start working inside the group\n#nuke.thisNode().begin()\n\nlast_node = len(chars)\nindex = 1\n\nfor ch in chars:\n \n    # Creates Text and first Difference Merge Nodes\n\n    nText = nuke.nodes.Text(name = 'text' + str(index), size = 'TextCtrl.text_size', font = '\[value TextCtrl.font_text]', translate = \"lerp(0,text1.size/2,5,text1.size,TextCtrl.text_kern)*\"+str(index)+\" 0\", color = 'TextCtrl.text_color.r TextCtrl.text_color.g TextCtrl.text_color.b TextCtrl.text_color.a')\n\n    if ch == ' ':\n        nText\['message'].setValue(' ')\n    else:\n        nText\['message'].setValue(\"\[char \[expression clamp(ceil((random(1,frame*2)*26)+64),65,90)]]\")\n\n    nTOffset = nuke.nodes.TimeOffset (name = 'timeOffset'+str(index), time_offset = 'random(TextCtrl.offset_frame)*'+str(index)+'*TextCtrl.offset_frame')\n    nTOffset.setInput(0, nuke.toNode('text'+str(index)))\n \n    index += 1\n\nindex = 1\nfor m in chars:\n    if index != last_node:\n        nMerge = nuke.nodes.Merge(name = 'merge'+str(index), operation='over')\n    if nMerge\['name'].value()=='merge1':\n        nMerge.setInput(0, nuke.toNode('timeOffset2'))\n        nMerge.setInput(1, nuke.toNode('timeOffset1'))\n    else:\n        nMerge.setInput(0, nuke.toNode('timeOffset'+str(index+1)))\n        nMerge.setInput(1, nuke.toNode('merge'+str(index-1)))\n    if nMerge\['name'].value()=='merge'+str(last_node-1):\n        nMerge.setInput(0, nuke.toNode('timeOffset'+str(last_node)))\n\n    index += 1\n\nnTransf = nuke.toNode('mainTransform')\n\nnTransf.setInput(0, nuke.toNode('merge'+str(last_node-1)))\n\n#nuke.thisNode().end()" +STARTLINE}
+addUserKnob {26 ""}
+addUserKnob {41 font_text l Font T TextCtrl.font_text}
+addUserKnob {26 ""}
+addUserKnob {26 blank_1 l "" +STARTLINE T " "}
+addUserKnob {41 offset_frame l "Time Offset" T TextCtrl.offset_frame}
+addUserKnob {41 text_kern l "Letter Separation" T TextCtrl.text_kern}
+addUserKnob {41 text_size l "Text Size" T TextCtrl.text_size}
+addUserKnob {41 text_color l "Text Color" T TextCtrl.text_color}
+addUserKnob {26 ""}
+addUserKnob {26 about_label l "" +STARTLINE T "<br>as_RandomChars, v1.0<br>Script by <b>Andres Seedorf</b>, 2023/04/21"}
+}
+Input {
+inputs 0
+name Input
+xpos 511
+ypos -133
+}
+NoOp {
+name TextCtrl
+xpos 511
+ypos -65
+addUserKnob {20 User}
+addUserKnob {1 input_text l "Text To Convert:"}
+input_text "porco dio"
+addUserKnob {26 blank l " " T " "}
+addUserKnob {26 ""}
+addUserKnob {2 font_text l Font}
+font_text /mnt/egg/pipeline/Fonts/dejavu/DejaVuSans-BoldOblique.ttf
+addUserKnob {26 ""}
+addUserKnob {26 blank_1 l "" +STARTLINE T " "}
+addUserKnob {7 offset_frame l "Time Offset" R 0 10}
+offset_frame 1
+addUserKnob {7 text_kern l "Letter Separation" R 0 10}
+text_kern 10
+addUserKnob {3 text_size l "Text Size"}
+text_size 100
+addUserKnob {19 text_color l "Text Color"}
+text_color {0.31 1 1 1}
+addUserKnob {6 text_color_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+text_color_panelDropped true
+}
+Text {
+inputs 0
+message "\[char \[expression clamp(ceil((random(1,frame*2)*26)+64),65,90)]]"
+font "\[value TextCtrl.font_text]"
+size {{TextCtrl.text_size}}
+translate {{lerp(0,text1.size/2,5,text1.size,TextCtrl.text_kern)*1} 0}
+color {{TextCtrl.text_color.r} {TextCtrl.text_color.g} {TextCtrl.text_color.b} {TextCtrl.text_color.a}}
+name text1
+}
+TimeOffset {
+time_offset {{random(TextCtrl.offset_frame)*1*TextCtrl.offset_frame}}
+time ""
+name timeOffset1
+}
+Text {
+inputs 0
+message "\[char \[expression clamp(ceil((random(1,frame*2)*26)+64),65,90)]]"
+font "\[value TextCtrl.font_text]"
+size {{TextCtrl.text_size}}
+translate {{lerp(0,text1.size/2,5,text1.size,TextCtrl.text_kern)*2} 0}
+color {{TextCtrl.text_color.r} {TextCtrl.text_color.g} {TextCtrl.text_color.b} {TextCtrl.text_color.a}}
+name text2
+}
+TimeOffset {
+time_offset {{random(TextCtrl.offset_frame)*2*TextCtrl.offset_frame}}
+time ""
+name timeOffset2
+}
+Merge {
+inputs 2
+name merge1
+}
+Text {
+inputs 0
+message "\[char \[expression clamp(ceil((random(1,frame*2)*26)+64),65,90)]]"
+font "\[value TextCtrl.font_text]"
+size {{TextCtrl.text_size}}
+translate {{lerp(0,text1.size/2,5,text1.size,TextCtrl.text_kern)*3} 0}
+color {{TextCtrl.text_color.r} {TextCtrl.text_color.g} {TextCtrl.text_color.b} {TextCtrl.text_color.a}}
+name text3
+}
+TimeOffset {
+time_offset {{random(TextCtrl.offset_frame)*3*TextCtrl.offset_frame}}
+time ""
+name timeOffset3
+}
+Merge {
+inputs 2
+name merge2
+}
+Text {
+inputs 0
+message "\[char \[expression clamp(ceil((random(1,frame*2)*26)+64),65,90)]]"
+font "\[value TextCtrl.font_text]"
+size {{TextCtrl.text_size}}
+translate {{lerp(0,text1.size/2,5,text1.size,TextCtrl.text_kern)*4} 0}
+color {{TextCtrl.text_color.r} {TextCtrl.text_color.g} {TextCtrl.text_color.b} {TextCtrl.text_color.a}}
+name text4
+}
+TimeOffset {
+time_offset {{random(TextCtrl.offset_frame)*4*TextCtrl.offset_frame}}
+time ""
+name timeOffset4
+}
+Merge {
+inputs 2
+name merge3
+}
+Text {
+inputs 0
+message "\[char \[expression clamp(ceil((random(1,frame*2)*26)+64),65,90)]]"
+font "\[value TextCtrl.font_text]"
+size {{TextCtrl.text_size}}
+translate {{lerp(0,text1.size/2,5,text1.size,TextCtrl.text_kern)*5} 0}
+color {{TextCtrl.text_color.r} {TextCtrl.text_color.g} {TextCtrl.text_color.b} {TextCtrl.text_color.a}}
+name text5
+}
+TimeOffset {
+time_offset {{random(TextCtrl.offset_frame)*5*TextCtrl.offset_frame}}
+time ""
+name timeOffset5
+}
+Merge {
+inputs 2
+name merge4
+}
+Text {
+inputs 0
+message " "
+font "\[value TextCtrl.font_text]"
+size {{TextCtrl.text_size}}
+translate {{lerp(0,text1.size/2,5,text1.size,TextCtrl.text_kern)*6} 0}
+color {{TextCtrl.text_color.r} {TextCtrl.text_color.g} {TextCtrl.text_color.b} {TextCtrl.text_color.a}}
+name text6
+}
+TimeOffset {
+time_offset {{random(TextCtrl.offset_frame)*6*TextCtrl.offset_frame}}
+time ""
+name timeOffset6
+}
+Merge {
+inputs 2
+name merge5
+}
+Text {
+inputs 0
+message "\[char \[expression clamp(ceil((random(1,frame*2)*26)+64),65,90)]]"
+font "\[value TextCtrl.font_text]"
+size {{TextCtrl.text_size}}
+translate {{lerp(0,text1.size/2,5,text1.size,TextCtrl.text_kern)*7} 0}
+color {{TextCtrl.text_color.r} {TextCtrl.text_color.g} {TextCtrl.text_color.b} {TextCtrl.text_color.a}}
+name text7
+}
+TimeOffset {
+time_offset {{random(TextCtrl.offset_frame)*7*TextCtrl.offset_frame}}
+time ""
+name timeOffset7
+}
+Merge {
+inputs 2
+name merge6
+}
+Text {
+inputs 0
+message "\[char \[expression clamp(ceil((random(1,frame*2)*26)+64),65,90)]]"
+font "\[value TextCtrl.font_text]"
+size {{TextCtrl.text_size}}
+translate {{lerp(0,text1.size/2,5,text1.size,TextCtrl.text_kern)*8} 0}
+color {{TextCtrl.text_color.r} {TextCtrl.text_color.g} {TextCtrl.text_color.b} {TextCtrl.text_color.a}}
+name text8
+}
+TimeOffset {
+time_offset {{random(TextCtrl.offset_frame)*8*TextCtrl.offset_frame}}
+time ""
+name timeOffset8
+}
+Merge {
+inputs 2
+name merge7
+}
+Text {
+inputs 0
+message "\[char \[expression clamp(ceil((random(1,frame*2)*26)+64),65,90)]]"
+font "\[value TextCtrl.font_text]"
+size {{TextCtrl.text_size}}
+translate {{lerp(0,text1.size/2,5,text1.size,TextCtrl.text_kern)*9} 0}
+color {{TextCtrl.text_color.r} {TextCtrl.text_color.g} {TextCtrl.text_color.b} {TextCtrl.text_color.a}}
+name text9
+}
+TimeOffset {
+time_offset {{random(TextCtrl.offset_frame)*9*TextCtrl.offset_frame}}
+time ""
+name timeOffset9
+}
+Merge {
+inputs 2
+name merge8
+}
+Transform {
+name mainTransform
+xpos 511
+ypos 86
+}
+Output {
+name Output
+xpos 511
+ypos 151
+}
+end_group
