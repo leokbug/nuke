@@ -1,0 +1,949 @@
+set cut_paste_input [stack 0]
+version 12.2 v9
+BackdropNode {
+inputs 0
+name BackdropNode26
+tile_color 0x7ac199ff
+label "EDITORIAL CHECK - Make sure your comp has the same characteristics\nas the latest reference from the Editorial department\n(Format, Push-ins, Repos, Retimings, Frame Range)\n"
+note_font "Bitstream Vera Sans Bold Italic"
+note_font_size 32
+note_font_color 0xffffffff
+selected true
+xpos -923
+ypos -145
+bdwidth 1649
+bdheight 412
+}
+BackdropNode {
+inputs 0
+name BackdropNode28
+tile_color 0x7ac199ff
+label "DIFFERENCE MATTE - This tool shows the difference between the plate and\nyour comp, so you can see if the area you're working on is correct or if\nyou're unintentionally affecting other areas\n"
+note_font "Bitstream Vera Sans Bold Italic"
+note_font_size 32
+note_font_color 0xffffffff
+selected true
+xpos -925
+ypos 340
+bdwidth 1653
+bdheight 600
+}
+BackdropNode {
+inputs 0
+name BackdropNode31
+tile_color 0x7ac199ff
+label "BLACK LEVELS AND HIGHLIGHTS - Check the luminance by simply adjusting\nthe viewer exposure of your comp to see if the integrated elements have\nthe right levels corresponding to their position in the plate\n"
+note_font "Bitstream Vera Sans Bold Italic"
+note_font_size 32
+note_font_color 0xffffffff
+selected true
+xpos -926
+ypos 1012
+bdwidth 1651
+bdheight 517
+}
+BackdropNode {
+inputs 0
+name BackdropNode33
+tile_color 0x7ac199ff
+label "SATURATION - Increasing saturation will help you recognize if the values in\nyour composition match those of the plate or if they differ significantly.\nIt's also very useful for recognizing spill problems.\n"
+note_font "Bitstream Vera Sans Bold Italic"
+note_font_size 32
+note_font_color 0xffffffff
+selected true
+xpos -926
+ypos 1612
+bdwidth 1651
+bdheight 480
+}
+BackdropNode {
+inputs 0
+name BackdropNode35
+tile_color 0x7ac199ff
+label "PIXELS WITH HIGH VALUES AND NEGATIVE VALUES - Let's identify and correct them\n"
+note_font "Bitstream Vera Sans Bold Italic"
+note_font_size 32
+note_font_color 0xffffffff
+selected true
+xpos -926
+ypos 2161
+bdwidth 1651
+bdheight 480
+}
+BackdropNode {
+inputs 0
+name BackdropNode36
+tile_color 0x7ac199ff
+label "NAN Values - A wild ?Not A Number? value has appeared! No problem, \nLet's clone the value of the adjacent pixel."
+note_font "Bitstream Vera Sans Bold Italic"
+note_font_size 32
+note_font_color 0xffffffff
+selected true
+xpos -923
+ypos 2713
+bdwidth 1651
+bdheight 480
+}
+BackdropNode {
+inputs 0
+name BackdropNode37
+tile_color 0x7ac199ff
+label "GRAIN - Always check the degrain and grain of the image, and make sure it\nonly affects the intervened part. Check that there's no static grain, that the\ngrain curve is positive, and if it needs to be normalized"
+note_font "Bitstream Vera Sans Bold Italic"
+note_font_size 32
+note_font_color 0xffffffff
+selected true
+xpos -923
+ypos 3265
+bdwidth 1650
+bdheight 918
+}
+BackdropNode {
+inputs 0
+name BackdropNode38
+tile_color 0xabc1b5ff
+label " \n\\u2705 EDGES - Are your edges correct? Was your keying correct, or do you need\n     to use an additive keyer to recover them? Identify your bright and dark edges. \n\n\\u2705 LENS DISTORTION - Are you applying the correct lens distortion? \n\n\\u2705 EDGES OF THE FRAME - If you applied camera shake, defocus, blur, repo, or if\n    your bg is missing overscan, it's always necessary to check if you don't have a\n    strange edge around the image. \n\n\\u2705 ROTOS - Do your roto edges look strange, or is there a mask floating in\n    the middle of your shot? Come on, you still have time to fix it! \n\n\\u2705 FREEZING STOCK FOOTAGE - Is your stock footage static? Maybe it needs a retime or it's\n    time to look for a better one. \n\n\\u2705 BOUNDING BOX - Great! You finished your comp! Now use a crop! \n    You don't want to send a render to the farm that takes an eternity because of a\n    bounding box, right? \n\n\\u2705 CHANNELS - Are you rendering only the necessary channels? Maybe you only need an\n    RGB and your DI MATTEs. \n\n\\u2705 DI MATTEs - Are your DI MATTEs correct? Test them! Maybe you forgot a holdout.\n \n\\u2705 METADATA - Does your final render carry the plate metadata? Make sure with a ViewMetaData."
+note_font "Bitstream Vera Sans Bold Italic"
+note_font_size 32
+note_font_color 0xffffffff
+selected true
+xpos -923
+ypos 4249
+bdwidth 1669
+bdheight 1027
+}
+BackdropNode {
+inputs 0
+name BackdropNode39
+tile_color 0x50505fff
+label "TECH CHECK"
+note_font "Bitstream Vera Sans Bold Italic"
+note_font_size 80
+note_font_color 0xffffffff
+selected true
+xpos -980
+ypos -981
+appearance Border
+bdwidth 1787
+bdheight 6307
+}
+CheckerBoard2 {
+inputs 0
+boxsize 150
+color0 {1 1 1 1}
+color1 {0 0 0 0}
+color2 {1 1 1 1}
+color3 {0 0 0 0}
+name CheckerBoard3
+selected true
+xpos -853
+ypos 153
+}
+Dot {
+inputs 0
+name Dot126
+label "CONNECT YOUR\nEDITORIAL REF HERE"
+note_font "Bitstream Vera Sans Bold"
+note_font_size 20
+selected true
+xpos 611
+ypos -530
+}
+PostageStamp {
+name EDIT_REF
+tile_color 0xffb200ff
+note_font "Bitstream Vera Sans Bold Italic"
+note_font_size 20
+selected true
+xpos 577
+ypos -467
+postage_stamp true
+}
+Dot {
+name Dot129
+label "CHECK IF YOU NEED\nA REFORMAT HERE"
+note_font "Bitstream Vera Sans Bold"
+note_font_size 20
+selected true
+xpos 611
+ypos -314
+}
+Dot {
+name Dot127
+selected true
+xpos 611
+ypos 180
+}
+push $cut_paste_input
+Dot {
+name Dot120
+label "CONNECT YOUR\nCOMP HERE"
+note_font "Bitstream Vera Sans Bold"
+note_font_size 20
+selected true
+xpos -269
+ypos -529
+}
+PostageStamp {
+name COMP
+tile_color 0xff00ff
+note_font "Bitstream Vera Sans Bold Italic"
+note_font_size 20
+selected true
+xpos -303
+ypos -464
+postage_stamp true
+}
+Dot {
+name Dot128
+selected true
+xpos -269
+ypos 43
+}
+set N51dd1600 [stack 0]
+Dot {
+name Dot130
+selected true
+xpos -588
+ypos 43
+}
+Keymix {
+inputs 3
+name Keymix1
+tile_color 0xffffffff
+label "EDITORIAL\nCHECK"
+note_font "Bitstream Vera Sans Bold Italic"
+note_font_size 15
+selected true
+xpos -622
+ypos 158
+}
+push $N51dd1600
+Dot {
+name Dot123
+selected true
+xpos -270
+ypos 547
+}
+set Ndb7d6b00 [stack 0]
+Dot {
+name Dot124
+selected true
+xpos -270
+ypos 739
+}
+Dot {
+name Dot139
+label "USE YOUR VIEWER"
+note_font "Bitstream Vera Sans Bold Italic"
+note_font_size 20
+selected true
+xpos -270
+ypos 1171
+}
+Dot {
+name Dot131
+selected true
+xpos -270
+ypos 1219
+}
+set Ndb7d5600 [stack 0]
+Dot {
+name Dot141
+selected true
+xpos -270
+ypos 1819
+}
+set Ndb7d4f00 [stack 0]
+Dot {
+name Dot142
+selected true
+xpos -599
+ypos 1819
+}
+Saturation {
+saturation 9
+name Saturation1
+label "SATURATION\nCHECKER"
+note_font "Bitstream Vera Sans Bold Italic"
+note_font_size 30
+selected true
+xpos -633
+ypos 1925
+}
+push $Ndb7d4f00
+Dot {
+name Dot140
+selected true
+xpos -270
+ypos 2323
+}
+set N2a1f3900 [stack 0]
+Dot {
+name Dot153
+selected true
+xpos -269
+ypos 2827
+}
+set N2a1f3200 [stack 0]
+Dot {
+name Dot157
+selected true
+xpos -49
+ypos 2827
+}
+Dot {
+name Dot158
+label "NAN PIXELS SOLUTION\n\nThis will pull the pixel from the current\nxy position but with an offset of +1 in x.\nIn other words, it will clone the adyacent\npixel prom the right"
+note_font "Bitstream Vera Sans Bold Italic"
+note_font_size 15
+selected true
+xpos -49
+ypos 2875
+}
+Expression {
+expr0 isnan(r)?r(x+1,y):r
+expr1 isnan(g)?g(x+1,y):g
+expr2 isnan(b)?b(x+1,y):b
+expr3 isnan(a)?a(x+1,y):a
+name Expression13
+label "Clone for nan pixels"
+note_font "Bitstream Vera Sans Bold Italic"
+note_font_size 15
+selected true
+xpos -83
+ypos 2981
+}
+push $N2a1f3200
+Dot {
+name Dot154
+selected true
+xpos -599
+ypos 2827
+}
+Dot {
+name Dot155
+label "NAN PIXELS CHECKER"
+note_font "Bitstream Vera Sans Bold Italic"
+note_font_size 15
+selected true
+xpos -599
+ypos 2899
+}
+Expression {
+expr0 isnan(r)
+expr1 isnan(g)
+expr2 isnan(b)
+name Expression11
+selected true
+xpos -633
+ypos 2967
+}
+Expression {
+expr0 clamp(r+g+b)
+expr1 clamp(r+g+b)
+expr2 clamp(r+g+b)
+expr3 clamp(r+g+b)
+name Expression12
+selected true
+xpos -633
+ypos 3015
+}
+Constant {
+inputs 0
+channels rgb
+color {1 0 0 0}
+color_panelDropped true
+name Constant6
+selected true
+xpos -804
+ypos 3064
+}
+push $N2a1f3200
+Dot {
+name Dot156
+selected true
+xpos -269
+ypos 3091
+}
+set N51c2eb00 [stack 0]
+Keymix {
+inputs 3
+name Keymix7
+label "CHECK IT HERE"
+note_font "Bitstream Vera Sans Bold Italic"
+note_font_size 15
+selected true
+xpos -633
+ypos 3069
+}
+StickyNote {
+inputs 0
+name StickyNote2
+label "THE CHECKERBOARD SHOULD ONLY BE VISIBLE\nON THE MODIFIED AREAS OF THE SHOT"
+note_font "Bitstream Vera Sans Bold Italic"
+note_font_size 15
+selected true
+xpos -121
+ypos 3797
+}
+CheckerBoard2 {
+inputs 0
+boxsize 70
+color0 {1 1 1 1}
+color1 {0 0 0 0}
+color2 {1 1 1 1}
+color3 {0 0 0 0}
+name CheckerBoard5
+selected true
+xpos 27
+ypos 3520
+}
+Dot {
+inputs 0
+name Dot121
+label "CONNECT YOUR\nPLATE HERE"
+note_font "Bitstream Vera Sans Bold"
+note_font_size 20
+selected true
+xpos 391
+ypos -533
+}
+PostageStamp {
+name PLATE
+tile_color 0x5e5affff
+note_font "Bitstream Vera Sans Bold Italic"
+note_font_size 20
+selected true
+xpos 357
+ypos -470
+postage_stamp true
+}
+Dot {
+name Dot125
+selected true
+xpos 391
+ypos 643
+}
+set N51c2cf00 [stack 0]
+Dot {
+name Dot175
+label "PLATE INPUT"
+note_font "Bitstream Vera Sans Bold Italic"
+note_font_size 15
+selected true
+xpos 391
+ypos 3427
+}
+Dot {
+name Dot173
+selected true
+xpos 391
+ypos 3520
+}
+Group {
+name Group1
+label "GRAIN CHECKER\nPLATE"
+note_font "Bitstream Vera Sans Bold Italic"
+note_font_size 20
+selected true
+xpos 247
+ypos 3480
+}
+Input {
+  inputs 0
+  name Input1
+  xpos 70
+  ypos -34
+}
+Dot {
+  name Dot1
+  xpos 104
+  ypos 42
+}
+set N2dff2b00 [stack 0]
+Blur {
+  channels rgba
+  size 2.1
+  name Blur9
+  xpos 290
+  ypos 158
+}
+push $N2dff2b00
+Merge2 {
+  inputs 2
+  operation difference
+  name Merge30
+  xpos 70
+  ypos 158
+}
+set N2dff1d00 [stack 0]
+EXPTool {
+  red 0.85
+  green 0.85
+  blue 0.85
+  name Exposure8
+  xpos 70
+  ypos 278
+}
+set N2dff1600 [stack 0]
+Output {
+  name Output1
+  xpos 70
+  ypos 449
+}
+push $N2dff1d00
+push $N2dff1600
+Viewer {
+  inputs 2
+  frame_range 1025-1112
+  center_fstop 0
+  name Viewer1
+  selected true
+  xpos -97
+  ypos 389
+}
+end_group
+Dot {
+name Dot162
+selected true
+xpos 281
+ypos 3710
+}
+push $N51c2eb00
+Dot {
+name Dot174
+label "COMP INPUT"
+note_font "Bitstream Vera Sans Bold Italic"
+note_font_size 15
+selected true
+xpos -269
+ypos 3427
+}
+Dot {
+name Dot163
+selected true
+xpos -269
+ypos 3520
+}
+Group {
+name Group2
+label "GRAIN CHECKER\nCOMP"
+note_font "Bitstream Vera Sans Bold Italic"
+note_font_size 20
+selected true
+xpos -159
+ypos 3480
+}
+Input {
+  inputs 0
+  name Input1
+  xpos 70
+  ypos -34
+}
+Dot {
+  name Dot1
+  xpos 104
+  ypos 42
+}
+set N4c385600 [stack 0]
+Blur {
+  channels rgba
+  size 2.1
+  name Blur9
+  xpos 290
+  ypos 158
+}
+push $N4c385600
+Merge2 {
+  inputs 2
+  operation difference
+  name Merge30
+  xpos 70
+  ypos 158
+}
+set N4c384800 [stack 0]
+EXPTool {
+  red 0.85
+  green 0.85
+  blue 0.85
+  name Exposure8
+  xpos 70
+  ypos 278
+}
+set N4c384100 [stack 0]
+Output {
+  name Output1
+  xpos 70
+  ypos 449
+}
+push $N4c384800
+push $N4c384100
+Viewer {
+  inputs 2
+  frame_range 1025-1112
+  center_fstop 0
+  name Viewer1
+  selected true
+  xpos -97
+  ypos 389
+}
+end_group
+Dot {
+name Dot161
+selected true
+xpos -125
+ypos 3710
+}
+Keymix {
+inputs 3
+name Keymix8
+tile_color 0xffffffff
+label "GRAIN CHECKER"
+note_font "Bitstream Vera Sans Bold Italic"
+note_font_size 15
+selected true
+xpos 27
+ypos 3688
+}
+Dot {
+name Dot166
+selected true
+xpos 61
+ypos 3888
+}
+set N2cf51600 [stack 0]
+Dot {
+name Dot168
+selected true
+xpos -49
+ypos 3888
+}
+Shuffle {
+green red
+blue red
+alpha black
+name Shuffle36
+tile_color 0xff0000ff
+label R
+selected true
+xpos -83
+ypos 3945
+}
+push $N2cf51600
+Shuffle {
+red green
+blue green
+alpha black
+name Shuffle37
+tile_color 0xff00ff
+label G
+selected true
+xpos 27
+ypos 3945
+}
+push $N2cf51600
+Dot {
+name Dot167
+selected true
+xpos 171
+ypos 3888
+}
+Shuffle {
+red blue
+green blue
+alpha black
+name Shuffle35
+tile_color 0xffff
+gl_color 0xffff
+label B
+selected true
+xpos 137
+ypos 3945
+}
+push $Ndb7d5600
+Dot {
+name Dot134
+selected true
+xpos -599
+ypos 1219
+}
+Dot {
+name Dot133
+label "EXPOSURE\nUP"
+note_font "Bitstream Vera Sans Bold Italic"
+note_font_size 20
+selected true
+xpos -599
+ypos 1267
+}
+EXPTool {
+red 0.46
+green 0.46
+blue 0.46
+name Exposure11
+selected true
+xpos -633
+ypos 1311
+}
+Dot {
+name Dot138
+selected true
+xpos -599
+ypos 1365
+}
+set N2edf0f00 [stack 0]
+Dot {
+name Dot146
+selected true
+xpos -709
+ypos 1365
+}
+Shuffle {
+green red
+blue red
+alpha black
+name Shuffle24
+tile_color 0xff0000ff
+label R
+selected true
+xpos -743
+ypos 1425
+}
+push $N2edf0f00
+Shuffle {
+red green
+blue green
+alpha black
+name Shuffle30
+tile_color 0xff00ff
+label G
+selected true
+xpos -633
+ypos 1425
+}
+push $N2edf0f00
+Dot {
+name Dot147
+selected true
+xpos -489
+ypos 1365
+}
+Shuffle {
+red blue
+green blue
+alpha black
+name Shuffle29
+tile_color 0xffff
+label B
+selected true
+xpos -523
+ypos 1425
+}
+push $Ndb7d5600
+Dot {
+name Dot132
+selected true
+xpos 61
+ypos 1219
+}
+Dot {
+name Dot137
+label "EXPOSURE\nDOWN"
+note_font "Bitstream Vera Sans Bold Italic"
+note_font_size 20
+selected true
+xpos 62
+ypos 1267
+}
+EXPTool {
+red -0.9
+green -0.9
+blue -0.9
+name Exposure7
+selected true
+xpos 28
+ypos 1311
+}
+Dot {
+name Dot148
+selected true
+xpos 62
+ypos 1381
+}
+set N4ebf0800 [stack 0]
+Dot {
+name Dot149
+selected true
+xpos -48
+ypos 1381
+}
+Shuffle {
+green red
+blue red
+alpha black
+name Shuffle31
+tile_color 0xff0000ff
+label R
+selected true
+xpos -82
+ypos 1425
+}
+push $N4ebf0800
+Shuffle {
+red green
+blue green
+alpha black
+name Shuffle32
+tile_color 0xff00ff
+label G
+selected true
+xpos 28
+ypos 1425
+}
+push $N4ebf0800
+Dot {
+name Dot150
+selected true
+xpos 172
+ypos 1381
+}
+Shuffle {
+red blue
+green blue
+alpha black
+name Shuffle33
+tile_color 0xffff
+label B
+selected true
+xpos 138
+ypos 1425
+}
+push $Ndb7d6b00
+Dot {
+name Dot136
+selected true
+xpos -466
+ypos 547
+}
+set N382e5d00 [stack 0]
+push $N51c2cf00
+Difference {
+inputs 2
+gain 100
+name Difference3
+selected true
+xpos -500
+ypos 633
+}
+Dot {
+name Dot135
+selected true
+xpos -466
+ypos 739
+}
+Constant {
+inputs 0
+channels rgb
+color {1 0 0 0}
+color_panelDropped true
+name Constant5
+selected true
+xpos -853
+ypos 712
+}
+push $N382e5d00
+Dot {
+name Dot122
+selected true
+xpos -599
+ypos 547
+}
+Keymix {
+inputs 3
+name Keymix6
+selected true
+xpos -633
+ypos 729
+}
+Crop {
+box {0 0 2048 1742}
+name Crop6
+label "CHECK IT\nHERE"
+note_font "Bitstream Vera Sans Bold Italic"
+note_font_size 15
+selected true
+xpos -633
+ypos 813
+}
+push $N2a1f3900
+Dot {
+name Dot144
+selected true
+xpos -489
+ypos 2323
+}
+set N7817e400 [stack 0]
+Dot {
+name Dot145
+selected true
+xpos -709
+ypos 2323
+}
+Dot {
+name Dot152
+label "NEGATIVE\nVALUES"
+note_font "Bitstream Vera Sans Bold Italic"
+note_font_size 10
+selected true
+xpos -709
+ypos 2371
+}
+Expression {
+expr0 r>55?1:0
+expr1 g>55?1:0
+expr2 b>55?1:0
+expr3 a>55?1:0
+name Expression9
+selected true
+xpos -743
+ypos 2415
+}
+Dot {
+name Dot151
+selected true
+xpos -709
+ypos 2515
+}
+push $N7817e400
+Dot {
+name Dot143
+label "HIGH VALUES"
+note_font "Bitstream Vera Sans Bold Italic"
+note_font_size 10
+selected true
+xpos -489
+ypos 2371
+}
+Expression {
+expr0 r<0?1:0
+expr1 g<0?1:0
+expr2 b<0?1:0
+expr3 a>0.01?1:0
+name Expression10
+selected true
+xpos -523
+ypos 2415
+}
+Merge2 {
+inputs 2
+operation plus
+name Merge28
+tile_color 0xffffffff
+label "CHECK IT HERE"
+note_font "Bitstream Vera Sans Bold"
+note_font_size 15
+selected true
+xpos -523
+ypos 2501
+}
