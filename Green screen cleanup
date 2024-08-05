@@ -1,0 +1,346 @@
+set cut_paste_input [stack 0]
+version 13.0 v2
+BackdropNode {
+ inputs 0
+ name BackdropNode6
+ tile_color 0x8e388e00
+ label "GREEN POLISH BY STEVE WRIGHT"
+ note_font "Verdana Bold"
+ note_font_size 42
+ selected true
+ xpos -820
+ ypos -166
+ bdwidth 2156
+ bdheight 1952
+ z_order -1
+}
+BackdropNode {
+ inputs 0
+ name BackdropNode1
+ tile_color 0x8e8e3800
+ label "1 PLUG scandn"
+ note_font_size 42
+ selected true
+ xpos -386
+ ypos -86
+ bdwidth 341
+ bdheight 141
+}
+BackdropNode {
+ inputs 0
+ name BackdropNode2
+ tile_color 0x71c67100
+ label "2 core matte"
+ note_font_size 42
+ selected true
+ xpos -11
+ ypos 306
+ bdheight 144
+}
+BackdropNode {
+ inputs 0
+ name BackdropNode3
+ tile_color 0x71c67100
+ label "3 clean plate\n(edges only)"
+ note_font Verdana
+ note_font_size 42
+ selected true
+ xpos -273
+ ypos 657
+ bdwidth 269
+ bdheight 167
+}
+BackdropNode {
+ inputs 0
+ name BackdropNode4
+ tile_color 0xaaaaaa00
+ label "4 sample green screen"
+ note_font_size 42
+ selected true
+ xpos -810
+ ypos 712
+ bdwidth 490
+ bdheight 260
+}
+BackdropNode {
+ inputs 0
+ name BackdropNode5
+ tile_color 0x8e8e3800
+ label "5 check against neutral BG"
+ note_font_size 42
+ selected true
+ xpos 702
+ ypos 1341
+ bdwidth 624
+ bdheight 163
+}
+Constant {
+ inputs 0
+ channels rgb
+ name Constant3
+ selected true
+ xpos -628
+ ypos 880
+}
+push $cut_paste_input
+NoOp {
+ name NoOp1
+ label ScanDN
+ selected true
+ xpos -193
+ ypos 1
+}
+Dot {
+ name Dot7
+ selected true
+ xpos -171
+ ypos 80
+}
+set Nc6cc1800 [stack 0]
+IBKColourV3 {
+ name IBKColourV3_2
+ selected true
+ xpos -193
+ ypos 778
+ screen_type green
+ erode 2
+ multi 2
+}
+set Nc611f200 [stack 0]
+Merge2 {
+ inputs 2
+ operation minus
+ name Merge1
+ selected true
+ xpos -193
+ ypos 904
+}
+push $Nc6cc1800
+Dot {
+ name Dot1
+ selected true
+ xpos 21
+ ypos 80
+}
+set N5f7a3000 [stack 0]
+clone node29ac6cc1400|OFXuk.co.thefoundry.keylight.keylight_v201|12512 OFXuk.co.thefoundry.keylight.keylight_v201 {
+ show "Final Result"
+ unPreMultiply false
+ screenColour {0 0 0}
+ screenGain 1
+ screenBalance 0.5
+ alphaBias {0.5 0.5 0.5}
+ despillBias {0.5 0.5 0.5}
+ gangBiases true
+ preBlur 0
+ "Screen Matte" 0
+ screenClipMin 0
+ screenClipMax 1
+ screenClipRollback 0
+ screenGrowShrink 0
+ screenSoftness 0
+ screenDespotBlack 0
+ screenDespotWhite 0
+ screenReplaceMethod "Soft Colour"
+ screenReplaceColour {0.5 0.5 0.5}
+ Tuning 0
+ midPoint 0.5
+ lowGain 1
+ midGain 1
+ highGain 1
+ "Inside Mask" 0
+ sourceAlphaHandling Ignore
+ insideReplaceMethod "Soft Colour"
+ insideReplaceColour {0.5 0.5 0.5}
+ Crops 0
+ SourceXMethod Colour
+ SourceYMethod Colour
+ SourceEdgeColour 0
+ SourceCropL 0
+ SourceCropR 1
+ SourceCropB 0
+ SourceCropT 1
+ balanceSet false
+ insideComponent None
+ outsideComponent None
+ cacheBreaker true
+ name Keylight4
+ selected true
+ xpos -1
+ ypos 386
+}
+set Cc6cc1400 [stack 0]
+Invert {
+ name Invert1
+ selected true
+ xpos -1
+ ypos 410
+}
+Dot {
+ name Dot2
+ selected true
+ xpos 194
+ ypos 407
+}
+push $Nc611f200
+clone $Cc6cc1400 {
+ xpos 1
+ ypos 778
+ selected true
+}
+Invert {
+ name Invert2
+ selected true
+ xpos 1
+ ypos 803
+}
+ChannelMerge {
+ inputs 2
+ operation divide
+ name ChannelMerge1
+ selected true
+ xpos 172
+ ypos 797
+}
+Shuffle2 {
+ fromInput1 {{0} B}
+ fromInput2 {{0} B}
+ mappings "4 rgba.alpha 0 3 rgba.alpha 0 3 rgba.alpha 0 3 rgba.blue 0 2 rgba.alpha 0 3 rgba.green 0 1 rgba.alpha 0 3 rgba.red 0 0"
+ name Shuffle1
+ selected true
+ xpos 172
+ ypos 845
+}
+Merge2 {
+ inputs 2
+ operation multiply
+ name Merge2
+ selected true
+ xpos 172
+ ypos 904
+}
+Dot {
+ name Dot4
+ selected true
+ xpos 194
+ ypos 977
+}
+push $N5f7a3000
+Dot {
+ name Dot3
+ selected true
+ xpos 390
+ ypos 80
+}
+set N85b04400 [stack 0]
+Merge2 {
+ inputs 2
+ operation plus
+ name Merge3
+ selected true
+ xpos 368
+ ypos 986
+}
+OFXuk.co.thefoundry.keylight.keylight_v201 {
+ show "Final Result"
+ unPreMultiply false
+ screenColour {0.09463214874 0.4463545084 0.11887604}
+ screenGain 1
+ screenBalance 0.5
+ alphaBias {0.5 0.5 0.5}
+ despillBias {0.5 0.5 0.5}
+ gangBiases true
+ preBlur 0
+ "Screen Matte" 0
+ screenClipMin 0
+ screenClipMax 1
+ screenClipRollback 0
+ screenGrowShrink 0
+ screenSoftness 0
+ screenDespotBlack 0
+ screenDespotWhite 0
+ screenReplaceMethod "Soft Colour"
+ screenReplaceColour {0.5 0.5 0.5}
+ Tuning 0
+ midPoint 0.5
+ lowGain 1
+ midGain 1
+ highGain 1
+ "Inside Mask" 0
+ sourceAlphaHandling Ignore
+ insideReplaceMethod "Soft Colour"
+ insideReplaceColour {0.5 0.5 0.5}
+ Crops 0
+ SourceXMethod Colour
+ SourceYMethod Colour
+ SourceEdgeColour 0
+ SourceCropL 0
+ SourceCropR 1
+ SourceCropB 0
+ SourceCropT 1
+ balanceSet false
+ insideComponent None
+ outsideComponent None
+ cacheBreaker true
+ name Keylight2
+ selected true
+ xpos 368
+ ypos 1182
+}
+set Nc6cc3800 [stack 0]
+push $Nc6cc3800
+Dot {
+ name Dot6
+ selected true
+ xpos 390
+ ypos 1307
+}
+push $N85b04400
+Dot {
+ name Dot5
+ selected true
+ xpos 500
+ ypos 80
+}
+Copy {
+ inputs 2
+ from0 rgba.alpha
+ to0 rgba.alpha
+ name Copy1
+ selected true
+ xpos 478
+ ypos 1310
+}
+Premult {
+ name Premult1
+ selected true
+ xpos 478
+ ypos 1439
+}
+Constant {
+ inputs 0
+ channels rgb
+ color 0.28
+ name Constant2
+ selected true
+ xpos 712
+ ypos 171
+}
+Merge2 {
+ inputs 2
+ name Merge4
+ selected true
+ xpos 712
+ ypos 1439
+}
+Viewer {
+ inputs 2
+ frame 1
+ frame_range 1-216
+ fps 23.97602463
+ colour_sample_bbox {-0.36328125 0.1689453125 -0.359375 0.1796875}
+ name Viewer1
+ selected true
+ xpos 554
+ ypos 1758
+}
