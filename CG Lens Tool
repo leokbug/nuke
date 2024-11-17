@@ -1,0 +1,505 @@
+set cut_paste_input [stack 0]
+version 15.0 v4
+push $cut_paste_input
+Group {
+ name CGLensComp
+ knobChanged "n = nuke.thisNode() \nif n.knob(\"enableSoften\").getValue() == 1 :\n n.knob(\"size\").setEnabled(True)\n n.knob(\"amount\").setEnabled(True)\nelse :\n n.knob(\"size\").setEnabled(False)\n n.knob(\"amount\").setEnabled(False)\nif n.knob(\"enableSharpen\").getValue() == 1 :\n n.knob(\"size_1\").setEnabled(True)\n n.knob(\"amount_1\").setEnabled(True)\nelse :\n n.knob(\"size_1\").setEnabled(False)\n n.knob(\"amount_1\").setEnabled(False)\nif n.knob(\"enableChroma\").getValue() == 1 :\n n.knob(\"strength\").setEnabled(True)\n n.knob(\"RadiusAberration\").setEnabled(True)\n n.knob(\"InverseAberration\").setEnabled(True) \nelse :\n n.knob(\"strength\").setEnabled(False)\n n.knob(\"RadiusAberration\").setEnabled(False)\n n.knob(\"InverseAberration\").setEnabled(False)\nif n.knob(\"enableLensD\").getValue() == 1 :\n n.knob(\"lensDistort\").setEnabled(True)\nelse :\n n.knob(\"lensDistort\").setEnabled(False)\nif n.knob(\"enableBloom\").getValue() == 1 :\n n.knob(\"blackTolerance\").setEnabled(True)\n n.knob(\"whiteTolerance\").setEnabled(True)\n n.knob(\"Brightness\").setEnabled(True)\n n.knob(\"sizeInner\").setEnabled(True) \n n.knob(\"sizeOuter\").setEnabled(True) \n n.knob(\"mix\").setEnabled(True) \nelse :\n n.knob(\"blackTolerance\").setEnabled(False)\n n.knob(\"whiteTolerance\").setEnabled(False)\n n.knob(\"Brightness\").setEnabled(False)\n n.knob(\"sizeInner\").setEnabled(False) \n n.knob(\"sizeOuter\").setEnabled(False) \n n.knob(\"mix\").setEnabled(False)\nif n.knob(\"enableVignetting\").getValue() == 1 :\n n.knob(\"amountVignetting\").setEnabled(True)\n n.knob(\"vignettingSoftness\").setEnabled(True)\n n.knob(\"vignettingScale\").setEnabled(True) \n n.knob(\"vignettingDeform\").setEnabled(True) \n n.knob(\"invertVignetting\").setEnabled(True) \nelse :\n n.knob(\"amountVignetting\").setEnabled(False)\n n.knob(\"vignettingSoftness\").setEnabled(False)\n n.knob(\"vignettingScale\").setEnabled(False) \n n.knob(\"vignettingDeform\").setEnabled(False) \n n.knob(\"invertVignetting\").setEnabled(False)\nif n.knob(\"enableGrain\").getValue() == 1 :\n n.knob(\"sizeGrain\").setEnabled(True)\n n.knob(\"intensity\").setEnabled(True)\nelse :\n n.knob(\"sizeGrain\").setEnabled(False)\n n.knob(\"intensity\").setEnabled(False)\nif n.knob(\"enableBW\").getValue() == 1 :\n n.knob(\"blackpoint_1\").setEnabled(True)\n n.knob(\"whitepoint_1\").setEnabled(True)\nelse :\n n.knob(\"blackpoint_1\").setEnabled(False)\n n.knob(\"whitepoint_1\").setEnabled(False)\nif n.knob(\"enableTint\").getValue() == 1 :\n n.knob(\"temperature\").setEnabled(True)\n n.knob(\"tint\").setEnabled(True)\n n.knob(\"saturation\").setEnabled(True) \n n.knob(\"gamma_1\").setEnabled(True) \n n.knob(\"contrast\").setEnabled(True) \nelse :\n n.knob(\"temperature\").setEnabled(False)\n n.knob(\"tint\").setEnabled(False)\n n.knob(\"saturation\").setEnabled(False) \n n.knob(\"gamma_1\").setEnabled(False) \n n.knob(\"contrast\").setEnabled(False)\nif n.knob(\"enableCC\").getValue() == 1 :\n n.knob(\"black\").setEnabled(True)\n n.knob(\"white\").setEnabled(True)\n n.knob(\"gamma\").setEnabled(True) \nelse :\n n.knob(\"black\").setEnabled(False)\n n.knob(\"white\").setEnabled(False)\n n.knob(\"gamma\").setEnabled(False)"
+ tile_color 0x99ff00ff
+ selected true
+ xpos -2345
+ ypos 44619
+ addUserKnob {20 Lens l "Lens effects"}
+ addUserKnob {52 ebableInit l invisible -STARTLINE T "nuke.thisNode().knob(\"EnableScript\").execute()"}
+ addUserKnob {22 EnableScript l invisible -STARTLINE +INVISIBLE T "nuke.thisNode().knob('knobChanged').setValue('n = nuke.thisNode() \\nif n.knob(\"enableSoften\").getValue() == 1 :\\n n.knob(\"size\").setEnabled(True)\\n n.knob(\"amount\").setEnabled(True)\\nelse :\\n n.knob(\"size\").setEnabled(False)\\n n.knob(\"amount\").setEnabled(False)\\nif n.knob(\"enableSharpen\").getValue() == 1 :\\n n.knob(\"size_1\").setEnabled(True)\\n n.knob(\"amount_1\").setEnabled(True)\\nelse :\\n n.knob(\"size_1\").setEnabled(False)\\n n.knob(\"amount_1\").setEnabled(False)\\nif n.knob(\"enableChroma\").getValue() == 1 :\\n n.knob(\"strength\").setEnabled(True)\\n n.knob(\"RadiusAberration\").setEnabled(True)\\n n.knob(\"InverseAberration\").setEnabled(True) \\nelse :\\n n.knob(\"strength\").setEnabled(False)\\n n.knob(\"RadiusAberration\").setEnabled(False)\\n n.knob(\"InverseAberration\").setEnabled(False)\\nif n.knob(\"enableLensD\").getValue() == 1 :\\n n.knob(\"lensDistort\").setEnabled(True)\\nelse :\\n n.knob(\"lensDistort\").setEnabled(False)\\nif n.knob(\"enableBloom\").getValue() == 1 :\\n n.knob(\"blackTolerance\").setEnabled(True)\\n n.knob(\"whiteTolerance\").setEnabled(True)\\n n.knob(\"Brightness\").setEnabled(True)\\n n.knob(\"sizeInner\").setEnabled(True) \\n n.knob(\"sizeOuter\").setEnabled(True) \\n n.knob(\"mix\").setEnabled(True) \\nelse :\\n n.knob(\"blackTolerance\").setEnabled(False)\\n n.knob(\"whiteTolerance\").setEnabled(False)\\n n.knob(\"Brightness\").setEnabled(False)\\n n.knob(\"sizeInner\").setEnabled(False) \\n n.knob(\"sizeOuter\").setEnabled(False) \\n n.knob(\"mix\").setEnabled(False)\\nif n.knob(\"enableVignetting\").getValue() == 1 :\\n n.knob(\"amountVignetting\").setEnabled(True)\\n n.knob(\"vignettingSoftness\").setEnabled(True)\\n n.knob(\"vignettingScale\").setEnabled(True) \\n n.knob(\"vignettingDeform\").setEnabled(True) \\n n.knob(\"invertVignetting\").setEnabled(True) \\nelse :\\n n.knob(\"amountVignetting\").setEnabled(False)\\n n.knob(\"vignettingSoftness\").setEnabled(False)\\n n.knob(\"vignettingScale\").setEnabled(False) \\n n.knob(\"vignettingDeform\").setEnabled(False) \\n n.knob(\"invertVignetting\").setEnabled(False)\\nif n.knob(\"enableGrain\").getValue() == 1 :\\n n.knob(\"sizeGrain\").setEnabled(True)\\n n.knob(\"intensity\").setEnabled(True)\\nelse :\\n n.knob(\"sizeGrain\").setEnabled(False)\\n n.knob(\"intensity\").setEnabled(False)\\nif n.knob(\"enableBW\").getValue() == 1 :\\n n.knob(\"blackpoint_1\").setEnabled(True)\\n n.knob(\"whitepoint_1\").setEnabled(True)\\nelse :\\n n.knob(\"blackpoint_1\").setEnabled(False)\\n n.knob(\"whitepoint_1\").setEnabled(False)\\nif n.knob(\"enableTint\").getValue() == 1 :\\n n.knob(\"temperature\").setEnabled(True)\\n n.knob(\"tint\").setEnabled(True)\\n n.knob(\"saturation\").setEnabled(True) \\n n.knob(\"gamma_1\").setEnabled(True) \\n n.knob(\"contrast\").setEnabled(True) \\nelse :\\n n.knob(\"temperature\").setEnabled(False)\\n n.knob(\"tint\").setEnabled(False)\\n n.knob(\"saturation\").setEnabled(False) \\n n.knob(\"gamma_1\").setEnabled(False) \\n n.knob(\"contrast\").setEnabled(False)\\nif n.knob(\"enableCC\").getValue() == 1 :\\n n.knob(\"black\").setEnabled(True)\\n n.knob(\"white\").setEnabled(True)\\n n.knob(\"gamma\").setEnabled(True) \\nelse :\\n n.knob(\"black\").setEnabled(False)\\n n.knob(\"white\").setEnabled(False)\\n n.knob(\"gamma\").setEnabled(False)')"}
+ addUserKnob {20 SoftenG l "Soften CG" -STARTLINE n 1}
+ addUserKnob {6 enableSoften l Enable -STARTLINE}
+ enableSoften true
+ addUserKnob {7 amount}
+ amount 0.735
+ addUserKnob {7 size R 0 3}
+ size 1.22
+ addUserKnob {20 endGroup_1 l endGroup n -1}
+ addUserKnob {20 sharpenG l Sharpen n 1}
+ addUserKnob {6 enableSharpen l Enable -STARTLINE}
+ addUserKnob {7 amount_1 l amount +DISABLED}
+ amount_1 1
+ addUserKnob {7 size_1 l size +DISABLED}
+ size_1 2
+ addUserKnob {20 endGroup n -1}
+ addUserKnob {20 ChromaticAberrationG l "Chromatic aberration" n 1}
+ addUserKnob {6 enableChroma l Enable -STARTLINE}
+ enableChroma true
+ addUserKnob {7 strength R 0 5}
+ strength 0.04
+ addUserKnob {7 RadiusAberration l radius t "This slider let you choose the radius of the chromatic aberration. High value will increase the effect in the center of image and low value will remove it from the center." R 0 10}
+ RadiusAberration 10
+ addUserKnob {6 InverseAberration l "Inverse colors" +STARTLINE}
+ InverseAberration true
+ addUserKnob {20 endGroup_2 l endGroup n -1}
+ addUserKnob {20 groupLD l "Lens Distorsion" n 1}
+ addUserKnob {6 enableLensD l Enable -STARTLINE}
+ enableLensD true
+ addUserKnob {7 lensDistort l Distorsion R -1 1}
+ lensDistort -0.105
+ addUserKnob {20 endGroup_3 l endGroup n -1}
+ addUserKnob {20 group_1 l Bloom n 1}
+ addUserKnob {6 enableBloom l Enable -STARTLINE}
+ enableBloom true
+ addUserKnob {7 blackTolerance l "Black tolerance"}
+ addUserKnob {7 whiteTolerance l "White tolerance"}
+ whiteTolerance 1
+ addUserKnob {7 Brightness l brightness R 0 25}
+ Brightness 5
+ addUserKnob {7 sizeInner l "size (inner glow)" R 0 5}
+ sizeInner 0.2
+ addUserKnob {7 sizeOuter l "size (outer glow)" R 0 200}
+ sizeOuter 0.1
+ addUserKnob {7 mix}
+ mix 0.09
+ addUserKnob {20 endGroup_4 l endGroup n -1}
+ addUserKnob {20 group_2 l Vignetting n 1}
+ addUserKnob {6 enableVignetting l Enable -STARTLINE}
+ addUserKnob {7 amountVignetting l amount +DISABLED R -3 3}
+ amountVignetting -0.75
+ addUserKnob {7 vignettingSoftness l softness +DISABLED}
+ vignettingSoftness 1
+ addUserKnob {7 vignettingScale l scale +DISABLED R 0.1 10}
+ vignettingScale 1.1
+ addUserKnob {7 vignettingDeform l deform t "Deforms vignetting shape. Negative values stretch the height and positive values strech the width. " +DISABLED R -1 1}
+ addUserKnob {6 invertVignetting l invert +DISABLED +STARTLINE}
+ addUserKnob {20 endGroup_5 l endGroup n -1}
+ addUserKnob {20 group_3 l Grain n 1}
+ addUserKnob {6 enableGrain l Enable -STARTLINE}
+ addUserKnob {7 sizeGrain l size +DISABLED R 0 2}
+ sizeGrain 0.25
+ addUserKnob {7 intensity +DISABLED}
+ intensity 0.1
+ addUserKnob {20 endGroup_6 l endGroup n -1}
+ addUserKnob {20 colors l "Color grading"}
+ addUserKnob {26 colors_1 l "<b>Colors adjustments</b>"}
+ addUserKnob {6 enableBW l Enable +STARTLINE}
+ addUserKnob {19 blackpoint_1 l blackpoint +DISABLED}
+ blackpoint_1 {0 0 0 0}
+ addUserKnob {6 blackpoint_1_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {6 tes_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {19 whitepoint_1 l whitepoint +DISABLED R -1 4}
+ whitepoint_1 1
+ addUserKnob {6 whitepoint_1_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {26 ""}
+ addUserKnob {6 enableTint l Enable +STARTLINE}
+ addUserKnob {7 temperature l "temperature <font color=#A1E6E6><sup>◄</sup></font><font color=#E6E6A1><sub>►</sub></font>" +DISABLED R -1 1}
+ addUserKnob {7 tint l "tint <font color=#A1E6A1><sup>◄</sup></font><font color=#E6A1A1><sub>►</sub></font>" +DISABLED R -1 1}
+ addUserKnob {19 saturation +DISABLED R 0 4}
+ saturation 1
+ addUserKnob {6 saturation_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {19 gamma_1 l vibrance +DISABLED R 0 4}
+ gamma_1 1
+ addUserKnob {6 gamma_1_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {19 contrast +DISABLED R 0 4}
+ contrast 1
+ addUserKnob {6 contrast_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {26 ""}
+ addUserKnob {6 enableCC l Enable +STARTLINE}
+ addUserKnob {19 black l lift +DISABLED R -1 1}
+ black {0 0 0 0}
+ addUserKnob {6 black_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+ black_panelDropped true
+ addUserKnob {19 white l gain +DISABLED R 0 4}
+ white {1 1 1 1}
+ addUserKnob {6 white_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+ white_panelDropped true
+ addUserKnob {19 gamma +DISABLED R 0 5}
+ gamma 1
+ addUserKnob {6 gamma_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+ gamma_panelDropped true
+}
+ Radial {
+  inputs 0
+  area {0 0 {root.format.width x38 1907.953906} {root.format.height x38 1057.262534}}
+  softness {{parent.vignettingSoftness}}
+  name Radial1
+  xpos -350
+  ypos 1436
+ }
+set N9d20cbc0 [stack 0]
+push $N9d20cbc0
+ Dot {
+  name Dot4
+  xpos -175
+  ypos 1439
+ }
+ Invert {
+  name Invert2
+  xpos -209
+  ypos 1501
+ }
+ Switch {
+  inputs 2
+  which {{"parent.invertVignetting == true ? 1 : 0"}}
+  name Switch1
+  xpos -350
+  ypos 1507
+ }
+ Transform {
+  scale {{"vignettingDeform > 0 ? vignettingScale + vignettingDeform : vignettingScale"} {"vignettingDeform < 0 ? vignettingScale + (-1 * vignettingDeform) : vignettingScale"}}
+  center {{root.format.width/2} {root.format.height/2}}
+  black_outside false
+  name Transform3
+  xpos -350
+  ypos 1546
+ }
+ Transform {
+  scale {{"vignettingDeform < 0 ? vignettingScale + vignettingDeform : vignettingScale"} {"vignettingDeform > 0 ? vignettingScale - vignettingDeform : vignettingScale"}}
+  center {{root.format.width/2} {root.format.height/2}}
+  black_outside false
+  name Transform6
+  xpos -350
+  ypos 1577
+ }
+ Input {
+  inputs 0
+  name In_mask_bloom
+  xpos -1
+  ypos 586
+  number 1
+ }
+ Radial {
+  inputs 0
+  area {0 0 {root.format.w} {root.format.h}}
+  name Radial
+  xpos -239
+  ypos -214
+ }
+ Invert {
+  name Invert1
+  xpos -239
+  ypos -159
+ }
+ Grade {
+  channels rgba
+  gamma {{parent.RadiusAberration}}
+  name Grade1
+  xpos -239
+  ypos -107
+ }
+set Nbf4f05a0 [stack 0]
+ Input {
+  inputs 0
+  name Src
+  xpos -484
+  ypos -544
+ }
+ Soften {
+  amount {{parent.amount}}
+  size {{parent.size}}
+  name Soften2
+  xpos -484
+  ypos -377
+ }
+ Dot {
+  name Dot1
+  xpos -450
+  ypos -296
+ }
+set N7dc2d4b0 [stack 0]
+ Shuffle {
+  red black
+  green black
+  out rgb
+  name B
+  xpos -371
+  ypos -218
+ }
+ TransformMasked {
+  inputs 1+1
+  scale {{"InverseAberration == true ? (1 - (parent.strength / 100)) : (1 + (parent.strength / 100))\n"}}
+  center {{root.format.w/2} {root.format.h/2}}
+  name Transform4
+  xpos -371
+  ypos -112
+  disable {{"parent.enableChroma == 1 ? 0 : 1"}}
+ }
+push 0
+push $Nbf4f05a0
+push $N7dc2d4b0
+ Shuffle {
+  green black
+  blue black
+  out rgb
+  name R
+  xpos -617
+  ypos -224
+ }
+ TransformMasked {
+  inputs 1+1
+  scale {{"1 - (parent.strength / 100)"}}
+  center {{root.format.w/2} {root.format.h/2}}
+  name Transform5
+  xpos -617
+  ypos -112
+  disable {{"parent.enableChroma == 1 ? 0 : 1"}}
+ }
+push $N7dc2d4b0
+ Shuffle {
+  red black
+  blue black
+  out rgb
+  name V
+  xpos -484
+  ypos -231
+ }
+ Merge2 {
+  inputs 3+1
+  operation plus
+  Achannels {rgba.red rgba.green rgba.blue -rgba.alpha}
+  name Merge1
+  selected true
+  xpos -484
+  ypos -9
+ }
+ Log2Lin {
+  operation lin2log
+  name Log2Lin1
+  xpos -484
+  ypos 118
+ }
+ Sharpen {
+  amount {{parent.amount_1}}
+  size {{parent.size_1}}
+  name Sharpen1
+  xpos -484
+  ypos 172
+  disable {{"enableSharpen == 1 ? 0 : 1"}}
+ }
+ Log2Lin {
+  name Log2Lin2
+  xpos -484
+  ypos 236
+ }
+set N34c39170 [stack 0]
+ Dot {
+  name Dot20
+  xpos -450
+  ypos 315
+ }
+set Nfd8f88a0 [stack 0]
+ Dot {
+  name Dot21
+  xpos -301
+  ypos 315
+ }
+set Nc468aa70 [stack 0]
+ Dot {
+  name Dot10
+  xpos -164
+  ypos 315
+ }
+ Soften {
+  name Soften1
+  xpos -198
+  ypos 358
+ }
+ Keyer {
+  operation "min keyer"
+  range {{parent.blackTolerance} {parent.whiteTolerance} 1 1}
+  name Keyer1
+  xpos -198
+  ypos 420
+ }
+ Clamp {
+  name Clamp1
+  xpos -198
+  ypos 482
+ }
+ Blur {
+  size 20
+  name Blur3
+  xpos -198
+  ypos 544
+ }
+ ChannelMerge {
+  inputs 2
+  operation multiply
+  name ChannelMerge1
+  xpos -198
+  ypos 641
+ }
+ Dot {
+  name Dot11
+  xpos -164
+  ypos 746
+ }
+push $Nc468aa70
+ Copy {
+  inputs 2
+  from0 rgba.alpha
+  to0 rgba.alpha
+  name Copy3
+  xpos -335
+  ypos 737
+ }
+ Premult {
+  name Premult4
+  xpos -335
+  ypos 791
+ }
+ Glow2 {
+  brightness {{parent.Brightness}}
+  effect_only true
+  size {{parent.sizeInner}}
+  name Glow3
+  xpos -335
+  ypos 830
+ }
+ Glow2 {
+  brightness {{Glow3.brightness/10}}
+  size {{parent.sizeOuter}}
+  name Glow4
+  xpos -335
+  ypos 870
+ }
+ Dot {
+  name Dot19
+  xpos -301
+  ypos 1007
+ }
+push $Nfd8f88a0
+ Merge2 {
+  inputs 2
+  operation plus
+  mix {{parent.mix}}
+  name Merge8
+  xpos -484
+  ypos 1004
+  disable {{"enableBloom == 1 ? 0 : 1"}}
+ }
+ ColorCorrect {
+  saturation {{parent.saturation x40 1}}
+  contrast {{parent.contrast}}
+  gain {{"1 + parent.temperature/2"} 1 {"1 - temperature / 2"} 1}
+  name ColorCorrect1
+  xpos -484
+  ypos 1189
+  disable {{"enableTint == 1 ? 0 : 1"}}
+ }
+ Colorspace {
+  colorspace_out HSV
+  illuminant_out ACES
+  primary_out Rec.2020
+  name Colorspace1
+  xpos -484
+  ypos 1285
+ }
+ Grade {
+  channels {-rgba.red rgba.green -rgba.blue none}
+  gamma {{parent.gamma_1}}
+  name Vibrance
+  xpos -484
+  ypos 1322
+  disable {{"enableTint == 1 ? 0 : 1"}}
+ }
+ Colorspace {
+  colorspace_in HSV
+  illuminant_in ACES
+  primary_in Rec.2020
+  name Colorspace2
+  xpos -484
+  ypos 1361
+ }
+ Grade {
+  white {{"1 + parent.tint/3"} {"1 - parent.tint*2/3"} {"1 + parent.tint/3"} 1}
+  gamma {1 1 1 1}
+  name tint
+  xpos -484
+  ypos 1414
+  disable {{"enableTint == 1 ? 0 : 1"}}
+ }
+ Grade {
+  black {{parent.black.r} {parent.black.g} {parent.black.b} {parent.black.a}}
+  white {{parent.white.r} {parent.white.g} {parent.white.b} {parent.white.a}}
+  gamma {{parent.gamma.r} {parent.gamma.g} {parent.gamma.b} {parent.gamma.a}}
+  name Grading
+  xpos -484
+  ypos 1466
+  disable {{"enableCC == 1 ? 0 : 1"}}
+ }
+ Grade {
+  blackpoint {{parent.blackpoint_1}}
+  whitepoint {{parent.whitepoint_1}}
+  name BW
+  knobChanged "n = nuke.thisNode()\nk = nuke.thisKnob()\nif k.name() == \"enableSoften\" and k.value() == 1:\n n\[\"amount\"].setVisible(False)\nelse:\n n\[\"amount\"].setVisible(True)"
+  xpos -484
+  ypos 1515
+  disable {{"enableBW == 1 ? 0 : 1"}}
+ }
+ Grade {
+  inputs 1+1
+  white {{"1 + parent.amountVignetting"}}
+  name Grade2
+  xpos -484
+  ypos 1577
+  disable {{"enableVignetting == 1 ? 0 : 1"}}
+ }
+ EXPTool {
+  name Exposure2
+  xpos -484
+  ypos 1601
+ }
+ LensDistortion2 {
+  distortionDenominator0 {{"parent.lensDistort / 25"}}
+  output Redistort
+  outputBBox {-3 -4 1923 1084}
+  outputFormatType Format
+  featuresKnob "
+version 1
+entries 0
+entries 0
+"
+  keyFrame {{curve x40 40}}
+  distortionModelDisplayX "xu = xd / (1 + k0 * rd^2 + k1 * rd^4)"
+  distortionModelDisplayY "yu = yd / (1 + k0 * rd^2 + k1 * rd^4)"
+  name LensDistortion2
+  xpos -484
+  ypos 1650
+  disable {{"enableLensD == 1 ? 0 : 1"}}
+ }
+ Transform {
+  scale {{"LensDistortion2.distortionDenominator0 < 0 ? 1 + (-LensDistortion2.distortionDenominator0) : 1"}}
+  center {{root.format.width/2} {root.format.height/2}}
+  name Transform2
+  xpos -484
+  ypos 1705
+  disable {{"enableLensD == 1 ? 0 : 1"}}
+ }
+ Grain2 {
+  name Grain2_1
+  label "Kodak 5217"
+  xpos -484
+  ypos 1742
+  disable {{"enableGrain == 1 ? 0 : 1"}}
+  red_size {{"0.023 + parent.sizeGrain"}}
+  green_size {{"0.12 + parent.sizeGrain"}}
+  blue_size {{"0.14 + parent.sizeGrain"}}
+  green_i 0.86
+  red_m {{"0.048 + parent.intensity"}}
+  green_m {{"0.042 + parent.intensity"}}
+  blue_m {{"0.087 + parent.intensity"}}
+  black {0 0 0}
+  minimum {0 0 0}
+  addUserKnob {20 User}
+ }
+ Output {
+  name Output1
+  xpos -484
+  ypos 1842
+ }
+push $N34c39170
+ Viewer {
+  frame_range 1001-1001
+  fps 25
+  monitorOutNDISenderName "NukeX - tfs_101_006_0035_Main_NEW_ANGLE_comp_v023 - Viewer1"
+  name Viewer1
+  xpos -286
+  ypos 1117
+ }
+end_group
