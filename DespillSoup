@@ -1,0 +1,323 @@
+### SPILLSOUP ### V1.3 ###
+###by Theo GREZ###
+
+Group {
+ name spillSoup
+ tile_color 0x477ee8ff
+ addUserKnob {20 User}
+ addUserKnob {6 selRed l "&#160;&#160;<font color='#f56767'><b>Red</b></font>" +STARTLINE}
+ selRed true
+ addUserKnob {6 selGreen l "&#160;&#160;<font color='#67f567'><b>Green</b></font>" -STARTLINE}
+ addUserKnob {6 selBlue l "&#160;&#160;<font color='#6767f5'><b>Blue</b></font>" -STARTLINE}
+ addUserKnob {26 ""}
+ addUserKnob {26 title_threshold l "" +STARTLINE T "<b> THRESHOLD </b>\n<br>"}
+ addUserKnob {41 mult l Threshold T Expression9.mult}
+ addUserKnob {41 sel l Influence T Expression9.sel}
+ addUserKnob {26 ""}
+ addUserKnob {4 show l Show M {Result "Isolated Color"}}
+ addUserKnob {6 outAlpha l "Output in alpha" t "Puts the isolated colors in the alpha channel.\nIf there are mutliple colors selected, desaturates (in max mode) the isolated colors beforehand." -STARTLINE}
+ addUserKnob {26 ""}
+ addUserKnob {26 title_spill l "" +STARTLINE T "<b> SPILL CONTROL </b>\n<br>"}
+ addUserKnob {41 multiply l Brightness T Grade1.multiply}
+ addUserKnob {41 gamma l Gamma T Grade1.gamma}
+ addUserKnob {41 hue_rotation l Hue T HueShift1.hue_rotation}
+ addUserKnob {7 sat l Saturation}
+ sat 1
+ addUserKnob {26 ""}
+ addUserKnob {41 mix T Dissolve1.which}
+ addUserKnob {20 tab l info}
+ addUserKnob {6 legacy_sat l "use legacy saturation" +INVISIBLE +STARTLINE}
+ addUserKnob {26 version l "" +STARTLINE T v1.3}
+ addUserKnob {26 text l "" +STARTLINE T "by Theo Grez"}
+}
+ BackdropNode {
+  inputs 0
+  name BackdropNode1
+  tile_color 0x71c67100
+  label "Isolated color"
+  note_font_size 30
+  xpos 339
+  ypos 927
+  bdwidth 326
+  bdheight 574
+ }
+ Input {
+  inputs 0
+  name mask
+  xpos 225
+  ypos 175
+  number 1
+ }
+ Invert {
+  channels alpha
+  name Invert1
+  xpos 225
+  ypos 1055
+ }
+ Input {
+  inputs 0
+  name IMG
+  xpos 734
+  ypos 185
+ }
+ Dot {
+  name Dot8
+  xpos 768
+  ypos 377
+ }
+set Na799f000 [stack 0]
+ Dot {
+  name Dot1
+  xpos 768
+  ypos 451
+ }
+set Na799f400 [stack 0]
+ Dot {
+  name Dot55
+  xpos 453
+  ypos 451
+ }
+set Na799f800 [stack 0]
+ Dot {
+  name Dot10
+  xpos 453
+  ypos 528
+ }
+set Na79dac00 [stack 0]
+push $Na79dac00
+ OCIOLogConvert {
+  operation "lin to log"
+  name OCIOLogConvert1
+  xpos 589
+  ypos 525
+ }
+ Expression {
+  temp_name0 R
+  temp_expr0 exp(r*mult)
+  temp_name1 G
+  temp_expr1 exp(g*mult)
+  temp_name2 B
+  temp_expr2 exp(b*mult)
+  channel0 rgb
+  expr0 (r*R+g*G+b*B)/(R+G+B)
+  name SoftMax
+  xpos 589
+  ypos 568
+  addUserKnob {20 User}
+  addUserKnob {7 mult R 0 5}
+  mult 0.79
+ }
+ Grade {
+  add 0.086
+  black_clamp false
+  name Grade2
+  xpos 589
+  ypos 592
+ }
+ OCIOLogConvert {
+  operation "log to lin"
+  mix {{parent.OCIOLogConvert1.mix}}
+  name OCIOLogConvert2
+  xpos 589
+  ypos 678
+ }
+set Na79dbc00 [stack 0]
+ Merge2 {
+  inputs 2
+  operation divide
+  name Merge4
+  xpos 419
+  ypos 678
+ }
+push $Na79dac00
+ Dot {
+  name Dot11
+  xpos 351
+  ypos 528
+ }
+ Dot {
+  name Dot12
+  xpos 351
+  ypos 783
+ }
+ Dissolve {
+  inputs 2
+  which {{"\[python \{nuke.thisGroup().knob('mult').getValue()\}] > 1 ? (\[python \{nuke.thisGroup().knob('mult').getValue()\}]-1)/10 : 0"}}
+  name Dissolve2
+  xpos 419
+  ypos 774
+  disable {{parent.legacy_sat}}
+ }
+ Expression {
+  expr0 selRed?r-((g*(1+sel)+b*(1-sel))/mult)/2:0
+  expr1 selGreen?g-((r*(1-sel)+b*(1+sel))/mult)/2:0
+  expr2 selBlue?b-((r*(1+sel)+g*(1-sel))/mult)/2:0
+  name Expression9
+  xpos 419
+  ypos 998
+  addUserKnob {20 User}
+  addUserKnob {7 mult l Mult R 0 2}
+  mult 1
+  addUserKnob {7 sel l Select R -1 1}
+ }
+ Merge2 {
+  inputs 2
+  operation stencil
+  mix {{"\[python -execlocal name\\ =\\ nuke.thisGroup().input(1)\\n\\nif\\ name\\ is\\ None:\\n\\ \\ ret\\ =\\ 0\\nelse:\\n\\ \\ ret\\ =\\ 1]"}}
+  name Multiply
+  xpos 419
+  ypos 1061
+ }
+ Clamp {
+  maximum_enable false
+  name Clamp1
+  xpos 419
+  ypos 1113
+ }
+ set C1f865800 [stack 0]
+ Dot {
+  name Dot2
+  xpos 453
+  ypos 1183
+ }
+set N1f865c00 [stack 0]
+ Dot {
+  name Dot4
+  xpos 353
+  ypos 1330
+ }
+ Dot {
+  name Dot3
+  xpos 369
+  ypos 1580
+ }
+set Na3666400 [stack 0]
+ Saturation {
+  saturation 0
+  mode Maximum
+  name Saturation2
+  xpos 335
+  ypos 1654
+ }
+push $Na799f800
+ Dot {
+  name Dot7
+  xpos 145
+  ypos 451
+ }
+ Saturation {
+  saturation 0
+  mode Maximum
+  name Saturation3
+  xpos 111
+  ypos 1748
+ }
+ Merge2 {
+  inputs 2
+  operation divide
+  name Merge3
+  xpos 335
+  ypos 1748
+ }
+push $Na3666400
+push $Na79dbc00
+ Dot {
+  name Dot13
+  xpos 567
+  ypos 1269
+ }
+push $N1f865c00
+ Grade {
+  multiply 0
+  black_clamp false
+  name Grade1
+  xpos 419
+  ypos 1243
+ }
+ HueShift {
+  name HueShift1
+  xpos 419
+  ypos 1288
+ }
+ Saturation {
+  saturation {{parent.sat}}
+  mode Average
+  name Saturation1
+  xpos 419
+  ypos 1328
+ }
+ Merge2 {
+  inputs 2
+  operation multiply
+  mix {{parent.Dissolve2.which}}
+  name Multiply1
+  xpos 419
+  ypos 1397
+ }
+ Dot {
+  name Dot5
+  xpos 453
+  ypos 1456
+ }
+push $N1f865c00
+push $Na799f400
+ Merge2 {
+  inputs 2
+  operation from
+  name Merge1
+  xpos 734
+  ypos 1180
+ }
+clone $C1f865800 {
+  xpos 734
+  ypos 1318
+  selected false
+ }
+ Merge2 {
+  inputs 2
+  operation plus
+  name Merge2
+  xpos 734
+  ypos 1452
+ }
+ Switch {
+  inputs 2
+  which {{"\[python nuke.thisGroup().knob('show').getValue()]"}}
+  name Switch2
+  xpos 734
+  ypos 1576
+ }
+ Copy {
+  inputs 2
+  from0 rgba.red
+  to0 rgba.alpha
+  name Copy1
+  xpos 734
+  ypos 1742
+  disable {{1-parent.outAlpha}}
+ }
+push $Na799f000
+ Dot {
+  name Dot6
+  xpos 925
+  ypos 377
+ }
+ Dot {
+  name Dot9
+  xpos 925
+  ypos 1883
+ }
+ Dissolve {
+  inputs 2
+  which 1
+  name Dissolve1
+  label "mix :\[value which]"
+  xpos 734
+  ypos 1867
+ }
+ Output {
+  name Output1
+  xpos 734
+  ypos 2035
+ }
+end_group
